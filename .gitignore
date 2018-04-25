@@ -1,3 +1,4 @@
 /dx/.sfdx
 .DS_Store
 *.profile*
+**/.vscode
