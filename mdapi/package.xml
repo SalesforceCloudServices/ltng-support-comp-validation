@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+  <types>
+    <name>CustomApplication</name>
+    <members>ltng_CompValidationDemo</members>
+  </types>
+  <types>
+    <name>AuraDefinitionBundle</name>
+    <members>ltng_RealtimeValidation</members>
+  </types>
+  <types>
+    <name>ContentAsset</name>
+    <members>lightningLogo2</members>
+  </types>
+  <types>
+    <name>FlexiPage</name>
+    <members>Comp_Validation_Demo_UtilityBar</members>
+    <members>ltng_RealTimeValidation</members>
+  </types>
+  <types>
+    <name>PermissionSet</name>
+    <members>requiredLightningComponentDemo</members>
+  </types>
+  <types>
+    <name>CustomTab</name>
+    <members>ltng_RealTimeValidation</members>
+  </types>
+  <version>42.0</version>
+</Package>
