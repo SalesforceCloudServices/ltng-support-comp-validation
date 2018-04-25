@@ -1,0 +1,9 @@
+<!--
+/**
+ * @component ltng_RequiredPicklistDemo
+ * Demo for working with multiple stages of required picklists.
+ **/
+-->
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" access="global" >
+	
+</aura:component>
