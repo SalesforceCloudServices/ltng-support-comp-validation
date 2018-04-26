@@ -10,6 +10,8 @@ Quick Demo of using realtime validation
 
 In this validation, we do not require Validation Rules (as they compare only when sent to the server), but we want to make fields enabled or required as you use them.
 
+![Demo Required](doc/images/demoRequired.gif)
+
 Please see
 
 * [Input Data Using Forms - Trailhead Module](https://trailhead.salesforce.com/modules/lex_dev_lc_basics/units/lex_dev_lc_basics_forms)
@@ -19,17 +21,27 @@ Please see
 
 # TLDR How
 
-You can mark components required at runtime by adding in the `.slds-required` css class.
-[See Here for more details](https://developer.salesforce.com/docs/atlas.en-us.lightning.meta/lightning/js_cb_styles.htm)
+You can mark components required at runtime by setting the `v.required` attribute
 
 	ex:
-	$A.util.addClass(component.find('level1'), '.slds-required');
+	component.find(levelName).set("v.required", true);
 
 You can make components enabled or not based on setting `v.disabled` attribute:
 [See the helper for more details](dx/force-app/main/default/aura/ltng_RealtimeValidation/ltng_RealtimeValidationHelper.js)
 
 	ex:
 	component.find(levelName).set("v.disabled", isLocked);
+
+[See here for more on validating forms](https://trailhead.salesforce.com/modules/lex_dev_lc_basics/units/lex_dev_lc_basics_forms#Tdxn4tBKheading7)
+
+[And additional breakdown of what exactly that means here](https://salesforce.stackexchange.com/questions/184525/help-me-to-undestand-this-lightning-helper-methods-reduce-showhelpmessageifin#answer-184535)
+
+Additional documentation [found here](https://developer.salesforce.com/docs/atlas.en-us.lightning.meta/lightning/js_validate_fields.htm)
+
+If push comes to shove, you can always add in Lightning Design System classes, through  [See Here for more details](https://developer.salesforce.com/docs/atlas.en-us.lightning.meta/lightning/js_cb_styles.htm)
+
+	ex:
+	$A.util.addClass(component.find('level1'), '.slds-required');
 
 ---
 
@@ -55,15 +67,8 @@ However, the Salesforce CLI can be used with any org and does not require Salesf
 	
 ...
 
-Thats it, you can now open the org, and find the 'ticket' object in the 'all tabs' search.
+Thats it, you can now open the org, and find the 'Comp. Validation Demo' app in the 'all tabs' search.
 
 	sfdx force:org:open -u [[orgAlias]]
 
-# Bit more detail...
 
-@TODO
-
-## Component
-
-@TODO
-	

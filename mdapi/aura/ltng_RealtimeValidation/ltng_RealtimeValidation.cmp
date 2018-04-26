@@ -31,7 +31,8 @@
         
                 <!-- CREATE NEW EXPENSE FORM -->
                 <form class="slds-form--stacked">   
-                    <lightning:combobox aura:id="comboBox" name="status" label="Status"
+                    <lightning:combobox aura:id="comboBox"
+                                        name="status" label="Status"
                                         placeholder="Choose Status"
                                         value="new"
                                         options="{!v.comboOptions}"
@@ -62,10 +63,10 @@
                                      name="level5"
                                      value="{!v.level5}"
                                      />
-                    <lightning:button label="Create Expense" 
+                    <lightning:button label="Validate Form" 
                                     class="slds-m-top--medium"
                                     variant="brand"
-                                    onclick="{!c.clickCreate}"/>
+                                    onclick="{!c.handleValidateFormClicked}"/>
                 </form>
                 <!-- / CREATE NEW EXPENSE FORM -->
         

@@ -54,5 +54,62 @@
 		return(
             !$A.util.isEmpty(levelValue)
         );
-	}
+	},
+    
+    /**
+     * Determines if the form is valid
+     * @param component
+     * @param helper
+     * @return (boolean) - true if valid / false if not
+     **/
+    isFormValid : function(component, helper){
+        //-- NOTE: similar to the validation found in the
+        //-- Handle Form Submission in an Action Handler section
+        //-- https://trailhead.salesforce.com/modules/lex_dev_lc_basics/units/lex_dev_lc_basics_forms#Tdxn4tBKheading7
+        //-- if aura:id is the same for all components,
+        //-- then running component.find('nonUniqueAuraId')
+        //-- will return an array of components
+        
+        //-- this is another example, as .reduce is a built in function
+        //-- and this will hopefully clear things up for those not familiar
+        
+        //-- see here for more:
+        //-- https://salesforce.stackexchange.com/questions/184525/help-me-to-undestand-this-lightning-helper-methods-reduce-showhelpmessageifin#answer-184535
+        
+        var myFormInputs = [
+            component.find('comboBox'),
+            component.find('level1'),
+            component.find('level2'),
+            component.find('level3'),
+            component.find('level4'),
+            component.find('level5')
+        ];
+        
+        //-- please note this issue for clearing errors without clicking on them
+        //-- https://success.salesforce.com/ideaView?id=0873A000000CTZOQA4
+        
+        var isValid = true;
+        var isComponentValid;
+        var myFormInput;
+        for( var i = 0; i < myFormInputs.length; i++){
+            myFormInput = myFormInputs[i];
+            isComponentValid = myFormInput.get('v.validity').valid;
+            isValid = isValid && isComponentValid;
+            myFormInput.showHelpMessageIfInvalid();
+        }
+        
+        return (isValid);
+    },
+    
+    /**
+     * Really, this can be anything now we know the form is valid.
+     **/
+    continueWithValidForm : function(component, helper){
+        var toastEvent = $A.get("e.force:showToast");
+        toastEvent.setParams({
+            "title": "Valid Form",
+            "message": "Placeholder for any more actions."
+        });
+        toastEvent.fire();
+    }
 })
