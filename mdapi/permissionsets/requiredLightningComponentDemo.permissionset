@@ -7,4 +7,8 @@
     <description>Ability to see the Required demo for lightning components.</description>
     <hasActivationRequired>false</hasActivationRequired>
     <label>Required Lightning Component Demo</label>
+    <tabSettings>
+        <tab>ltng_RealTimeValidation</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
 </PermissionSet>

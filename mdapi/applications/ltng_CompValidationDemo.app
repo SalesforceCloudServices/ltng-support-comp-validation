@@ -10,7 +10,7 @@
     <formFactors>Large</formFactors>
     <label>Comp. Validation Demo</label>
     <navType>Standard</navType>
-    <tabs>RealTime_Validation</tabs>
+    <tabs>ltng_RealTimeValidation</tabs>
     <uiType>Lightning</uiType>
     <utilityBar>Comp_Validation_Demo_UtilityBar</utilityBar>
 </CustomApplication>
