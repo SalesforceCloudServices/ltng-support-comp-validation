@@ -8,6 +8,10 @@
     <hasActivationRequired>false</hasActivationRequired>
     <label>Required Lightning Component Demo</label>
     <tabSettings>
+        <tab>Input_Field_Val</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
         <tab>ltng_RealTimeValidation</tab>
         <visibility>Visible</visibility>
     </tabSettings>

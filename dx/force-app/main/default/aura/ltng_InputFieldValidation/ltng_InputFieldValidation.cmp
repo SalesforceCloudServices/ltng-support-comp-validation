@@ -1,7 +1,7 @@
 <!--
 /**
- * @component ltng_RealtimeValidation
  * Demo for working with multiple stages of required picklists.
+ * @component ltng_InputFieldValidation
  **/
 -->
 <aura:component implements="force:appHostable,flexipage:availableForAllPageTypes"
@@ -28,6 +28,20 @@
 
                 <!-- BOXED AREA -->
                 <fieldset class="slds-box slds-theme--default slds-container--small">
+       
+                <div class="slds-p-bottom_large slds-p-left_large" style="width:500px">
+                    <lightning:recordEditForm aura:id="recordViewForm" 
+                                              recordId="0030R00000KkhJsQAJ"
+                                              objectApiName="Contact">
+                        <lightning:messages />
+                        <lightning:inputField aura:id='firstNameField' fieldName="FirstName" />
+                        <lightning:inputField fieldName="LastName" />
+                        <lightning:inputField fieldName="Birthdate" />
+                        <lightning:inputField fieldName="Phone" />
+                        <!--Picklist-->
+                        <lightning:button aura:id="submit" type="submit" label="Update record" class="slds-m-top_medium" />
+                    </lightning:recordEditForm>
+                </div> 
                     
                 <!-- CREATE NEW EXPENSE FORM -->
                 <form class="slds-form--stacked">

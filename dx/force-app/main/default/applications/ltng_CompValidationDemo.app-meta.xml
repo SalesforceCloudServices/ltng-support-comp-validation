@@ -11,6 +11,7 @@
     <label>Comp. Validation Demo</label>
     <navType>Standard</navType>
     <tabs>ltng_RealTimeValidation</tabs>
+    <tabs>Input_Field_Val</tabs>
     <uiType>Lightning</uiType>
     <utilityBar>Comp_Validation_Demo_UtilityBar</utilityBar>
 </CustomApplication>
