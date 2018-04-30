@@ -5,10 +5,48 @@
         <visible>true</visible>
     </applicationVisibilities>
     <description>Ability to see the Required demo for lightning components.</description>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ltng_CompValidationBase__c.Level1__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ltng_CompValidationBase__c.Level2__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ltng_CompValidationBase__c.Level3__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ltng_CompValidationBase__c.Level4__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ltng_CompValidationBase__c.Level5__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>
     <label>Required Lightning Component Demo</label>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
+        <object>ltng_CompValidationBase__c</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
     <tabSettings>
         <tab>Input_Field_Val</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
+        <tab>ltng_CompValidationBase__c</tab>
         <visibility>Visible</visibility>
     </tabSettings>
     <tabSettings>

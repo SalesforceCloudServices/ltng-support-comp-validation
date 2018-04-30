@@ -31,7 +31,7 @@
        
                 <div class="slds-p-bottom_large slds-p-left_large" style="width:500px">
                     <lightning:recordEditForm aura:id="recordViewForm" 
-                                              recordId="0030R00000KkhJsQAJ"
+                                              recordId="0031900000Ojo85AAB"
                                               objectApiName="Contact">
                         <lightning:messages />
                         <lightning:inputField aura:id='firstNameField' fieldName="FirstName" />
