@@ -4,6 +4,7 @@
 	 * @return (boolean) - true if unlocked or false if otherwise
 	 **/
     isLevel1Unlocked : function(component, helper) {
+        console.info('isLevel1Unlocked ran');
         return (
         	helper.doesComponentHaveValue(component, helper, 'comboBox') &&
             helper.doesComponentHaveValue(component, helper, 'level1')
@@ -16,14 +17,20 @@
      * @param isLocked (boolean) - true for locked / false for not
      **/
     setLevelDisabled : function(component, helper, levelName, isLocked){
-        component.find(levelName).set("v.disabled", isLocked);
-        
+        console.info('setLevelDisabled ran');
+        //component.find(levelName).set("v.disabled", isLocked);
+        helper.disableInput(component, helper, component.find(levelName));
         //-- if locking - clear out the value
         if( isLocked ){
             component.find(levelName).set('v.value', null);
         }
     },
     
+    disableInput : function(component, helper, inputField)
+    {
+        $A.util.addClass(inputField, 'disabled');
+    },
+
     /**
      * Unlocks a level, or sequentially locks subsequent levels.
      * @param component
@@ -32,6 +39,7 @@
      * @param isLocked (boolean)
      **/
     lockByLevel : function(component, helper, levelNum, isLocked){
+        console.info('lockByLevel ran');
         helper.setLevelDisabled(component, helper, "level" + levelNum, isLocked);
         
         //-- if locking a lower level, lock the upper levels too
@@ -50,6 +58,7 @@
 	 * @return (boolean) - true if unlocked or false if otherwise
 	 **/
     doesComponentHaveValue : function(component, helper, levelName) {
+        console.info('doesComponentHaveValue ran');
         var levelValue = component.find(levelName).get('v.value');
 		return(
             !$A.util.isEmpty(levelValue)
@@ -63,6 +72,7 @@
      * @return (boolean) - true if valid / false if not
      **/
     isFormValid : function(component, helper){
+        console.info('isFormValid ran');
         //-- NOTE: similar to the validation found in the
         //-- Handle Form Submission in an Action Handler section
         //-- https://trailhead.salesforce.com/modules/lex_dev_lc_basics/units/lex_dev_lc_basics_forms#Tdxn4tBKheading7
@@ -93,8 +103,19 @@
         var myFormInput;
         for( var i = 0; i < myFormInputs.length; i++){
             myFormInput = myFormInputs[i];
-            isComponentValid = myFormInput.get('v.validity').valid;
-            isValid = isValid && isComponentValid;
+            
+            //isComponentValid = myFormInput.get('v.validity').valid;
+            //isValid = isValid && isComponentValid;
+            
+            var test = myFormInput.hasClass('slds-required');
+            alert(test);
+
+            //-- begin
+            alert(myFormInput);
+            isComponentRequired = myFormInput.hasClass('slds-required');
+            isValid = isValid && (!isComponentRequired || !$A.util.isEmpty(myFormInput.get('v.value')));
+            //-- end
+            
             myFormInput.showHelpMessageIfInvalid();
         }
         

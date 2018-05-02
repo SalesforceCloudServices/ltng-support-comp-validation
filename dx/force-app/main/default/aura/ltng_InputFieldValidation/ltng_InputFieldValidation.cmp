@@ -4,16 +4,14 @@
  * @component ltng_InputFieldValidation
  **/
 -->
-<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes"
-    access="global"
->
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" access="global">
     <!-- attributes -->
+    <aura:attribute name="recordToEdit" type="String" />
     <aura:attribute name="level1" type="String" default="" />
     <aura:attribute name="level2" type="String" default="" />
     <aura:attribute name="level3" type="String" default="" />
     <aura:attribute name="level4" type="String" default="" />
     <aura:attribute name="level5" type="String" default="" />
-    
     <aura:attribute name="comboOptions" type="List" default="[]" />
     <!-- handlers -->
     <aura:handler name="init" value="{!this}" action="{!c.init}" />
@@ -31,7 +29,7 @@
        
                 <div class="slds-p-bottom_large slds-p-left_large" style="width:500px">
                     <lightning:recordEditForm aura:id="recordViewForm" 
-                                              recordId="0031900000Ojo85AAB"
+                                              recordId="{!v.recordToEdit}"
                                               objectApiName="Contact">
                         <lightning:messages />
                         <lightning:inputField aura:id='firstNameField' fieldName="FirstName" />
@@ -54,28 +52,25 @@
                                         required="true"
                                     	onchange="{!c.handleComboBoxChanged}"
                                         />
-                    <lightning:input aura:id="level1" label="Level 1"
-                                    name="level1"
+                    <lightning:inputField aura:id="level1" fieldName="Level 1"
                                     value="{!v.level1}"
                                     onchange="{!c.handleLevel1Changed}"
                                     /> 
-                    <lightning:input aura:id="level2" label="Level 2"
-                                     name="level2"
+                   
+                    
+                    <lightning:inputField aura:id="level2" fieldName="Level 2"
                                      value="{!v.level2}"
                                      onchange="{!c.handleLevel2Changed}"
                                      />
-                    <lightning:input aura:id="level3" label="Level 3"
-                                     name="level3"
+                    <lightning:inputField aura:id="level3" fieldName="Level 3"
                                      value="{!v.level3}"
                                      onchange="{!c.handleLevel3Changed}"
                                      />
-                    <lightning:input aura:id="level4" label="Level 4"
-                                     name="level4"
+                    <lightning:inputField aura:id="level4" fieldName="Level 4"
                                      value="{!v.level4}"
                                      onchange="{!c.handleLevel4Changed}"
                                      />
-                    <lightning:input aura:id="level5" label="Level 5"
-                                     name="level5"
+                    <lightning:inputField aura:id="level5" fieldName="Level 5"
                                      value="{!v.level5}"
                                      />
                     <lightning:button label="Validate Form" 

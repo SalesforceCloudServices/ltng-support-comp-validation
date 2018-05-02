@@ -1,0 +1,11 @@
+{
+    "records": [
+        {
+            "attributes": {
+                "type": "ltng_CompValidationBase__c",
+                "referenceId": "ltng_CompValidationBase__cRef1"
+            },
+            "Name": "Initial Object Base"
+        }
+    ]
+}

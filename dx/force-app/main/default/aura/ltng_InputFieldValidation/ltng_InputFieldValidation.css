@@ -13,3 +13,7 @@
 .THIS .none{
  display:none;
 }
+.THIS .disabled{
+    background-color: rgb(242, 242, 242);
+    color: rgb(110,110,110);
+}
