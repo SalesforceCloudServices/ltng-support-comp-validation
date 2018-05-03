@@ -9,8 +9,13 @@
         ];
         component.set("v.comboOptions", options);
         
-        //Loading initial record
+        //Load initial record
         helper.loadRecord(component, helper);
+
+        $A.util.addClass(component.find('level3'), 'slds-is-disabled');
+        $A.util.addClass(component.find('level3'), 'JABRA');
+
+        component.set('v.level1Classes', 'custom-disabled');
 	},
     
     /**

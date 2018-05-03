@@ -16,9 +16,20 @@
      * @param levelName (String) - name of the level. ex: level1
      * @param isLocked (boolean) - true for locked / false for not
      **/
-    setLevelDisabled : function(component, helper, levelName, isLocked){
-        console.info('setLevelDisabled ran');
+    setLevelDisabled : function(component, helper, levelName, isLocked)
+    {
+        console.info('setLevelDisabled ran');    
+        /*
+        //From the realtime example - We need to emulate this behavior:
+        component.find(levelName).set("v.disabled", isLocked);
+        
+        //-- if locking - clear out the value
+        if( isLocked ){
+            component.find(levelName).set('v.value', null);
+        }
+        */
         helper.disableInput(component, helper, component.find(levelName), true);
+        
         //-- if locking - clear out the value
         if( isLocked ){
             component.find(levelName).set('v.value', null);
@@ -27,15 +38,18 @@
     
     disableInput : function(component, helper, inputField, isDisabled)
     {
-        console.info('disableInput');
+        console.info('disableInput ran');
+        return;
+        /*
         if(isDisabled)
         {
-            //$A.util.addClass(inputField, 'disabled');
+            $A.util.addClass(inputField, 'slds-is-disabled');
         }
         else
         {
-            //$A.util.removeClass(inputField, 'disabled');
+            $A.util.removeClass(inputField, 'slds-is-disabled');
         }
+        */
     },
 
 
@@ -119,24 +133,38 @@
         //-- https://success.salesforce.com/ideaView?id=0873A000000CTZOQA4
         
         var isValid = true;
-        var isComponentValid;
+        //var isComponentValid;
         var myFormInput;
-        for( var i = 0; i < myFormInputs.length; i++){
+        const requiredCss = 'custom-required'; //'slds-required';
+        const errorCss = 'slds-has-error';
+        for(let i = 0; i < myFormInputs.length; i++)
+        {
             myFormInput = myFormInputs[i];
             
+            //TODO: Review these with Paul -I don't think they are needed at all
             //isComponentValid = myFormInput.get('v.validity').valid;
             //isValid = isValid && isComponentValid;
             
-            var test = myFormInput.hasClass('slds-required');
-            alert(test);
-
             //-- begin
-            alert(myFormInput);
-            isComponentRequired = myFormInput.hasClass('slds-required');
-            isValid = isValid && (!isComponentRequired || !$A.util.isEmpty(myFormInput.get('v.value')));
+            var isComponentRequired = $A.util.hasClass(myFormInput, requiredCss);
+            var isEmpty = $A.util.isEmpty(myFormInput.get('v.value'));
+            var isValid = !(isComponentRequired && isEmpty);
+            if(!isValid)
+            {
+                $A.util.addClass(myFormInput, errorCss);
+            }
+            else
+            {
+                $A.util.removeClass(myFormInput, errorCss);
+            }
             //-- end
+
+            //TODO: Implement something that mimics the showHelpMessageIfInvalid behavior from the input (beta) component
+            //Something like this based on the realtime example:
+            //<div class="slds-form-element__help" role="alert" id="829:0-message" data-aura-rendered-by="998:0">Complete this field</div>
             
-            myFormInput.showHelpMessageIfInvalid();
+            
+            //myFormInput.showHelpMessageIfInvalid();
         }
         
         return (isValid);

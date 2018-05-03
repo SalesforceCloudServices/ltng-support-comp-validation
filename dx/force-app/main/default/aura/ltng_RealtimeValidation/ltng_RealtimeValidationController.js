@@ -1,5 +1,5 @@
 ({
-	init : function(component, event, helper) {
+	init : function(component, event, helper){
         console.info('init ran');
         
 		var options = [
@@ -52,10 +52,8 @@
      **/
     handleValidateFormClicked : function(component, event, helper){
         console.info('validate form button clicked');
-        
         var isValid = helper.isFormValid(component, helper);
-        
-        if( isValid ){
+        if(isValid){
             helper.continueWithValidForm(component, helper);
         }
     }

@@ -4,6 +4,7 @@
 	 * @return (boolean) - true if unlocked or false if otherwise
 	 **/
     isLevel1Unlocked : function(component, helper) {
+        console.info('isLevel1Unlocked ran');
         return (
         	helper.doesComponentHaveValue(component, helper, 'comboBox') &&
             helper.doesComponentHaveValue(component, helper, 'level1')
@@ -16,6 +17,7 @@
      * @param isLocked (boolean) - true for locked / false for not
      **/
     setLevelDisabled : function(component, helper, levelName, isLocked){
+        console.info('setLevelDisabled ran');
         component.find(levelName).set("v.disabled", isLocked);
         
         //-- if locking - clear out the value
@@ -32,6 +34,7 @@
      * @param isLocked (boolean)
      **/
     lockByLevel : function(component, helper, levelNum, isLocked){
+        console.info('lockByLevel ran');
         helper.setLevelDisabled(component, helper, "level" + levelNum, isLocked);
         
         //-- if locking a lower level, lock the upper levels too
@@ -50,6 +53,7 @@
 	 * @return (boolean) - true if unlocked or false if otherwise
 	 **/
     doesComponentHaveValue : function(component, helper, levelName) {
+        console.info('doesComponentHaveValue ran');
         var levelValue = component.find(levelName).get('v.value');
 		return(
             !$A.util.isEmpty(levelValue)
@@ -63,6 +67,7 @@
      * @return (boolean) - true if valid / false if not
      **/
     isFormValid : function(component, helper){
+        console.info('isFormValid ran');
         //-- NOTE: similar to the validation found in the
         //-- Handle Form Submission in an Action Handler section
         //-- https://trailhead.salesforce.com/modules/lex_dev_lc_basics/units/lex_dev_lc_basics_forms#Tdxn4tBKheading7
@@ -105,6 +110,7 @@
      * Really, this can be anything now we know the form is valid.
      **/
     continueWithValidForm : function(component, helper){
+        console.info('continueWithValidForm ran');
         var toastEvent = $A.get("e.force:showToast");
         toastEvent.setParams({
             "title": "Valid Form",

@@ -14,6 +14,7 @@
     <aura:attribute name="level4" type="String" default="" />
     <aura:attribute name="level5" type="String" default="" />
     <aura:attribute name="comboOptions" type="List" default="[]" />
+    <aura:attribute name="level1Classes" type="String" default="custom-disabled" />
     <!-- handlers -->
     <aura:handler name="init" value="{!this}" action="{!c.init}" />
     <!-- events -->
@@ -34,6 +35,10 @@
                                               objectApiName="ltng_CompValidationBase__c"
                     >
                         <lightning:messages />
+                        
+                        <!-- Display this alert when the form is not valid -->
+                        <!--<div class="slds-form-element__help" role="alert" aura:id="validationMessage">Please complete the required fields</div>-->
+                        
                         <lightning:combobox aura:id="comboBox"
                                             name="status" label="Status"
                                             placeholder="Choose Status"
@@ -49,6 +54,7 @@
                         <lightning:inputField aura:id="level2" fieldName="Level2__c"
                                         value="{!v.level2}"
                                         onchange="{!c.handleLevel2Changed}"
+                                        class="{!v.level1Classes}"
                                         />
                         <lightning:inputField aura:id="level3" fieldName="Level3__c"
                                         value="{!v.level3}"
