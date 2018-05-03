@@ -9,8 +9,8 @@
         ];
         component.set("v.comboOptions", options);
         
-        //-- disable the other components
-        helper.lockByLevel(component, helper, 2, true);
+        //Loading initial record
+        helper.loadRecord(component, helper);
 	},
     
     /**
@@ -23,8 +23,9 @@
         
         //-- ONLY make level1 required id the combo value is finished
         var comboValue = component.find('comboBox').get('v.value');
-        var isLevel1Required = comboValue === 'finished';
-        component.find('level1').set('v.required', isLevel1Required);
+        var isLevelUnlocked = comboValue === 'finished';
+        //component.find('level1').set('v.required', isLevel1Required);
+        helper.requireInput(component, helper, component.find('level1'), isLevelUnlocked);
     },
     handleLevel1Changed : function(component, event, helper){
         console.info('level 1 changed');

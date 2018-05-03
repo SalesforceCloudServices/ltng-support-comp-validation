@@ -18,17 +18,37 @@
      **/
     setLevelDisabled : function(component, helper, levelName, isLocked){
         console.info('setLevelDisabled ran');
-        //component.find(levelName).set("v.disabled", isLocked);
-        helper.disableInput(component, helper, component.find(levelName));
+        helper.disableInput(component, helper, component.find(levelName), true);
         //-- if locking - clear out the value
         if( isLocked ){
             component.find(levelName).set('v.value', null);
         }
     },
     
-    disableInput : function(component, helper, inputField)
+    disableInput : function(component, helper, inputField, isDisabled)
     {
-        $A.util.addClass(inputField, 'disabled');
+        console.info('disableInput');
+        if(isDisabled)
+        {
+            //$A.util.addClass(inputField, 'disabled');
+        }
+        else
+        {
+            //$A.util.removeClass(inputField, 'disabled');
+        }
+    },
+
+
+    requireInput : function(component, helper, inputField, isRequired)
+    {
+        if(isRequired)
+        {
+            $A.util.addClass(inputField, 'custom-required');
+        }
+        else
+        {
+            $A.util.removeClass(inputField, 'custom-required');
+        }
     },
 
     /**
@@ -132,5 +152,54 @@
             "message": "Placeholder for any more actions."
         });
         toastEvent.fire();
+    },
+     /**
+     * Loading the first record
+     **/
+    loadRecord : function(component, helper)
+    {
+                // create a one-time use instance of the serverEcho action
+                // in the server-side controller
+                var action = component.get("c.getInitialRecord");
+                //action.setParams({ firstName : component.get("v.firstName") });
+        
+                // Create a callback that is executed after 
+                // the server-side action returns
+                action.setCallback(this, function(response) {
+                    console.info('Initial record called back.');
+                    var state = response.getState();
+                    if (state === "SUCCESS")
+                    {
+                        // You would typically fire a event here to trigger 
+                        // client-side notification that the server-side 
+                        // action is complete
+                        component.set('v.recordToEdit', response.getReturnValue());
+
+                        //-- disable the other components
+                        helper.lockByLevel(component, helper, 2, true);
+                    }
+                    else if (state === "INCOMPLETE") {
+                        // do something
+                    }
+                    else if (state === "ERROR") {
+                        var errors = response.getError();
+                        if (errors) {
+                            if (errors[0] && errors[0].message) {
+                                console.log("Error message: " + 
+                                         errors[0].message);
+                            }
+                        } else {
+                            console.log("Unknown error");
+                        }
+                    }
+                });
+        
+                // optionally set storable, abortable, background flag here
+        
+                // A client-side action could cause multiple events, 
+                // which could trigger other events and 
+                // other server-side action calls.
+                // $A.enqueueAction adds the server-side action to the queue.
+                $A.enqueueAction(action);
     }
 })

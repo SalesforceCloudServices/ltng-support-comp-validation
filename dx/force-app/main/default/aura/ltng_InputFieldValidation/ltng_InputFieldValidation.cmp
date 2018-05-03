@@ -4,7 +4,8 @@
  * @component ltng_InputFieldValidation
  **/
 -->
-<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" access="global">
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" access="global" controller="ltng_InputFieldValidationCtrl">
+
     <!-- attributes -->
     <aura:attribute name="recordToEdit" type="String" />
     <aura:attribute name="level1" type="String" default="" />
@@ -30,53 +31,46 @@
                 <div class="slds-p-bottom_large slds-p-left_large" style="width:500px">
                     <lightning:recordEditForm aura:id="recordViewForm" 
                                               recordId="{!v.recordToEdit}"
-                                              objectApiName="Contact">
+                                              objectApiName="ltng_CompValidationBase__c"
+                    >
                         <lightning:messages />
-                        <lightning:inputField aura:id='firstNameField' fieldName="FirstName" />
-                        <lightning:inputField fieldName="LastName" />
-                        <lightning:inputField fieldName="Birthdate" />
-                        <lightning:inputField fieldName="Phone" />
-                        <!--Picklist-->
-                        <lightning:button aura:id="submit" type="submit" label="Update record" class="slds-m-top_medium" />
+                        <lightning:combobox aura:id="comboBox"
+                                            name="status" label="Status"
+                                            placeholder="Choose Status"
+                                            value="new"
+                                            options="{!v.comboOptions}"
+                                            required="true"
+                                            onchange="{!c.handleComboBoxChanged}"
+                                            />
+                        <lightning:inputField aura:id="level1" fieldName="Level1__c"
+                                        value="{!v.level1}"
+                                        onchange="{!c.handleLevel1Changed}"
+                                        /> 
+                        <lightning:inputField aura:id="level2" fieldName="Level2__c"
+                                        value="{!v.level2}"
+                                        onchange="{!c.handleLevel2Changed}"
+                                        />
+                        <lightning:inputField aura:id="level3" fieldName="Level3__c"
+                                        value="{!v.level3}"
+                                        onchange="{!c.handleLevel3Changed}"
+                                        />
+                        <lightning:inputField aura:id="level4" fieldName="Level4__c"
+                                        value="{!v.level4}"
+                                        onchange="{!c.handleLevel4Changed}"
+                                        />
+                        <lightning:inputField aura:id="level5" fieldName="Level5__c"
+                                        value="{!v.level5}"
+                                        />
+                        <lightning:button label="Validate Form" 
+                                        class="slds-m-top--medium"
+                                        variant="brand"
+                                        onclick="{!c.handleValidateFormClicked}"/>
                     </lightning:recordEditForm>
                 </div> 
                     
                 <!-- CREATE NEW EXPENSE FORM -->
                 <form class="slds-form--stacked">
-                    <lightning:inputField aura:id="testInput" fieldName="FirstName" />
-                    <lightning:combobox aura:id="comboBox"
-                                        name="status" label="Status"
-                                        placeholder="Choose Status"
-                                        value="new"
-                                        options="{!v.comboOptions}"
-                                        required="true"
-                                    	onchange="{!c.handleComboBoxChanged}"
-                                        />
-                    <lightning:inputField aura:id="level1" fieldName="Level 1"
-                                    value="{!v.level1}"
-                                    onchange="{!c.handleLevel1Changed}"
-                                    /> 
-                   
-                    
-                    <lightning:inputField aura:id="level2" fieldName="Level 2"
-                                     value="{!v.level2}"
-                                     onchange="{!c.handleLevel2Changed}"
-                                     />
-                    <lightning:inputField aura:id="level3" fieldName="Level 3"
-                                     value="{!v.level3}"
-                                     onchange="{!c.handleLevel3Changed}"
-                                     />
-                    <lightning:inputField aura:id="level4" fieldName="Level 4"
-                                     value="{!v.level4}"
-                                     onchange="{!c.handleLevel4Changed}"
-                                     />
-                    <lightning:inputField aura:id="level5" fieldName="Level 5"
-                                     value="{!v.level5}"
-                                     />
-                    <lightning:button label="Validate Form" 
-                                    class="slds-m-top--medium"
-                                    variant="brand"
-                                    onclick="{!c.handleValidateFormClicked}"/>
+                  
                 </form>
                 <!-- / CREATE NEW EXPENSE FORM -->
         
