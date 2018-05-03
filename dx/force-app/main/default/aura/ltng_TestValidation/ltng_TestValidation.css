@@ -1,2 +1,7 @@
 .THIS {
 }
+
+.THIS .custom-disabled{
+    background-color: rgb(242, 242, 242);
+    color: rgb(110,110,110);
+}

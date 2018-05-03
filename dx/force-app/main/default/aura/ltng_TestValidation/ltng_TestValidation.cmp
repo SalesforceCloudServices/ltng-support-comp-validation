@@ -1,3 +1,47 @@
 <aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" access="global" >
-	
+    <!-- attributes -->
+    <aura:attribute name="level1" type="String" default="Hello" />
+    <aura:attribute name="level2" type="String" default="" />
+    <aura:attribute name="level1Classes" type="String" default="custom-disabled" />
+    <!-- handlers -->
+    <aura:handler name="init" value="{!this}" action="{!c.init}" />
+    <!-- events -->
+    <!-- elements -->
+    <!-- Page Form -->
+    <lightning:layout >
+    <lightning:layoutItem padding="around-small" size="6">
+        <!-- CREATE NEW EXPENSE -->
+        <div aria-labelledby="newexpenseform">
+
+            <!-- BOXED AREA -->
+            <fieldset class="slds-box slds-theme--default slds-container--small">
+   
+                <div class="slds-p-bottom_large slds-p-left_large" style="width:500px">
+                    <lightning:recordEditForm aura:id="recordViewForm" 
+                                            recordId="{!v.recordToEdit}"
+                                            objectApiName="ltng_CompValidationBase__c"
+                    >
+                        <lightning:messages />
+                        
+                        <lightning:inputField aura:id="level1" fieldName="Level1__c"
+                                        value="{!v.level1}"
+                                        onchange="{!c.handleLevel1Changed}"
+                                        /> 
+                        <lightning:inputField aura:id="level2" fieldName="Level2__c"
+                                        value="{!v.level2}"
+                                        
+                                        />
+                        <lightning:button label="Validate Form" 
+                                        class="slds-m-top--medium"
+                                        variant="brand"
+                                        onclick="{!c.handleValidateFormClicked}"/>
+                    </lightning:recordEditForm>
+                </div> 
+            
+            </fieldset>
+        <!-- / BOXED AREA -->
+        </div>
+        <!-- / CREATE NEW EXPENSE -->
+    </lightning:layoutItem>
+    </lightning:layout>
 </aura:component>
