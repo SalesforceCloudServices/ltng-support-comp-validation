@@ -1,17 +1,12 @@
 <aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" access="global" >
     <!-- attributes -->
-    <aura:attribute name="level0" type="String" default="" />
+    <aura:attribute name="level0" type="String" default="hello" />
     <aura:attribute name="level1" type="String" default="" />
     <aura:attribute name="level2" type="String" default="" />
-    <aura:attribute name="level2Classes" type="String" default="slds-is-disabled" />
     <aura:attribute name="isDoneRendering" type="Boolean" default="false"/>
     <!-- handlers -->
     <aura:handler name="init" value="{!this}" action="{!c.init}" />
     <aura:handler event="aura:doneRendering" action="{!c.doneRendering}"/>
-    <!-- <aura:handler name="render" value="{!this}" action="{!c.onRender}"/> -->
-    <!-- <aura:handler name="aura:afterRender" value="{!this}" action="{!c.onAfterRender}"/> -->
-    <!-- <aura:handler name="afterRender" value="{!this}" action="{!c.afterRender}"/> -->
-    
     <!-- events -->
     <!-- elements -->
     <!-- Page Form -->
@@ -26,29 +21,78 @@
                 <div class="slds-p-bottom_large slds-p-left_large" style="width:500px">
 
                     <lightning:recordEditForm aura:id="recordViewForm" 
-                                            recordId="{!v.recordToEdit}"
-                                            objectApiName="ltng_CompValidationBase__c"
+                        recordId="{!v.recordToEdit}"
+                        objectApiName="ltng_CompValidationBase__c"
                     >
-                        <lightning:messages />
-                     
-                        <ui:button label="Activate" press="{!c.onActivate}" aura:id="Activate"/>
-
+                        <lightning:messages />                     
                         <lightning:input aura:id="level0" label="Level 0"
-                                    name="level0"
-                                    value="{!v.level0}"
+                            name="level0"
+                            value="{!v.level0}"
                         /> 
-
                         <lightning:inputField aura:id="level1"
-                                        fieldName="Level1__c"
-                                        value="{!v.level1}"
-                                        /> 
-                        <lightning:inputField aura:id="level2"
-                                        fieldName="Level2__c"
-                                        />
-                        <lightning:button label="Validate Form" 
-                                        class="slds-m-top--medium"
-                                        variant="brand"
-                                        onclick="{!c.handleValidateFormClicked}"/>
+                            fieldName="Level1__c"
+                            value="{!v.level1}"
+                        /> 
+                        <lightning:button label="Disable Level 0 (Input)" 
+                            class="slds-m-top--medium"
+                            variant="brand"
+                            onclick="{!c.disableLevel0}"
+                        />
+                        <lightning:button label="Enable Level 0 (Input)" 
+                            class="slds-m-top--medium"
+                            variant="brand"
+                            onclick="{!c.enableLevel0}"
+                        />
+                        <lightning:button label="Disable Level 1 (inputField)" 
+                            class="slds-m-top--medium"
+                            variant="brand"
+                            onclick="{!c.disableLevel1}"
+                        />
+                        <lightning:button label="Enable Level 1 (inputField)" 
+                            class="slds-m-top--medium"
+                            variant="brand"
+                            onclick="{!c.enableLevel1}"
+                        />
+                        <lightning:button label="Require Level 0 (Input)" 
+                            class="slds-m-top--medium"
+                            variant="brand"
+                            onclick="{!c.requireLevel0}"
+                        />
+                        <lightning:button label="Allow Level 0 (Input)" 
+                            class="slds-m-top--medium"
+                            variant="brand"
+                            onclick="{!c.allowLevel0}"
+                        />
+                        <lightning:button label="Require Level 1 (InputField)" 
+                            class="slds-m-top--medium"
+                            variant="brand"
+                            onclick="{!c.requireLevel1}"
+                        />
+                        <lightning:button label="Allow Level 1 (InputField)" 
+                            class="slds-m-top--medium"
+                            variant="brand"
+                            onclick="{!c.allowLevel1}"
+                        />
+                        <lightning:button label="Error Level 0 (Input)" 
+                            class="slds-m-top--medium"
+                            variant="brand"
+                            onclick="{!c.errorLevel0}"
+                        />
+                        <lightning:button label="Remove Error Level 0 (Input)" 
+                            class="slds-m-top--medium"
+                            variant="brand"
+                            onclick="{!c.removeErrorLevel0}"
+                        />
+                        <lightning:button label="Error Level 1 (inputField)" 
+                            class="slds-m-top--medium"
+                            variant="brand"
+                            onclick="{!c.errorLevel1}"
+                        />
+                        <lightning:button label="Remove Error Level 1 (inputField)" 
+                            class="slds-m-top--medium"
+                            variant="brand"
+                            onclick="{!c.removeErrorLevel1}"
+                        />
                     </lightning:recordEditForm>
                 </div> 
             

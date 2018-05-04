@@ -1,114 +1,111 @@
 ({
-	init : function(component, event, helper) {
+    init : function(component, event, helper)
+    {
         console.info('init ran');
-        
-		/*
-		var options = [
-            { value: "new", label: "New" },
-            { value: "in-progress", label: "In Progress" },
-            { value: "finished", label: "Finished" }
-        ];
-        component.set("v.comboOptions", options);
-        */
-
-        //Load initial record
-        //helper.loadRecord(component, helper);
-
-        //$A.util.addClass(component.find('level2'), 'slds-is-disabled');
-        //$A.util.addClass(component.find('level2'), 'JABRA');
-
-        //var myInputField = component.find('level2');
-        //var level0 = component.find('level0');
-        //$A.util.addClass(level0, 'slds-has-error');
-        
-        //var level2 = component.find('level2');
-        //$A.util.addClass(level2, 'slds-has-error');
-
-        //debugger;
-
-        //$A.util.addClass(myInputField, 'slds-input[disabled]');
-        //$A.util.addClass(myInputField, 'slds-input');
-        //$A.util.addClass(myInputField, 'slds-input custom-disabled');
-                
-        //component.set('v.level2Classes', '');
     },
     
-    onRender : function(cmp, helper) {
-        //var ret = this.superRender();
-        //do custom rendering here
-        console.info('render ran');
-        //return ret;
-    },
-
-    onAfterRender: function (component, helper) {
-        //this.superAfterRender();
-        //interact with the DOM here
-        console.info('afterRender ran');
-    },
-
+    //TODO: Might have to apply styles in hereoif the button clicks and other events do not work
     doneRendering: function (component, event, helper)
     {
+        //This is here to prevent an infinite loop
         if(!component.get("v.isDoneRendering"))
         {
             component.set("v.isDoneRendering", true);
             //do something after component is first rendered
-          
-            console.info('doneRendering ran');
-            //This sort of works but what we need to do is apply it to the individual input field - not the label
-            const css = 'custom-disabled'; //'slds-is-disabled';
-            var level0 = component.find('level0');
-            $A.util.addClass(level0, css);
-            var level2 = component.find('level2');
-            $A.util.addClass(level2, css);
-
-            //console.info(component.find('level0').getElements());
-
-            //component.find('level0')
-
-            //debugger;
-
-            //component.getElement().querySelector("input").style.setProperty('background-color','#ff0000');
-            //document.getElementByName('level0').style.setProperty('background-color','#ff0000');
-            
-            var level2 = component.find('level2');
-            $A.util.addClass(level2, css);
-            /*
-            this.superAfterRender();
-            // interact with the DOM here
-            var level0 = component.find('level0');
-            $A.util.addClass(level0, 'slds-is-disabled');
-            
-            var level2 = component.find('level2');
-            $A.util.addClass(level2, 'slds-is-disabled');
-
-            //Something else to try
-            var element = component.getElement('level0').classList.add("slds-active");
-            */
+            if(false)
+            {
+                console.info('doneRendering ran');
+                //This sort of works but what we need to do is apply it to the individual input field - not the label
+                const css = 'custom-disabled'; //'slds-is-disabled';
+                var level0 = component.find('level0');
+                $A.util.addClass(level0, css);
+                var level2 = component.find('level2');
+                $A.util.addClass(level2, css);
+            }
         }
     },
 
-    blah : function(component, event, helper)
+    disableLevel0 : function(component, event, helper)
     {
-        console.info('onRender ran');
-        
-        var level0 = component.find('level0');
-        $A.util.addClass(level0, css);
-        var level2 = component.find('level2');
-        $A.util.addClass(level2, css);
+        console.info('disableLevel0 ran');
+        const cssForDisable = 'custom-disabled';
+        $A.util.addClass(component.find('level0'), cssForDisable);
+    },
 
-        /*
-        //console.log("component.getElements(): ", component.getElements());
-        
-        //if(!component.get("v.isDoneRendering"))
-        //{
-            //component.set("v.isDoneRendering", true);
-            
-            var level0 = component.find('level0');
-            $A.util.addClass(level0, 'slds-is-disabled');
-            
-            var level2 = component.find('level2');
-            $A.util.addClass(level2, 'slds-is-disabled');
-        //}
-        */
-    }
+    enableLevel0 : function(component, event, helper)
+    {
+        console.info('enableLevel0 ran');
+        const cssForDisable = 'custom-disabled';
+        $A.util.removeClass(component.find('level0'), cssForDisable);
+    },
+
+    disableLevel1 : function(component, event, helper)
+    {
+        console.info('disableLevel1 ran');
+        const cssForDisable = 'custom-disabled';
+        $A.util.addClass(component.find('level1'), cssForDisable);
+    },
+
+    enableLevel1 : function(component, event, helper)
+    {
+        console.info('allowLevel0 ran');
+        const cssForDisable = 'custom-disabled';
+        $A.util.removeClass(component.find('level1'), cssForDisable);
+    },
+
+    requireLevel0 : function(component, event, helper)
+    {
+        console.info('requireLevel0 ran');
+        const cssForRequired = 'custom-required';
+        $A.util.addClass(component.find('level0'), cssForRequired);
+    },
+
+    allowLevel0 : function(component, event, helper)
+    {
+        console.info('allowLevel0 ran');
+        const cssForRequired = 'custom-required';
+        $A.util.removeClass(component.find('level0'), cssForRequired);
+    },
+
+    requireLevel1 : function(component, event, helper)
+    {
+        console.info('requireLevel0 ran');
+        const cssForRequired = 'custom-required';
+        $A.util.addClass(component.find('level1'), cssForRequired);
+    },
+
+    allowLevel1 : function(component, event, helper)
+    {
+        console.info('allowLevel1 ran');
+        const cssForRequired = 'custom-required';
+        $A.util.removeClass(component.find('level1'), cssForRequired);
+    },
+
+    errorLevel0  : function(component, event, helper)
+    {
+        console.info('errorLevel0 ran');
+        const cssForError = 'slds-has-error';
+        $A.util.addClass(component.find('level0'), cssForError);
+    },
+
+    removeErrorLevel0  : function(component, event, helper)
+    {
+        console.info('removeErrorLevel0 ran');
+        const cssForError = 'slds-has-error';
+        $A.util.removeClass(component.find('level0'), cssForError);
+    },
+
+    errorLevel1  : function(component, event, helper)
+    {
+        console.info('errorLevel1 ran');
+        const cssForError = 'slds-has-error';
+        $A.util.addClass(component.find('level1'), cssForError);
+    },
+
+    removeErrorLevel1  : function(component, event, helper)
+    {
+        console.info('removeErrorLevel1 ran');
+        const cssForError = 'slds-has-error';
+        $A.util.removeClass(component.find('level1'), cssForError);
+    },
 })

@@ -13,7 +13,13 @@
 .THIS .none{
  display:none;
 }
+/*
 .THIS .custom-disabled{
+    background-color: rgb(242, 242, 242);
+    color: rgb(110,110,110);
+}
+*/
+.THIS .custom-disabled input{
     background-color: rgb(242, 242, 242);
     color: rgb(110,110,110);
 }
