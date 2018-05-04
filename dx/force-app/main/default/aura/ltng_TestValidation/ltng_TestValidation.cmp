@@ -1,10 +1,17 @@
 <aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" access="global" >
     <!-- attributes -->
-    <aura:attribute name="level1" type="String" default="Hello" />
+    <aura:attribute name="level0" type="String" default="" />
+    <aura:attribute name="level1" type="String" default="" />
     <aura:attribute name="level2" type="String" default="" />
-    <aura:attribute name="level1Classes" type="String" default="custom-disabled" />
+    <aura:attribute name="level2Classes" type="String" default="slds-is-disabled" />
+    <aura:attribute name="isDoneRendering" type="Boolean" default="false"/>
     <!-- handlers -->
     <aura:handler name="init" value="{!this}" action="{!c.init}" />
+    <aura:handler event="aura:doneRendering" action="{!c.doneRendering}"/>
+    <!-- <aura:handler name="render" value="{!this}" action="{!c.onRender}"/> -->
+    <!-- <aura:handler name="aura:afterRender" value="{!this}" action="{!c.onAfterRender}"/> -->
+    <!-- <aura:handler name="afterRender" value="{!this}" action="{!c.afterRender}"/> -->
+    
     <!-- events -->
     <!-- elements -->
     <!-- Page Form -->
@@ -17,19 +24,26 @@
             <fieldset class="slds-box slds-theme--default slds-container--small">
    
                 <div class="slds-p-bottom_large slds-p-left_large" style="width:500px">
+
                     <lightning:recordEditForm aura:id="recordViewForm" 
                                             recordId="{!v.recordToEdit}"
                                             objectApiName="ltng_CompValidationBase__c"
                     >
                         <lightning:messages />
-                        
-                        <lightning:inputField aura:id="level1" fieldName="Level1__c"
+                     
+                        <ui:button label="Activate" press="{!c.onActivate}" aura:id="Activate"/>
+
+                        <lightning:input aura:id="level0" label="Level 0"
+                                    name="level0"
+                                    value="{!v.level0}"
+                        /> 
+
+                        <lightning:inputField aura:id="level1"
+                                        fieldName="Level1__c"
                                         value="{!v.level1}"
-                                        onchange="{!c.handleLevel1Changed}"
                                         /> 
-                        <lightning:inputField aura:id="level2" fieldName="Level2__c"
-                                        value="{!v.level2}"
-                                        
+                        <lightning:inputField aura:id="level2"
+                                        fieldName="Level2__c"
                                         />
                         <lightning:button label="Validate Form" 
                                         class="slds-m-top--medium"
