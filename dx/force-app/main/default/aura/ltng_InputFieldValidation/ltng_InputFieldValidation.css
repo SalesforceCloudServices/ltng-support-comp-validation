@@ -1,25 +1,24 @@
-.THIS {
+.THIS
+{
+    
 }
-
-.THIS .custom-required{
- font-weight: 400;
+.THIS .custom-required
+{
+    font-weight: 400;
 }
-.THIS .custom-required:before{    
- content: "*";
- margin: 0 0.125rem 0 0.125rem;
- color: rgb(194, 57, 52);
- float: left;
+.THIS .custom-required:before
+{    
+    content: "*";
+    margin: 0 0.125rem 0 0.125rem;
+    color: rgb(194, 57, 52);
+    float: left;
 }
-.THIS .none{
- display:none;
+.THIS .none
+{
+    display:none;
 }
-/*
-.THIS .custom-disabled{
-    background-color: rgb(242, 242, 242);
-    color: rgb(110,110,110);
-}
-*/
-.THIS .custom-disabled input{
+.THIS .custom-disabled input
+{
     background-color: rgb(242, 242, 242);
     color: rgb(110,110,110);
 }

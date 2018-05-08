@@ -14,9 +14,10 @@
     <aura:attribute name="level4" type="String" default="" />
     <aura:attribute name="level5" type="String" default="" />
     <aura:attribute name="comboOptions" type="List" default="[]" />
-    <aura:attribute name="level1Classes" type="String" default="custom-disabled" />
+    <aura:attribute name="doneRenderingIsComplete" type="Boolean" default="false" />
     <!-- handlers -->
     <aura:handler name="init" value="{!this}" action="{!c.init}" />
+    <aura:handler event="aura:doneRendering" action="{!c.doneRendering}"/>
     <!-- events -->
     <!-- elements -->
 

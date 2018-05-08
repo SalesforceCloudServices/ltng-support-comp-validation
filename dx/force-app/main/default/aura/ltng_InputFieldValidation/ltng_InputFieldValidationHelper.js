@@ -1,7 +1,15 @@
 ({
-	/**
+    //Disabled and Required use custom CSS classes so they can be applied at a CSS selector level
+	//The error can be applied using the stock CSS class from the lightning design system
+	cssForDisabled : 'custom-disabled',
+	cssForRequired : 'custom-required',
+	cssForError : 'slds-has-error',
+        
+    /**
 	 * Whether level1 is unlocked
-	 * @return (boolean) - true if unlocked or false if otherwise
+     * @param component (Object) - Lightning framework object 
+     * @param helper (Object) - Lightning framework object
+	 * @return (Boolean) - true if unlocked or false if otherwise
 	 **/
     isLevel1Unlocked : function(component, helper) {
         console.info('isLevel1Unlocked ran');
@@ -13,21 +21,14 @@
     
     /**
      * Locks or Unlocks a specific level
+     * @param component (Object) - Lightning framework object 
+     * @param helper (Object) - Lightning framework object
      * @param levelName (String) - name of the level. ex: level1
      * @param isLocked (boolean) - true for locked / false for not
      **/
     setLevelDisabled : function(component, helper, levelName, isLocked)
     {
         console.info('setLevelDisabled ran');    
-        /*
-        //From the realtime example - We need to emulate this behavior:
-        component.find(levelName).set("v.disabled", isLocked);
-        
-        //-- if locking - clear out the value
-        if( isLocked ){
-            component.find(levelName).set('v.value', null);
-        }
-        */
         helper.disableInput(component, helper, component.find(levelName), true);
         
         //-- if locking - clear out the value
@@ -36,62 +37,76 @@
         }
     },
     
+    /**
+     * @param component (Object) - Lightning framework object 
+     * @param helper (Object) - Lightning framework object
+	 * @param inputField (Object) - The form element in lightning we want to enable/disable
+     * @param isDisabled (Bbolean) - Toggle for having field disabled or enabled 
+     */
     disableInput : function(component, helper, inputField, isDisabled)
     {
-        console.info('disableInput ran');
-        return;
-        /*
+        console.info('disableInput ran', inputField, isDisabled);
+
         if(isDisabled)
         {
-            $A.util.addClass(inputField, 'slds-is-disabled');
+            $A.util.addClass(inputField, this.cssForDisabled);
         }
         else
         {
-            $A.util.removeClass(inputField, 'slds-is-disabled');
+            $A.util.removeClass(inputField, this.cssForDisabled);
         }
-        */
     },
 
-
+    /**
+     * Marks a field as required for input.
+     * @param component (Object) - Lightning framework object 
+     * @param helper (Object) - Lightning framework object
+     * @param inputField (Object) - The form element in lightning we want to require/allow
+     * @param isRequired (Boolean) - Toggle for having the field required or permitted
+     */
     requireInput : function(component, helper, inputField, isRequired)
     {
         if(isRequired)
         {
-            $A.util.addClass(inputField, 'custom-required');
+            $A.util.addClass(inputField, this.cssForRequired);
         }
         else
         {
-            $A.util.removeClass(inputField, 'custom-required');
+            $A.util.removeClass(inputField, this.cssForRequired);
         }
     },
 
     /**
      * Unlocks a level, or sequentially locks subsequent levels.
-     * @param component
-     * @param helper
-     * @param levelNum (integer)
-     * @param isLocked (boolean)
+     * @param component (Object) - Lightning framework object 
+     * @param helper (Object) - Lightning framework object
+	 * @param level (Integer)
+     * @param isLocked (Boolean)
      **/
-    lockByLevel : function(component, helper, levelNum, isLocked){
+    lockByLevel : function(component, helper, level, isLocked)
+    {
         console.info('lockByLevel ran');
-        helper.setLevelDisabled(component, helper, "level" + levelNum, isLocked);
+        helper.setLevelDisabled(component, helper, "level" + level, isLocked);
         
-        //-- if locking a lower level, lock the upper levels too
-        if( isLocked ){
-            if( levelNum < 5 ){
-                helper.lockByLevel(component, helper, levelNum+1, true);
+        //if locking a lower level, lock the upper levels too
+        if( isLocked )
+        {
+            if( level < 5 )
+            {
+                helper.lockByLevel(component, helper, level + 1, true);
             }
         }
     },
     
 	/**
 	 * Whether a component has a value
-	 * @param component
-	 * @param helper
+	 * @param component (Object) - Lightning framework object 
+     * @param helper (Object) - Lightning framework object
 	 * @param levelName (String) - name of the level. ex: level2
-	 * @return (boolean) - true if unlocked or false if otherwise
+	 * @return (Boolean) - true if unlocked or false if otherwise
 	 **/
-    doesComponentHaveValue : function(component, helper, levelName) {
+    doesComponentHaveValue : function(component, helper, levelName)
+    {
         console.info('doesComponentHaveValue ran');
         var levelValue = component.find(levelName).get('v.value');
 		return(
@@ -101,11 +116,12 @@
     
     /**
      * Determines if the form is valid
-     * @param component
-     * @param helper
-     * @return (boolean) - true if valid / false if not
+     * @param component (Object) - Lightning framework object 
+     * @param helper (Object) - Lightning framework object
+	 * @return (Boolean) - true if valid / false if not
      **/
-    isFormValid : function(component, helper){
+    isFormValid : function(component, helper)
+    {
         console.info('isFormValid ran');
         //-- NOTE: similar to the validation found in the
         //-- Handle Form Submission in an Action Handler section
@@ -132,38 +148,26 @@
         //-- please note this issue for clearing errors without clicking on them
         //-- https://success.salesforce.com/ideaView?id=0873A000000CTZOQA4
         
-        var isValid = true;
-        //var isComponentValid;
-        var myFormInput;
-        const requiredCss = 'custom-required'; //'slds-required';
-        const errorCss = 'slds-has-error';
+        let isValid = true;
+        let myFormInput;
         for(let i = 0; i < myFormInputs.length; i++)
         {
             myFormInput = myFormInputs[i];
-            
-            //TODO: Review these with Paul -I don't think they are needed at all
-            //isComponentValid = myFormInput.get('v.validity').valid;
-            //isValid = isValid && isComponentValid;
-            
-            //-- begin
-            var isComponentRequired = $A.util.hasClass(myFormInput, requiredCss);
-            var isEmpty = $A.util.isEmpty(myFormInput.get('v.value'));
-            var isValid = !(isComponentRequired && isEmpty);
+            let isComponentRequired = $A.util.hasClass(myFormInput, this.cssForRequired);
+            let isEmpty = $A.util.isEmpty(myFormInput.get('v.value'));
+            isValid = !(isComponentRequired && isEmpty);
             if(!isValid)
             {
-                $A.util.addClass(myFormInput, errorCss);
+                $A.util.addClass(myFormInput, this.cssForError);
             }
             else
             {
-                $A.util.removeClass(myFormInput, errorCss);
+                $A.util.removeClass(myFormInput,  this.cssForError);
             }
-            //-- end
-
+            
             //TODO: Implement something that mimics the showHelpMessageIfInvalid behavior from the input (beta) component
             //Something like this based on the realtime example:
             //<div class="slds-form-element__help" role="alert" id="829:0-message" data-aura-rendered-by="998:0">Complete this field</div>
-            
-            
             //myFormInput.showHelpMessageIfInvalid();
         }
         
@@ -171,63 +175,76 @@
     },
     
     /**
-     * Really, this can be anything now we know the form is valid.
-     **/
-    continueWithValidForm : function(component, helper){
-        var toastEvent = $A.get("e.force:showToast");
+     * Really, this can be anything now we know that the form is valid.
+     * @param component (Object) - Lightning framework object 
+     * @param helper (Object) - Lightning framework object
+	 **/
+    continueWithValidForm : function(component, helper)
+    {
+        let toastEvent = $A.get("e.force:showToast");
         toastEvent.setParams({
             "title": "Valid Form",
             "message": "Placeholder for any more actions."
         });
         toastEvent.fire();
     },
+
      /**
-     * Loading the first record
-     **/
+     * Loads the first demo record from a custom object
+     * @param component (Object) - Lightning framework object 
+     * @param helper (Object) - Lightning framework object
+	 **/
     loadRecord : function(component, helper)
     {
-                // create a one-time use instance of the serverEcho action
-                // in the server-side controller
-                var action = component.get("c.getInitialRecord");
-                //action.setParams({ firstName : component.get("v.firstName") });
-        
-                // Create a callback that is executed after 
-                // the server-side action returns
-                action.setCallback(this, function(response) {
-                    console.info('Initial record called back.');
-                    var state = response.getState();
-                    if (state === "SUCCESS")
-                    {
-                        // You would typically fire a event here to trigger 
-                        // client-side notification that the server-side 
-                        // action is complete
-                        component.set('v.recordToEdit', response.getReturnValue());
+        console.info('loadRecord ran.');
+        // create a one-time use instance of the serverEcho action
+        // in the server-side controller
+        let action = component.get("c.getInitialRecord");
+        //action.setParams({ firstName : component.get("v.firstName") });
 
-                        //-- disable the other components
-                        helper.lockByLevel(component, helper, 2, true);
+        // Create a callback that is executed after 
+        // the server-side action returns
+        action.setCallback(this, function(response)
+        {
+            console.info('Initial record called back.');
+            let state = response.getState();
+            if (state === "SUCCESS")
+            {
+                // You would typically fire a event here to trigger 
+                // client-side notification that the server-side 
+                // action is complete
+                component.set('v.recordToEdit', response.getReturnValue());
+
+                //-- disable the other components
+                helper.lockByLevel(component, helper, 2, true);
+            }
+            else if (state === "INCOMPLETE")
+            {
+                // do something
+            }
+            else if (state === "ERROR")
+            {
+                let errors = response.getError();
+                if (errors)
+                {
+                    if (errors[0] && errors[0].message)
+                    {
+                        console.log("Error message: " + errors[0].message);
                     }
-                    else if (state === "INCOMPLETE") {
-                        // do something
-                    }
-                    else if (state === "ERROR") {
-                        var errors = response.getError();
-                        if (errors) {
-                            if (errors[0] && errors[0].message) {
-                                console.log("Error message: " + 
-                                         errors[0].message);
-                            }
-                        } else {
-                            console.log("Unknown error");
-                        }
-                    }
-                });
-        
-                // optionally set storable, abortable, background flag here
-        
-                // A client-side action could cause multiple events, 
-                // which could trigger other events and 
-                // other server-side action calls.
-                // $A.enqueueAction adds the server-side action to the queue.
-                $A.enqueueAction(action);
+                }
+                else
+                {
+                    console.log("Unknown error");
+                }
+            }
+        });
+
+        // optionally set storable, abortable, background flag here
+
+        // A client-side action could cause multiple events, 
+        // which could trigger other events and 
+        // other server-side action calls.
+        // $A.enqueueAction adds the server-side action to the queue.
+        $A.enqueueAction(action);
     }
 })

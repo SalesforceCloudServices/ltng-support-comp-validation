@@ -1,7 +1,7 @@
 <aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" access="global" >
     <!-- attributes -->
-    <aura:attribute name="level0" type="String" default="I'm level 0 an input (beta)" />
-    <aura:attribute name="level1" type="String" default="I'm level 1 an inputField" />
+    <aura:attribute name="level0" type="String" default="I'm level 0 - a lightning:input (beta) component" />
+    <aura:attribute name="level1" type="String" default="I'm level 1 - a lightning:inputField component" />
     <!-- handlers -->
     <aura:handler name="init" value="{!this}" action="{!c.init}" />
     <!-- events -->
