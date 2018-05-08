@@ -1,12 +1,9 @@
 <aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" access="global" >
     <!-- attributes -->
-    <aura:attribute name="level0" type="String" default="hello" />
-    <aura:attribute name="level1" type="String" default="" />
-    <aura:attribute name="level2" type="String" default="" />
-    <aura:attribute name="isDoneRendering" type="Boolean" default="false"/>
+    <aura:attribute name="level0" type="String" default="I'm level 0 an input (beta)" />
+    <aura:attribute name="level1" type="String" default="I'm level 1 an inputField" />
     <!-- handlers -->
     <aura:handler name="init" value="{!this}" action="{!c.init}" />
-    <aura:handler event="aura:doneRendering" action="{!c.doneRendering}"/>
     <!-- events -->
     <!-- elements -->
     <!-- Page Form -->
@@ -31,7 +28,7 @@
                         <table border="0" cellpadding="2" cellspacing="2">
                             <th><td colspan="3">Level 0 input (beta) manipulations</td></th>
                             <tr>
-                                <td>Enable/Disable:</td>
+                                <td>Disable/Enable:</td>
                                 <td>
                                     <lightning:button label="Disable" 
                                         class="slds-m-top--medium"
@@ -96,7 +93,7 @@
                         <table border="0" cellpadding="2" cellspacing="2">
                                 <th><td colspan="3">Level 1 inputField manipulations</td></th>
                                 <tr>
-                                    <td>Enable/Disable:</td>
+                                    <td>Disable/Enable:</td>
                                     <td>
                                         <lightning:button label="Disable" 
                                             class="slds-m-top--medium"

@@ -4,7 +4,7 @@
         console.info('init ran');
     },
     
-    //TODO: Might have to apply styles in hereoif the button clicks and other events do not work
+    /*
     doneRendering: function (component, event, helper)
     {
         //This is here to prevent an infinite loop
@@ -24,6 +24,7 @@
             }
         }
     },
+    */
 
     //Use cases for level 0: input (beta) component
     disableLevel0 : function(component, event, helper)
