@@ -25,87 +25,77 @@
         }
     },
 
+    //Use cases for level 0: input (beta) component
     disableLevel0 : function(component, event, helper)
     {
         console.info('disableLevel0 ran');
-        const cssForDisable = 'custom-disabled';
-        $A.util.addClass(component.find('level0'), cssForDisable);
+        helper.applyDisabled(component, helper, 0);
     },
 
     enableLevel0 : function(component, event, helper)
     {
         console.info('enableLevel0 ran');
-        const cssForDisable = 'custom-disabled';
-        $A.util.removeClass(component.find('level0'), cssForDisable);
-    },
-
-    disableLevel1 : function(component, event, helper)
-    {
-        console.info('disableLevel1 ran');
-        const cssForDisable = 'custom-disabled';
-        $A.util.addClass(component.find('level1'), cssForDisable);
-    },
-
-    enableLevel1 : function(component, event, helper)
-    {
-        console.info('allowLevel0 ran');
-        const cssForDisable = 'custom-disabled';
-        $A.util.removeClass(component.find('level1'), cssForDisable);
+        helper.removeDisabled(component, helper, 0);
     },
 
     requireLevel0 : function(component, event, helper)
     {
         console.info('requireLevel0 ran');
-        const cssForRequired = 'custom-required';
-        $A.util.addClass(component.find('level0'), cssForRequired);
+        helper.applyRequired(component, helper, 0);
     },
 
-    allowLevel0 : function(component, event, helper)
+    permitLevel0 : function(component, event, helper)
     {
-        console.info('allowLevel0 ran');
-        const cssForRequired = 'custom-required';
-        $A.util.removeClass(component.find('level0'), cssForRequired);
-    },
-
-    requireLevel1 : function(component, event, helper)
-    {
-        console.info('requireLevel0 ran');
-        const cssForRequired = 'custom-required';
-        $A.util.addClass(component.find('level1'), cssForRequired);
-    },
-
-    allowLevel1 : function(component, event, helper)
-    {
-        console.info('allowLevel1 ran');
-        const cssForRequired = 'custom-required';
-        $A.util.removeClass(component.find('level1'), cssForRequired);
+        console.info('doNotRequireLevel0 ran');
+        helper.removeRequired(component, helper, 0);
     },
 
     errorLevel0  : function(component, event, helper)
     {
         console.info('errorLevel0 ran');
-        const cssForError = 'slds-has-error';
-        $A.util.addClass(component.find('level0'), cssForError);
+        helper.applyError(component, event, 0);
     },
 
-    removeErrorLevel0  : function(component, event, helper)
+    correctLevel0  : function(component, event, helper)
     {
-        console.info('removeErrorLevel0 ran');
-        const cssForError = 'slds-has-error';
-        $A.util.removeClass(component.find('level0'), cssForError);
+        console.info('clearErrorLevel0 ran');
+        helper.removeError(component, helper, 0);
+    },
+
+    //Use cases for level 1: inputField component
+    disableLevel1 : function(component, event, helper)
+    {
+        console.info('disableLevel1 ran');
+        helper.applyDisabled(component, helper, 1);
+    },
+
+    enableLevel1 : function(component, event, helper)
+    {
+        console.info('enableLevel1 ran');
+        helper.removeDisabled(component, helper, 1);
+    },
+
+    requireLevel1 : function(component, event, helper)
+    {
+        console.info('requireLevel1 ran');
+        helper.applyRequired(component, helper, 1);
+    },
+
+    permitLevel1 : function(component, event, helper)
+    {
+        console.info('doNotRequireLevel1 ran');
+        helper.removeRequired(component, helper, 1);
     },
 
     errorLevel1  : function(component, event, helper)
     {
         console.info('errorLevel1 ran');
-        const cssForError = 'slds-has-error';
-        $A.util.addClass(component.find('level1'), cssForError);
+        helper.applyError(component, event, 1);
     },
 
-    removeErrorLevel1  : function(component, event, helper)
+    correctLevel1  : function(component, event, helper)
     {
-        console.info('removeErrorLevel1 ran');
-        const cssForError = 'slds-has-error';
-        $A.util.removeClass(component.find('level1'), cssForError);
+        console.info('clearErrorLevel1 ran');
+        helper.removeError(component, helper, 1);
     },
 })

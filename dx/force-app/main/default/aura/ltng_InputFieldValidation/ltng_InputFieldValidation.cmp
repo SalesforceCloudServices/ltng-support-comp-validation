@@ -4,7 +4,7 @@
  * @component ltng_InputFieldValidation
  **/
 -->
-<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" access="global" controller="ltng_InputFieldValidationCtrl">
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" access="global">
 
     <!-- attributes -->
     <aura:attribute name="recordToEdit" type="String" />
