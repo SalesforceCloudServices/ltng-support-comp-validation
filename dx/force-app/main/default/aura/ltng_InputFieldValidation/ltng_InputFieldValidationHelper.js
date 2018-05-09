@@ -13,26 +13,29 @@
 	 **/
     isLevel1Unlocked : function(component, helper) {
         console.info('isLevel1Unlocked ran');
-        return (
-        	helper.doesComponentHaveValue(component, helper, 'comboBox') &&
-            helper.doesComponentHaveValue(component, helper, 'level1')
-        );
-	},
+        let check1 = helper.doesComponentHaveValue(component, helper, 'comboBox');
+        console.info("check1", check1);
+        let check2 = helper.doesComponentHaveValue(component, helper, 'level1'); 
+        console.info("check2", check2);
+        return (check1 && check2);
+    },
     
     /**
      * Locks or Unlocks a specific level
      * @param component (Object) - Lightning framework object 
      * @param helper (Object) - Lightning framework object
      * @param levelName (String) - name of the level. ex: level1
-     * @param isLocked (boolean) - true for locked / false for not
+     * @param isLocked (Boolean) - true for locked / false for not
      **/
     setLevelDisabled : function(component, helper, levelName, isLocked)
     {
-        console.info('setLevelDisabled ran');    
-        helper.disableInput(component, helper, component.find(levelName), true);
-        
-        //-- if locking - clear out the value
-        if( isLocked ){
+        console.info('setLevelDisabled ran for levelName', levelName, isLocked);    
+        helper.disableInput(component, helper, component.find(levelName), isLocked);
+        //If locking - clear out the value in the field
+        if(isLocked)
+        {
+            let test = component.find(levelName).get('v.value'); 
+            console.info('  test', test);
             component.find(levelName).set('v.value', null);
         }
     },
@@ -45,16 +48,18 @@
      */
     disableInput : function(component, helper, inputField, isDisabled)
     {
-        console.info('disableInput ran', inputField, isDisabled);
-
+        console.info('disableInput ran', isDisabled);
+        //debugger;
         if(isDisabled)
         {
             $A.util.addClass(inputField, this.cssForDisabled);
         }
         else
         {
+            console.info('Should be enabling');
             $A.util.removeClass(inputField, this.cssForDisabled);
         }
+        //inputField.set("v.disabled", isDisabled);
     },
 
     /**
@@ -105,13 +110,13 @@
 	 * @param levelName (String) - name of the level. ex: level2
 	 * @return (Boolean) - true if unlocked or false if otherwise
 	 **/
-    doesComponentHaveValue : function(component, helper, levelName)
-    {
-        console.info('doesComponentHaveValue ran');
-        var levelValue = component.find(levelName).get('v.value');
-		return(
-            !$A.util.isEmpty(levelValue)
-        );
+    doesComponentHaveValue : function(component, helper, levelName) {
+        console.info('doesComponentHaveValue ran for ', levelName);
+        let levelValue = component.find(levelName).get('v.value');
+        console.info('  levelValue', levelValue);
+        let returnValue = !$A.util.isEmpty(levelValue);
+        console.info('  returnValue', returnValue); 
+        return returnValue;
 	},
     
     /**

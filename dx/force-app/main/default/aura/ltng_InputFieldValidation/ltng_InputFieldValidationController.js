@@ -27,6 +27,7 @@
             //Set this first thing to prevent and potential racing
             component.set("v.doneRenderingIsComplete", true);
             console.info("doneRendering ran");
+            //TODO: Set initial values so that we can check for changes later during functions like 'handleLevel1Changed'? I hope we won't need to
             helper.lockByLevel(component, helper, 2, true);
         }
     },
@@ -51,6 +52,7 @@
     {
         console.info('level 1 changed');
         var isLevelUnlocked = helper.isLevel1Unlocked(component, helper);
+        console.info('isLevelUnlocked', isLevelUnlocked);
         helper.lockByLevel(component, helper, 2, !isLevelUnlocked);
     },
 

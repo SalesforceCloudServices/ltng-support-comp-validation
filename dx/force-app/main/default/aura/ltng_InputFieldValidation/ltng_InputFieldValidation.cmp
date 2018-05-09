@@ -7,16 +7,20 @@
 <aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" access="global">
 
     <!-- attributes -->
-    <aura:attribute name="recordToEdit" type="String" />
+    <!--
     <aura:attribute name="level1" type="String" default="" />
     <aura:attribute name="level2" type="String" default="" />
     <aura:attribute name="level3" type="String" default="" />
     <aura:attribute name="level4" type="String" default="" />
     <aura:attribute name="level5" type="String" default="" />
+    -->
+    <aura:attribute name="recordToEdit" type="String" />
     <aura:attribute name="comboOptions" type="List" default="[]" />
     <aura:attribute name="doneRenderingIsComplete" type="Boolean" default="false" />
     <!-- handlers -->
     <aura:handler name="init" value="{!this}" action="{!c.init}" />
+    <!-- The aura:doneRendreing event is needed to set the state of individual DOM elements on the
+        initial load when they are not available in the init phase -->
     <aura:handler event="aura:doneRendering" action="{!c.doneRendering}"/>
     <!-- events -->
     <!-- elements -->
@@ -30,58 +34,57 @@
                 <!-- BOXED AREA -->
                 <fieldset class="slds-box slds-theme--default slds-container--small">
        
-                <div class="slds-p-bottom_large slds-p-left_large" style="width:500px">
+                     <!-- CREATE NEW EXPENSE FORM -->
                     <lightning:recordEditForm aura:id="recordViewForm" 
-                                              recordId="{!v.recordToEdit}"
-                                              objectApiName="ltng_CompValidationBase__c"
+                        recordId="{!v.recordToEdit}"
+                        objectApiName="ltng_CompValidationBase__c"
+                        class="slds-form--stacked"
                     >
-                        <lightning:messages />
+                    <!--
+                    <form>
+                    -->
+                        <!-- <lightning:messages /> -->
                         
                         <!-- Display this alert when the form is not valid -->
                         <!--<div class="slds-form-element__help" role="alert" aura:id="validationMessage">Please complete the required fields</div>-->
                         
                         <lightning:combobox aura:id="comboBox"
-                                            name="status" label="Status"
-                                            placeholder="Choose Status"
-                                            value="new"
-                                            options="{!v.comboOptions}"
-                                            required="true"
-                                            onchange="{!c.handleComboBoxChanged}"
-                                            />
-                        <lightning:inputField aura:id="level1" fieldName="Level1__c"
-                                        value="{!v.level1}"
-                                        onchange="{!c.handleLevel1Changed}"
-                                        /> 
-                        <lightning:inputField aura:id="level2" fieldName="Level2__c"
-                                        value="{!v.level2}"
-                                        onchange="{!c.handleLevel2Changed}"
-                                        class="{!v.level1Classes}"
-                                        />
-                        <lightning:inputField aura:id="level3" fieldName="Level3__c"
-                                        value="{!v.level3}"
-                                        onchange="{!c.handleLevel3Changed}"
-                                        />
-                        <lightning:inputField aura:id="level4" fieldName="Level4__c"
-                                        value="{!v.level4}"
-                                        onchange="{!c.handleLevel4Changed}"
-                                        />
-                        <lightning:inputField aura:id="level5" fieldName="Level5__c"
-                                        value="{!v.level5}"
-                                        />
+                            name="status" label="Status"
+                            placeholder="Choose Status"
+                            value="new"
+                            options="{!v.comboOptions}"
+                            required="true"
+                            onchange="{!c.handleComboBoxChanged}"
+                            />
+                        <lightning:inputField aura:id="level1"
+                            fieldName="Level1__c"
+                            onchange="{!c.handleLevel1Changed}"
+                        /> 
+                        <lightning:inputField aura:id="level2"
+                            fieldName="Level2__c"
+                            onchange="{!c.handleLevel2Changed}"
+                        />
+                        <lightning:inputField aura:id="level3"
+                            fieldName="Level3__c"
+                            onchange="{!c.handleLevel3Changed}"
+                        />
+                        <lightning:inputField aura:id="level4"
+                            fieldName="Level4__c"
+                            onchange="{!c.handleLevel4Changed}"
+                        />
+                        <lightning:inputField aura:id="level5"
+                            fieldName="Level5__c"
+                        />
                         <lightning:button label="Validate Form" 
-                                        class="slds-m-top--medium"
-                                        variant="brand"
-                                        onclick="{!c.handleValidateFormClicked}"/>
+                            class="slds-m-top--medium"
+                            variant="brand"
+                            onclick="{!c.handleValidateFormClicked}"
+                        />
+                    <!--</form>-->
                     </lightning:recordEditForm>
-                </div> 
-                    
-                <!-- CREATE NEW EXPENSE FORM -->
-                <form class="slds-form--stacked">
-                  
-                </form>
-                <!-- / CREATE NEW EXPENSE FORM -->
-        
-            </fieldset>
+            
+                </fieldset>
+            
             <!-- / BOXED AREA -->
             </div>
             <!-- / CREATE NEW EXPENSE -->
