@@ -104,21 +104,22 @@ Here is a basic example of how to apply the doneRendering to markup:
 Here is the doneRendering function in controller code which corresponds to the markup above:
 <aura:handler event="aura:doneRendering" action="{!c.doneRendering}"/>
 
-NOTE: The check on "v.doneRenderingIsComplete" is necessary to prevent an infinite loop. [See here for more details about doneRendering] (https://developer.salesforce.com/docs/atlas.en-us.lightning.meta/lightning/ref_aura_doneRendering.htm for more details)
+NOTE: The check on "v.doneRenderingIsComplete" is necessary to prevent an infinite loop. [See here for more details about doneRendering](https://developer.salesforce.com/docs/atlas.en-us.lightning.meta/lightning/ref_aura_doneRendering.htm for more details)
 
-//Needed to emulate an initial load state of disabled
-doneRendering : function (component, event, helper)
-{
-	if(component.get("v.doneRenderingIsComplete") === false)
+	ex:
+	//Needed to emulate an initial load state of disabled
+	doneRendering : function (component, event, helper)
 	{
-		//Set this first thing to prevent any potential racing or looping
-		component.set("v.doneRenderingIsComplete", true);
-		console.info("doneRendering ran");
-		//Nevermind lockByLevel for now, you can see it in the demo where it essentially applies disabled CSS to input elements
-		//doing something like this: $A.util.addClass(component.find('level1'), '.slds-required');
-		helper.lockByLevel(component, helper, 2, true);
-	}
-},
+		if(component.get("v.doneRenderingIsComplete") === false)
+		{
+			//Set this first thing to prevent any potential racing or looping
+			component.set("v.doneRenderingIsComplete", true);
+			console.info("doneRendering ran");
+			//Nevermind lockByLevel for now, you can see it in the demo where it essentially applies disabled CSS to input elements
+			//doing something like this: $A.util.addClass(component.find('level1'), '.slds-required');
+			helper.lockByLevel(component, helper, 2, true);
+		}
+	},
 
 ## Can I see just the CSS/style pieces working without investing much time into coding on a custom app?
 
