@@ -4,99 +4,128 @@
         console.info('init ran');
     },
     
-    /*
-    doneRendering: function (component, event, helper)
+    //Use cases for lightning:input (beta) component
+    disableInput : function(component, event, helper)
     {
-        //This is here to prevent an infinite loop
-        if(!component.get("v.isDoneRendering"))
-        {
-            component.set("v.isDoneRendering", true);
-            //do something after component is first rendered
-            if(false)
-            {
-                console.info('doneRendering ran');
-                //This sort of works but what we need to do is apply it to the individual input field - not the label
-                const css = 'custom-disabled'; //'slds-is-disabled';
-                var level0 = component.find('level0');
-                $A.util.addClass(level0, css);
-                var level2 = component.find('level2');
-                $A.util.addClass(level2, css);
-            }
-        }
-    },
-    */
-
-    //Use cases for level 0: input (beta) component
-    disableLevel0 : function(component, event, helper)
-    {
-        console.info('disableLevel0 ran');
-        helper.applyDisabled(component, helper, 0);
+        console.info('disableInput ran');
+        //input has a disabled property we can use
+        component.find('input').set('v.disabled', true);
     },
 
-    enableLevel0 : function(component, event, helper)
+    enableInput : function(component, event, helper)
     {
-        console.info('enableLevel0 ran');
-        helper.removeDisabled(component, helper, 0);
+        console.info('enableInput ran');
+        //input has a disabled property we can use
+        component.find('input').set('v.disabled', false);
     },
 
-    requireLevel0 : function(component, event, helper)
+    requireInput : function(component, event, helper)
     {
-        console.info('requireLevel0 ran');
-        helper.applyRequired(component, helper, 0);
+        console.info('requireInput ran');
+        helper.applyRequired(component, helper, 'input');
     },
 
-    permitLevel0 : function(component, event, helper)
+    permitInput : function(component, event, helper)
     {
-        console.info('doNotRequireLevel0 ran');
-        helper.removeRequired(component, helper, 0);
+        console.info('permitInput ran');
+        helper.removeRequired(component, helper, 'input');
     },
 
-    errorLevel0  : function(component, event, helper)
+    errorInput  : function(component, event, helper)
     {
-        console.info('errorLevel0 ran');
-        helper.applyError(component, event, 0);
+        console.info('errorInput ran');
+        helper.applyError(component, event, 'input');
     },
 
-    correctLevel0  : function(component, event, helper)
+    correctInput  : function(component, event, helper)
     {
-        console.info('clearErrorLevel0 ran');
-        helper.removeError(component, helper, 0);
+        console.info('correctInput ran');
+        helper.removeError(component, helper, 'input');
     },
 
-    //Use cases for level 1: inputField component
-    disableLevel1 : function(component, event, helper)
+    allInput  : function(component, event, helper)
     {
-        console.info('disableLevel1 ran');
-        helper.applyDisabled(component, helper, 1);
+        console.info('allInput ran');
+        const auraId = 'input';
+        helper.applyRequired(component, helper, auraId);
+        helper.applyError(component, helper, auraId);
+        //input has a disabled property we can use
+        component.find('input').set('v.disabled', true);
     },
 
-    enableLevel1 : function(component, event, helper)
+    removeAllInput  : function(component, event, helper)
     {
-        console.info('enableLevel1 ran');
-        helper.removeDisabled(component, helper, 1);
+        console.info('removeAllInput ran');
+        const auraId = 'input';
+        helper.removeRequired(component, helper, auraId);
+        helper.removeError(component, helper, auraId);
+        //input has a disabled property we can use
+        component.find('input').set('v.disabled', false);
     },
 
-    requireLevel1 : function(component, event, helper)
+    //Use cases for lightning:inputField component
+    disableInputField : function(component, event, helper)
     {
-        console.info('requireLevel1 ran');
-        helper.applyRequired(component, helper, 1);
+        console.info('disableInputField ran');
+        //inputField does not have a disabled property so use a combination of CSS and JS with the emulateDisableInput functions
+        helper.applyDisabled(component, helper, 'inputField');
     },
 
-    permitLevel1 : function(component, event, helper)
+    enableInputField : function(component, event, helper)
     {
-        console.info('doNotRequireLevel1 ran');
-        helper.removeRequired(component, helper, 1);
+        console.info('enableInputField ran');
+        //inputField does not have a disabled property so use a combination of CSS and JS with the emulateDisableInput functions 
+        helper.removeDisabled(component, helper, 'inputField');
     },
 
-    errorLevel1  : function(component, event, helper)
+    //A custom function to emulate the disabled behavior by checking for the disabled CSS being applied and ignorning changes 
+    emulateDisabledInput: function(component, event, helper)
     {
-        console.info('errorLevel1 ran');
-        helper.applyError(component, event, 1);
+        helper.emulateDisabledInput(component, event, helper, 'inputField', 'v.lightningInputFieldValue');
     },
 
-    correctLevel1  : function(component, event, helper)
+    requireInputField : function(component, event, helper)
     {
-        console.info('clearErrorLevel1 ran');
-        helper.removeError(component, helper, 1);
+        console.info('requireInputField ran');
+        helper.applyRequired(component, helper, 'inputField');
     },
+
+    permitInputField : function(component, event, helper)
+    {
+        console.info('doNotRequireInputField ran');
+        helper.removeRequired(component, helper, 'inputField');
+    },
+
+    errorInputField  : function(component, event, helper)
+    {
+        console.info('errorInputField ran');
+        helper.applyError(component, event, 'inputField');
+    },
+
+    correctInputField  : function(component, event, helper)
+    {
+        console.info('clearErrorInputField ran');
+        helper.removeError(component, helper, 'inputField');
+    },
+
+    allInputField  : function(component, event, helper)
+    {
+        console.info('allInput ran');
+        const auraId = 'inputField';
+        helper.applyRequired(component, helper, auraId);
+        helper.applyError(component, helper, auraId);
+        //inputField does not have a disabled property so use a combination of CSS and JS
+        helper.applyDisabled(component, helper, auraId);
+    },
+
+    removeAllInputField  : function(component, event, helper)
+    {
+        console.info('removeAllInput ran');
+        const auraId = 'inputField';
+        helper.removeRequired(component, helper, auraId);
+        helper.removeError(component, helper, auraId);
+       //inputField does not have a disabled property so use a combination of CSS and JS
+        helper.removeDisabled(component, helper, auraId);
+    },
+
 })

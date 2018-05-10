@@ -1,7 +1,7 @@
 <aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" access="global" >
     <!-- attributes -->
-    <aura:attribute name="level0" type="String" default="I'm level 0 - a lightning:input (beta) component" />
-    <aura:attribute name="level1" type="String" default="I'm level 1 - a lightning:inputField component" />
+    <aura:attribute name="lightningInputValue" type="String" default="I'm a lightning:input (beta) component" />
+    <aura:attribute name="lightningInputFieldValue" type="String" default="I'm a lightning:inputField component" />
     <!-- handlers -->
     <aura:handler name="init" value="{!this}" action="{!c.init}" />
     <!-- events -->
@@ -21,68 +21,95 @@
                         recordId="{!v.recordToEdit}"
                         objectApiName="ltng_CompValidationBase__c"
                     >
-                        <lightning:messages />                     
+                    
+                    <lightning:messages />                     
                         
                         <!-- DEMO input (beta) -->
                         <!-- An old-shool table is not the best approach for reactive web but I wanted to keep everything aligned on rows by the respective buttons -->
                         <table border="0" cellpadding="2" cellspacing="2">
-                            <th><td colspan="3">Level 0 input (beta) manipulations</td></th>
+                            <th><td colspan="3">lightning:input (beta) manipulations</td></th>
                             <tr>
                                 <td>Disable/Enable:</td>
                                 <td>
-                                    <lightning:button label="Disable" 
+                                    <lightning:button
+                                        label="Disable" 
                                         class="slds-m-top--medium"
                                         variant="brand"
-                                        onclick="{!c.disableLevel0}"
+                                        onclick="{!c.disableInput}"
                                     />
                                 </td>
                                 <td>
-                                    <lightning:button label="Enable" 
+                                    <lightning:button
+                                        label="Enable" 
                                         class="slds-m-top--medium"
                                         variant="brand"
-                                        onclick="{!c.enableLevel0}"
+                                        onclick="{!c.enableInput}"
                                     />
                                 </td>
                             </tr>
                             <tr>
                                 <td>Require/Permit:</td>
                                 <td>
-                                    <lightning:button label="Require" 
+                                    <lightning:button
+                                        label="Require" 
                                         class="slds-m-top--medium"
                                         variant="brand"
-                                        onclick="{!c.requireLevel0}"
+                                        onclick="{!c.requireInput}"
                                     />
                                 </td>
                                 <td>
-                                    <lightning:button label="Permit" 
+                                    <lightning:button
+                                        label="Permit" 
                                         class="slds-m-top--medium"
                                         variant="brand"
-                                        onclick="{!c.permitLevel0}"
+                                        onclick="{!c.permitInput}"
                                     />
                                 </td>
                             </tr>
                             <tr>
                                 <td>Error/Correct:</td>
                                 <td>
-                                    <lightning:button label="Error" 
+                                    <lightning:button
+                                        label="Error" 
                                         class="slds-m-top--medium"
                                         variant="brand"
-                                        onclick="{!c.errorLevel0}"
+                                        onclick="{!c.errorInput}"
                                     />
                                 </td>
                                 <td>
-                                    <lightning:button label="Correct" 
+                                    <lightning:button
+                                        label="Correct" 
                                         class="slds-m-top--medium"
                                         variant="brand"
-                                        onclick="{!c.correctLevel0}"
+                                        onclick="{!c.correctInput}"
+                                    />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Apply All/Remove All:</td>
+                                <td>
+                                    <lightning:button
+                                        label="Apply" 
+                                        class="slds-m-top--medium"
+                                        variant="brand"
+                                        onclick="{!c.allInput}"
+                                    />
+                                </td>
+                                <td>
+                                    <lightning:button
+                                        label="Remove" 
+                                        class="slds-m-top--medium"
+                                        variant="brand"
+                                        onclick="{!c.removeAllInput}"
                                     />
                                 </td>
                             </tr>
                             <tr>
                                 <td colspan="3">
-                                <lightning:input aura:id="level0" label="Level 0"
-                                    name="level0"
-                                    value="{!v.level0}"
+                                <lightning:input aura:id="input"
+                                    label="lightning:input"
+                                    name="input"
+                                    value="{!v.lightningInputValue}"
                                 />
                                 </td>
                             </tr>
@@ -91,68 +118,93 @@
                         <hr />
                         <!-- DEMO inputField -->
                         <table border="0" cellpadding="2" cellspacing="2">
-                                <th><td colspan="3">Level 1 inputField manipulations</td></th>
-                                <tr>
-                                    <td>Disable/Enable:</td>
-                                    <td>
-                                        <lightning:button label="Disable" 
-                                            class="slds-m-top--medium"
-                                            variant="brand"
-                                            onclick="{!c.disableLevel1}"
-                                        />
-                                    </td>
-                                    <td>
-                                        <lightning:button label="Enable" 
-                                            class="slds-m-top--medium"
-                                            variant="brand"
-                                            onclick="{!c.enableLevel1}"
-                                        />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Require/Permit:</td>
-                                    <td>
-                                        <lightning:button label="Require" 
-                                            class="slds-m-top--medium"
-                                            variant="brand"
-                                            onclick="{!c.requireLevel1}"
-                                        />
-                                    </td>
-                                    <td>
-                                        <lightning:button label="Permit" 
-                                            class="slds-m-top--medium"
-                                            variant="brand"
-                                            onclick="{!c.permitLevel1}"
-                                        />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Error/Correct:</td>
-                                    <td>
-                                        <lightning:button label="Error" 
-                                            class="slds-m-top--medium"
-                                            variant="brand"
-                                            onclick="{!c.errorLevel1}"
-                                        />
-                                    </td>
-                                    <td>
-                                        <lightning:button label="Correct" 
-                                            class="slds-m-top--medium"
-                                            variant="brand"
-                                            onclick="{!c.correctLevel1}"
-                                        />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3">
-                                        <lightning:inputField aura:id="level1" fieldName="Level1__c"
-                                            value="{!v.level1}"
-                                            onchange="{!c.handleLevel1Changed}"
-                                        />
-                                    </td>
-                                </tr>
-                            </table>
-                            <!-- / DEMO inputField -->
+                            <th><td colspan="3">lightning:inputField manipulations</td></th>
+                            <tr>
+                                <td>Disable/Enable:</td>
+                                <td>
+                                    <lightning:button
+                                        label="Disable" 
+                                        class="slds-m-top--medium"
+                                        variant="brand"
+                                        onclick="{!c.disableInputField}"
+                                    />
+                                </td>
+                                <td>
+                                    <lightning:button
+                                        label="Enable" 
+                                        class="slds-m-top--medium"
+                                        variant="brand"
+                                        onclick="{!c.enableInputField}"
+                                    />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Require/Permit:</td>
+                                <td>
+                                    <lightning:button
+                                        label="Require" 
+                                        class="slds-m-top--medium"
+                                        variant="brand"
+                                        onclick="{!c.requireInputField}"
+                                    />
+                                </td>
+                                <td>
+                                    <lightning:button
+                                        label="Permit" 
+                                        class="slds-m-top--medium"
+                                        variant="brand"
+                                        onclick="{!c.permitInputField}"
+                                    />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Error/Correct:</td>
+                                <td>
+                                    <lightning:button
+                                        label="Error" 
+                                        class="slds-m-top--medium"
+                                        variant="brand"
+                                        onclick="{!c.errorInputField}"
+                                    />
+                                </td>
+                                <td>
+                                    <lightning:button
+                                        label="Correct" 
+                                        class="slds-m-top--medium"
+                                        variant="brand"
+                                        onclick="{!c.correctInputField}"
+                                    />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Apply All/Remove All:</td>
+                                <td>
+                                    <lightning:button label="Apply" 
+                                        class="slds-m-top--medium"
+                                        variant="brand"
+                                        onclick="{!c.allInputField}"
+                                    />
+                                </td>
+                                <td>
+                                    <lightning:button label="Remove" 
+                                        class="slds-m-top--medium"
+                                        variant="brand"
+                                        onclick="{!c.removeAllInputField}"
+                                    />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3">
+                                    <lightning:inputField
+                                        aura:id="inputField"
+                                        fieldName="Level1__c"
+                                        value="{!v.lightningInputFieldValue}"
+                                        onchange="{!c.emulateDisabledInput}"
+                                    />
+                                </td>
+                            </tr>
+                        </table>
+                        <!-- / DEMO inputField -->
                         
                     </lightning:recordEditForm>
                 </div> 

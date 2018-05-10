@@ -43,7 +43,7 @@
                     <!--
                     <form>
                     -->
-                        <!-- <lightning:messages /> -->
+                        <lightning:messages />
                         
                         <!-- Display this alert when the form is not valid -->
                         <!--<div class="slds-form-element__help" role="alert" aura:id="validationMessage">Please complete the required fields</div>-->
