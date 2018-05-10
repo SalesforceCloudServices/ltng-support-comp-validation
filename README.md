@@ -48,14 +48,14 @@ If push comes to shove, you can always add in Lightning Design System classes, t
 ## Demo
 Graphics coming soon
 
-# Approach
+## Approach
 
 In order to use the inputField approach you will need
 1. A few custom CSS classes
 2. aura:doneRendering event
 3. JavaScript magic
 
-## CSS classes
+### CSS classes
 
 Many lightning components are not a single HTML element in the final browser markup. In order to apply a 'disabled' look to only the input a CSS selector approach is used. Case in point, see the class '.THIS .custom-disabled input' below. There is no v.disabled property to set in a lightning:inputField. 
 
@@ -88,11 +88,11 @@ Required and disabled behaviors require custom classes which borrow from the sty
 		cursor: not-allowed;  
 	}  
 
-## aura:doneRendering - when is it necessary?
+### aura:doneRendering - when is it necessary?
 
 To successfully apply styles on an initial load using the util class like this: $A.util.addClass(component.find('level1'), '.slds-required'); we need to apply them late enough in the game. Meet our friend doneRendering which can help use do things like disable fields on an initial load state.
 
-### Aura markup for aura:doneRendering
+#### Aura markup for aura:doneRendering
 
 Here is a basic example of how to apply the doneRendering to markup:
 
@@ -104,7 +104,7 @@ Here is a basic example of how to apply the doneRendering to markup:
 		initial load when they are not available in the init phase -->  
 	<aura:handler event="aura:doneRendering" action="{!c.doneRendering}"/>  
 
-### Controller Code in .js file for aura:doneRendering
+#### Controller Code in .js file for aura:doneRendering
 
 _NOTE_: The check on "v.doneRenderingIsComplete" is necessary to prevent an infinite loop. [See here for more details about doneRendering](https://developer.salesforce.com/docs/atlas.en-us.lightning.meta/lightning/ref_aura_doneRendering.htm for more details)
 
