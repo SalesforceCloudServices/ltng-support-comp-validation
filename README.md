@@ -56,31 +56,32 @@ In order to use the inputField approach you will need to
 
 A lightning:inputField component is not a single HTML element in the final markup rendered in the browser just because it may look like one in your aura markup. In order to apply a style like 'disabled' to only the input and not the label, a CSS selector approach is used. Case in point, see the class '.THIS .custom-disabled input' below. Remember that with lightning:inputField there is no v.disabled property to set. Required and disabled behaviors require some custom classes, but the error class can be used directly from the lightning design system by applying 'slds-has-error' which you can read more about [here](https://developer.salesforce.com/docs/atlas.en-us.lightning.meta/lightning/js_cb_styles.htm).
 
-.THIS  
-{  
- 
-}  
-.THIS .custom-required  
-{  
-    font-weight: 400;  
-}  
-.THIS .custom-required:before  
-{  
-    content: "*";  
-    margin: 0 0.125rem 0 0.125rem;  
-    color: rgb(194, 57, 52);  
-    float: left;  
-}  
-.THIS .none  
-{  
-    display:none;  
-}  
-.THIS .custom-disabled input  
-{ 
-    background-color: rgb(242, 242, 242);  
-    color: rgb(110,110,110);  
-    cursor: not-allowed;  
-}  
+	ex:
+	.THIS  
+	{  
+	
+	}  
+	.THIS .custom-required  
+	{  
+		font-weight: 400;  
+	}  
+	.THIS .custom-required:before  
+	{  
+		content: "*";  
+		margin: 0 0.125rem 0 0.125rem;  
+		color: rgb(194, 57, 52);  
+		float: left;  
+	}  
+	.THIS .none  
+	{  
+		display:none;  
+	}  
+	.THIS .custom-disabled input  
+	{ 
+		background-color: rgb(242, 242, 242);  
+		color: rgb(110,110,110);  
+		cursor: not-allowed;  
+	}  
 
 ## How to leverage the aura:doneRendering event and when is it necessary?
 
@@ -90,12 +91,13 @@ A lightning:inputField component is not a single element in the browser's DOM. T
 
 Here is a basic example of how to apply the doneRendering to markup:
 
-<aura:attribute name="doneRenderingIsComplete" type="Boolean" default="false" />
-<!-- handlers -->
-<aura:handler name="init" value="{!this}" action="{!c.init}" />
-<!-- The aura:doneRendering event is needed to set the state of individual DOM elements on the
-    initial load when they are not available in the init phase -->
-<aura:handler event="aura:doneRendering" action="{!c.doneRendering}"/>
+	ex:
+	<aura:attribute name="doneRenderingIsComplete" type="Boolean" default="false" />  
+	<!-- handlers -->  
+	<aura:handler name="init" value="{!this}" action="{!c.init}" />  
+	<!-- The aura:doneRendering event is needed to set the state of individual DOM elements on the  
+		initial load when they are not available in the init phase -->  
+	<aura:handler event="aura:doneRendering" action="{!c.doneRendering}"/>  
 
 ### Controller Code in .js file
 
