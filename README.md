@@ -54,37 +54,37 @@ In order to use the inputField approach you will need to
 
 ## CSS classes needed
 
-A lightning:inputField component is not a single HTML element in the final markup rendered in the browser just because it may look like one in your aura markup. In order to apply a style like 'disabled' to only the input and not the label, a CSS selector approach is used. Case in point, see the class '.THIS .custom-disabled input' below. Remember that with lightning:inputField there is no v.disabled property to set. Required and disabled behaviors require some custom classes, but the error class can be used directly from the lightning design system by applying 'slds-has-error' which you can read more about [here] (https://developer.salesforce.com/docs/atlas.en-us.lightning.meta/lightning/js_cb_styles.htm).
+A lightning:inputField component is not a single HTML element in the final markup rendered in the browser just because it may look like one in your aura markup. In order to apply a style like 'disabled' to only the input and not the label, a CSS selector approach is used. Case in point, see the class '.THIS .custom-disabled input' below. Remember that with lightning:inputField there is no v.disabled property to set. Required and disabled behaviors require some custom classes, but the error class can be used directly from the lightning design system by applying 'slds-has-error' which you can read more about [here](https://developer.salesforce.com/docs/atlas.en-us.lightning.meta/lightning/js_cb_styles.htm).
 
-.THIS
-{
-
-}
-.THIS .custom-required
-{
-    font-weight: 400;
-}
-.THIS .custom-required:before
-{    
-    content: "*";
-    margin: 0 0.125rem 0 0.125rem;
-    color: rgb(194, 57, 52);
-    float: left;
-}
-.THIS .none
-{
-    display:none;
-}
-.THIS .custom-disabled input
-{
-    background-color: rgb(242, 242, 242);
-    color: rgb(110,110,110);
-    cursor: not-allowed;
-}
+.THIS  
+{  
+ 
+}  
+.THIS .custom-required  
+{  
+    font-weight: 400;  
+}  
+.THIS .custom-required:before  
+{  
+    content: "*";  
+    margin: 0 0.125rem 0 0.125rem;  
+    color: rgb(194, 57, 52);  
+    float: left;  
+}  
+.THIS .none  
+{  
+    display:none;  
+}  
+.THIS .custom-disabled input  
+{ 
+    background-color: rgb(242, 242, 242);  
+    color: rgb(110,110,110);  
+    cursor: not-allowed;  
+}  
 
 ## How to leverage the aura:doneRendering event and when is it necessary?
 
-A lightning:inputField component is not a single HTML element in the final DOM-level markup rendered in the browser. To apply styles individually, we need to be able to have controller and helper javascript code that can manipulate these individual elements. If you are ever trying to apply CSS classes to do something like disable fields from an initial state during the init phase it's not going to work. This needs to be done in a later phase. Meet our friend doneRendering.
+A lightning:inputField component is not a single element in the browser's DOM. To apply styles we need to use the util class like this: $A.util.addClass(component.find('level1'), '.slds-required'); with a caveat of doing late enough in the game. init is too soon. Meet our friend doneRendering which can help use do things like disable fields on an initial load state.
 
 ### Aura Markup in .cmp file
 
@@ -125,6 +125,8 @@ Check out the tab in the demo app called 'Validation Test' (see below for instal
 ## Styles look good but how is validation going to happen?
 
 This is where JavaScript magic and your imagination comes in. If you look at the second tab called 'Input Field Val.' this is a style based approach which emulates the real-time demo but uses lightning:inputField.
+
+---
 
 # Demo code overview
 
