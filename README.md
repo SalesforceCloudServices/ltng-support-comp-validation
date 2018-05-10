@@ -45,7 +45,8 @@ If push comes to shove, you can always add in Lightning Design System classes, t
 
 # Quick Demo of using inputField and CSS for validation  (when push comes to shove)
 
-Coming soon
+## Demo
+Graphics coming soon
 
 # Approach
 
