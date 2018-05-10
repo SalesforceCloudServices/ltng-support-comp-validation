@@ -1,10 +1,8 @@
-# Overview
-
-Quick Demo of using realtime validation
+# Quick Demo of using realtime validation
 
 **Please note: sample code (metadata api and dx formats) are available in the [mdapi](./mdapi) and [dx](./dx) folders above**
 
-# Demo
+## Demo
 
 ![Gif Demo](doc/images/demo.gif)
 
@@ -19,7 +17,7 @@ Please see
 * [lightning:inputField - Lightning Components Developer Guide](https://developer.salesforce.com/docs/atlas.en-us.lightning.meta/lightning/aura_compref_lightning_inputField.htm?search_text=lightning:inputField)
 * [Adding css classes](https://developer.salesforce.com/docs/atlas.en-us.lightning.meta/lightning/js_cb_styles.htm)
 
-# TLDR How
+## TLDR How
 
 You can mark components required at runtime by setting the `v.required` attribute
 
@@ -41,20 +39,26 @@ Additional documentation [found here](https://developer.salesforce.com/docs/atla
 If push comes to shove, you can always add in Lightning Design System classes, through  [See Here for more details](https://developer.salesforce.com/docs/atlas.en-us.lightning.meta/lightning/js_cb_styles.htm)
 
 	ex:
-	$A.util.addClass(component.find('level1'), '.slds-required');
+	$A.util.addClass(component.find('level1'), 'slds-required');
 
 ---
 
-# Quick Demo of using inputField and CSS for validation (when push comes to shove)
+# Quick Demo of using inputField and CSS for validation  (when push comes to shove)
 
-In order to use the inputField approach you will need to
-1. Create a few custom CSS classes
-2. Make use of the aura:doneRendering event
-3. Use some javaScript magic
+Coming soon
 
-## CSS classes needed
+# Approach
 
-A lightning:inputField component is not a single HTML element in the final markup rendered in the browser just because it may look like one in your aura markup. In order to apply a style like 'disabled' to only the input and not the label, a CSS selector approach is used. Case in point, see the class '.THIS .custom-disabled input' below. Remember that with lightning:inputField there is no v.disabled property to set. Required and disabled behaviors require some custom classes, but the error class can be used directly from the lightning design system by applying 'slds-has-error' which you can read more about [here](https://developer.salesforce.com/docs/atlas.en-us.lightning.meta/lightning/js_cb_styles.htm).
+In order to use the inputField approach you will need
+1. A few custom CSS classes
+2. aura:doneRendering event
+3. JavaScript magic
+
+## CSS classes
+
+Many lightning components are not a single HTML element in the final browser markup. In order to apply a 'disabled' look to only the input a CSS selector approach is used. Case in point, see the class '.THIS .custom-disabled input' below. There is no v.disabled property to set in a lightning:inputField. 
+
+Required and disabled behaviors require custom classes which borrow from the style guide, but the error class can be used directly from the lightning design system by applying 'slds-has-error' which you can read more about [here](https://developer.salesforce.com/docs/atlas.en-us.lightning.meta/lightning/js_cb_styles.htm).
 
 	ex:
 	.THIS  
@@ -83,11 +87,11 @@ A lightning:inputField component is not a single HTML element in the final marku
 		cursor: not-allowed;  
 	}  
 
-## How to leverage the aura:doneRendering event and when is it necessary?
+## aura:doneRendering - when is it necessary?
 
-A lightning:inputField component is not a single element in the browser's DOM. To apply styles we need to use the util class like this: $A.util.addClass(component.find('level1'), '.slds-required'); with a caveat of doing late enough in the game. init is too soon. Meet our friend doneRendering which can help use do things like disable fields on an initial load state.
+To successfully apply styles on an initial load using the util class like this: $A.util.addClass(component.find('level1'), '.slds-required'); we need to apply them late enough in the game. Meet our friend doneRendering which can help use do things like disable fields on an initial load state.
 
-### Aura Markup in .cmp file
+### Aura markup for aura:doneRendering
 
 Here is a basic example of how to apply the doneRendering to markup:
 
@@ -99,12 +103,9 @@ Here is a basic example of how to apply the doneRendering to markup:
 		initial load when they are not available in the init phase -->  
 	<aura:handler event="aura:doneRendering" action="{!c.doneRendering}"/>  
 
-### Controller Code in .js file
+### Controller Code in .js file for aura:doneRendering
 
-Here is the doneRendering function in controller code which corresponds to the markup above:
-<aura:handler event="aura:doneRendering" action="{!c.doneRendering}"/>
-
-NOTE: The check on "v.doneRenderingIsComplete" is necessary to prevent an infinite loop. [See here for more details about doneRendering](https://developer.salesforce.com/docs/atlas.en-us.lightning.meta/lightning/ref_aura_doneRendering.htm for more details)
+_NOTE_: The check on "v.doneRenderingIsComplete" is necessary to prevent an infinite loop. [See here for more details about doneRendering](https://developer.salesforce.com/docs/atlas.en-us.lightning.meta/lightning/ref_aura_doneRendering.htm for more details)
 
 	ex:
 	//Needed to emulate an initial load state of disabled
@@ -115,19 +116,17 @@ NOTE: The check on "v.doneRenderingIsComplete" is necessary to prevent an infini
 			//Set this first thing to prevent any potential racing or looping
 			component.set("v.doneRenderingIsComplete", true);
 			console.info("doneRendering ran");
-			//Nevermind lockByLevel for now, you can see it in the demo where it essentially applies disabled CSS to input elements
-			//doing something like this: $A.util.addClass(component.find('level1'), '.slds-required');
-			helper.lockByLevel(component, helper, 2, true);
+			//TODO: Do something like this: $A.util.addClass(component.find('level1'), 'custom-disabled');
 		}
 	},
 
-## Can I see just the CSS/style pieces working without investing much time into coding on a custom app?
+## Can I see just the CSS/style pieces in action?
 
-Check out the tab in the demo app called 'Validation Test' (see below for installation instructions). This provides a simple example of toggling styles for disabled, required and error states and shows you some boilerplate controller and helper JS code which you can expand upon.
+Check out the tab in the demo app called 'Validation Test' (installation instructions below). This provides a simple example of toggling styles for disabled/required/error states and shows you some boilerplate JS code suitable for expansion.
 
 ## Styles look good but how is validation going to happen?
 
-This is where JavaScript magic and your imagination comes in. If you look at the second tab called 'Input Field Val.' this is a style based approach which emulates the real-time demo but uses lightning:inputField.
+This is where JS magic and your imagination comes in. If you look at the second tab called 'Input Field Val.' this is a style based approach which emulates the real-time demo but uses lightning:inputField instead of lightning:input components. 
 
 ---
 
