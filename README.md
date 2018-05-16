@@ -43,21 +43,126 @@ If push comes to shove, you can always add in Lightning Design System classes, t
 
 ---
 
-# Quick Demo of using inputField and CSS for validation  (when push comes to shove)
+# Quick Demo of using inputField and CSS for validation (when push comes to shove)
 
 ## Demo
 Graphics coming soon
 
 ## Approach
 
-In order to use the inputField approach you will need
+In order to use the inputField approach you will need to use:
 1. A few custom CSS classes
-2. aura:doneRendering event
-3. JavaScript magic
+2. The aura:doneRendering event
+3. Some lightning JS code
 
-### CSS classes
+## Applying the styling for the various states
 
-Many lightning components are not a single HTML element in the final browser markup. In order to apply a 'disabled' look to only the input a CSS selector approach is used. Case in point, see the class '.THIS .custom-disabled input' below. There is no v.disabled property to set in a lightning:inputField. 
+__Note__: All of these examples can be seen in the demo tab called "Validation Test."
+
+## Error Appearance
+
+To apply the "Error" styling to a lightning inputField (lightning:inputField) you can use the built-in slds-has-error CSS style and apply it to the individual input field. This is the styling you see when a field is required but not completed - typically a red border around the field. No CSS file changes are required but JS code is needed to apply the style.
+
+	ex:
+	$A.util.addClass(component.find('auraIdForTheComponent'), 'slds-has-error');
+
+Removing it can be done by calling the removeClass metho.
+
+	ex:
+	$A.util.removeClass(component.find('auraIdForTheComponent'), 'slds-has-error');
+
+Detecting whether the inputField is in an error state can be done with the hasClass method:
+
+	ex:
+	if($A.util.hasClass(component.find('auraIdForTheComponent'), 'slds-has-error'))
+	{
+		//do something
+	}
+
+Here is a single function controller example applying this style based on a radio button selection:
+
+	ex:
+	```html
+	 <aura:attribute name="options" type="List" default="[
+    {'label': 'True', 'value': true},
+    {'label': 'False', 'value': false}
+    ]"/>
+
+	<lightning:radioGroup 
+		aura:id="toggleInputFieldRequired"
+		name="toggleInputFieldRequired"
+		label=""
+		options="{! v.options }"
+		value="{! v.value }"
+		type="button"
+		onchange="{!c.toggleInputFieldRequired}"
+	/>
+
+	<lightning:inputField
+		aura:id="inputField"
+		fieldName="Level1__c"
+		value="{!v.lightningInputFieldValue}"
+		onchange="{!c.emulateDisabledInput}"
+	/>
+
+	```
+
+	```javascript
+	//From the controller JS file
+	toggleInputFieldError : function(component, event, helper)
+    {
+        console.info('toggleInputFieldError ran');
+        let myBoolean = helper.parseBoolean(event.getParam('value'));
+        if(myBoolean === true)
+        {
+            helper.applyError(component, helper, 'inputField');
+        }
+        else
+        {
+            helper.removeError(component, helper, 'inputField')
+        }
+    }
+
+	//From the helper JS file
+	cssForError : 'slds-has-error',
+	
+	/**
+	 * Get a boolean from a string doing a case-insensitive comparison
+	 * @param inputValue (String) - The string to parse into an actual boolean to avoid JS 'truthiness'
+	 * */ 
+	parseBoolean : function(inputValue)
+	{
+		 return inputValue.toUpperCase() === 'TRUE';
+	},
+	
+	/**
+	 * Apply error styles to an inputField
+	 * @param component (Object) - Lightning framework object 
+     * @param helper (Object) - Lightning framework object
+     * @param auraId (String) - The aura:id of the component to change like 'input' or 'inputField'
+	 * */
+	applyError  : function(component, helper, auraId)
+    {
+        console.info('applyError ran', auraId);
+        $A.util.addClass(component.find(auraId), this.cssForError);
+	},
+
+	/**
+	 * Remove error styles from an inputField
+	 * @param component (Object) - Lightning framework object 
+     * @param helper (Object) - Lightning framework object
+     * @param auraId (String) - The aura:id of the component to change like 'input' or 'inputField'
+	 * */
+	removeError : function(component, helper, auraId)
+    {
+        console.info('removeError ran', auraId);
+        $A.util.removeClass(component.find(auraId), this.cssForError);
+	}
+	```
+
+## Required Styling
+
+Many lightning components are not a single HTML element in the final browser markup. For example, in order to apply a 'disabled' look to only the input a CSS selector approach is used. Case in point, see the class '.THIS .custom-disabled input' below. There is no v.disabled property to set in a lightning:inputField. 
 
 Required and disabled behaviors require custom classes which borrow from the style guide, but the error class can be used directly from the lightning design system by applying 'slds-has-error' which you can read more about [here](https://developer.salesforce.com/docs/atlas.en-us.lightning.meta/lightning/js_cb_styles.htm).
 
