@@ -2,9 +2,17 @@
     <!-- attributes -->
     <aura:attribute name="lightningInputValue" type="String" default="I'm a lightning:input (beta) component" />
     <aura:attribute name="lightningInputFieldValue" type="String" default="I'm a lightning:inputField component" />
+    <aura:attribute name="doneRenderingIsComplete" type="Boolean" default="false" />
+    <aura:attribute name="options" type="List" default="[
+    {'label': 'True', 'value': true},
+    {'label': 'False', 'value': false}
+    ]"/>
     <!-- handlers -->
     <aura:handler name="init" value="{!this}" action="{!c.init}" />
     <!-- events -->
+    <!-- The aura:doneRendreing event is needed to set the state of individual DOM elements on the
+        initial load when they are not available in the init phase -->
+    <aura:handler event="aura:doneRendering" action="{!c.doneRendering}"/>
     <!-- elements -->
     <!-- Page Form -->
     <lightning:layout >
@@ -27,169 +35,129 @@
                         <!-- DEMO input (beta) -->
                         <!-- An old-shool table is not the best approach for reactive web but I wanted to keep everything aligned on rows by the respective buttons -->
                         <table border="0" cellpadding="2" cellspacing="2">
-                            <th><td colspan="3">lightning:input (beta) manipulations</td></th>
                             <tr>
-                                <td>Disable/Enable:</td>
-                                <td>
-                                    <lightning:button
-                                        label="Disable" 
-                                        class="slds-m-top--medium"
-                                        variant="brand"
-                                        onclick="{!c.disableInput}"
-                                    />
+                                <td colspan="3">
+                                    <span class="appName slds-context-bar__label-action slds-context-bar__app-name">Demonstration of lightning:input (beta)</span>
+                                    <br />
                                 </td>
+                            </tr>
+                            <tr>
+                                <td>Behavior</td>
+                                <td>Done via</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Disabled</td>
+                                <td>built-in property</td>
                                 <td>
-                                    <lightning:button
-                                        label="Enable" 
-                                        class="slds-m-top--medium"
-                                        variant="brand"
-                                        onclick="{!c.enableInput}"
+                                    <lightning:radioGroup 
+                                        aura:id="toggleInputDisabled"
+                                        name="toggleInputDisabled"
+                                        label=""
+                                        options="{! v.options }"
+                                        value="{! v.value }"
+                                        type="button"
+                                        onchange="{!c.toggleInputDisabled}"
                                     />
                                 </td>
                             </tr>
                             <tr>
-                                <td>Require/Permit:</td>
+                                <td>Required</td>
+                                <td>custom CSS</td>
                                 <td>
-                                    <lightning:button
-                                        label="Require" 
-                                        class="slds-m-top--medium"
-                                        variant="brand"
-                                        onclick="{!c.requireInput}"
-                                    />
-                                </td>
-                                <td>
-                                    <lightning:button
-                                        label="Permit" 
-                                        class="slds-m-top--medium"
-                                        variant="brand"
-                                        onclick="{!c.permitInput}"
+                                    <lightning:radioGroup 
+                                        aura:id="toggleInputRequired"
+                                        name="toggleInputRequired"
+                                        label=""
+                                        options="{!v.options}"
+                                        value="{!v.value}"
+                                        type="button"
+                                        onchange="{!c.toggleInputRequired }"
                                     />
                                 </td>
                             </tr>
                             <tr>
-                                <td>Error/Correct:</td>
+                                <td>Error:</td>
+                                <td>built-in SLDS CSS</td>
                                 <td>
-                                    <lightning:button
-                                        label="Error" 
-                                        class="slds-m-top--medium"
-                                        variant="brand"
-                                        onclick="{!c.errorInput}"
-                                    />
-                                </td>
-                                <td>
-                                    <lightning:button
-                                        label="Correct" 
-                                        class="slds-m-top--medium"
-                                        variant="brand"
-                                        onclick="{!c.correctInput}"
-                                    />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Apply All/Remove All:</td>
-                                <td>
-                                    <lightning:button
-                                        label="Apply" 
-                                        class="slds-m-top--medium"
-                                        variant="brand"
-                                        onclick="{!c.allInput}"
-                                    />
-                                </td>
-                                <td>
-                                    <lightning:button
-                                        label="Remove" 
-                                        class="slds-m-top--medium"
-                                        variant="brand"
-                                        onclick="{!c.removeAllInput}"
+                                    <lightning:radioGroup 
+                                        aura:id="toggleInputError"
+                                        name="toggleInputError"
+                                        label=""
+                                        options="{!v.options}"
+                                        value="{!v.value}"
+                                        type="button"
+                                        onchange="{!c.toggleInputError }"
                                     />
                                 </td>
                             </tr>
                             <tr>
                                 <td colspan="3">
-                                <lightning:input aura:id="input"
-                                    label="lightning:input"
-                                    name="input"
-                                    value="{!v.lightningInputValue}"
-                                />
-                                </td>
-                            </tr>
-                        </table>
-                        <!-- /DEMO input (beta) -->
-                        <hr />
-                        <!-- DEMO inputField -->
-                        <table border="0" cellpadding="2" cellspacing="2">
-                            <th><td colspan="3">lightning:inputField manipulations</td></th>
-                            <tr>
-                                <td>Disable/Enable:</td>
-                                <td>
-                                    <lightning:button
-                                        label="Disable" 
-                                        class="slds-m-top--medium"
-                                        variant="brand"
-                                        onclick="{!c.disableInputField}"
-                                    />
-                                </td>
-                                <td>
-                                    <lightning:button
-                                        label="Enable" 
-                                        class="slds-m-top--medium"
-                                        variant="brand"
-                                        onclick="{!c.enableInputField}"
+                                    <lightning:input aura:id="input"
+                                        label="lightning:input"
+                                        name="input"
+                                        value="{!v.lightningInputValue}"
                                     />
                                 </td>
                             </tr>
                             <tr>
-                                <td>Require/Permit:</td>
-                                <td>
-                                    <lightning:button
-                                        label="Require" 
-                                        class="slds-m-top--medium"
-                                        variant="brand"
-                                        onclick="{!c.requireInputField}"
-                                    />
+                                <td colspan="3">
+                                    <hr />
                                 </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3">
+                                    <span class="appName slds-context-bar__label-action slds-context-bar__app-name">Demonstration of lightning:inputField</span>
+                                    <br />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Behavior</td>
+                                <td>Done via</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Disabled</td>
+                                <td>custom CSS</td>
                                 <td>
-                                    <lightning:button
-                                        label="Permit" 
-                                        class="slds-m-top--medium"
-                                        variant="brand"
-                                        onclick="{!c.permitInputField}"
+                                    <lightning:radioGroup 
+                                        aura:id="toggleInputFieldDisabled"
+                                        name="toggleInputFieldDisabled"
+                                        label=""
+                                        options="{! v.options }"
+                                        value="{! v.value }"
+                                        type="button"
+                                        onchange="{!c.toggleInputFieldDisabled}"
                                     />
                                 </td>
                             </tr>
                             <tr>
-                                <td>Error/Correct:</td>
+                                <td>Required</td>
+                                <td>custom CSS</td>
                                 <td>
-                                    <lightning:button
-                                        label="Error" 
-                                        class="slds-m-top--medium"
-                                        variant="brand"
-                                        onclick="{!c.errorInputField}"
-                                    />
-                                </td>
-                                <td>
-                                    <lightning:button
-                                        label="Correct" 
-                                        class="slds-m-top--medium"
-                                        variant="brand"
-                                        onclick="{!c.correctInputField}"
+                                    <lightning:radioGroup 
+                                        aura:id="toggleInputFieldRequired"
+                                        name="toggleInputFieldRequired"
+                                        label=""
+                                        options="{! v.options }"
+                                        value="{! v.value }"
+                                        type="button"
+                                        onchange="{!c.toggleInputFieldRequired}"
                                     />
                                 </td>
                             </tr>
                             <tr>
-                                <td>Apply All/Remove All:</td>
+                                <td>Error</td>
+                                <td>built-in SLDS CSS</td>
                                 <td>
-                                    <lightning:button label="Apply" 
-                                        class="slds-m-top--medium"
-                                        variant="brand"
-                                        onclick="{!c.allInputField}"
-                                    />
-                                </td>
-                                <td>
-                                    <lightning:button label="Remove" 
-                                        class="slds-m-top--medium"
-                                        variant="brand"
-                                        onclick="{!c.removeAllInputField}"
+                                    <lightning:radioGroup 
+                                        aura:id="toggleInputFieldError"
+                                        name="toggleInputFieldError"
+                                        label=""
+                                        options="{! v.options }"
+                                        value="{! v.value }"
+                                        type="button"
+                                        onchange="{!c.toggleInputFieldError}"
                                     />
                                 </td>
                             </tr>
@@ -203,6 +171,16 @@
                                     />
                                 </td>
                             </tr>
+                            <!--
+                            <tr>
+                                <td colspan="3">
+                                    <lightning:button label="Set value and retrieve it" 
+                                        variant="brand"
+                                        onclick="{!c.emulateDisabledInput}"
+                                    />
+                                </td>
+                            </tr>
+                            -->
                         </table>
                         <!-- / DEMO inputField -->
                         

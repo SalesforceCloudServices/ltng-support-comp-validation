@@ -24,7 +24,7 @@
     {
         if(component.get("v.doneRenderingIsComplete") === false)
         {
-            //Set this first thing to prevent and potential racing
+            //Set this first thing to prevent any potential racing or looping
             component.set("v.doneRenderingIsComplete", true);
             console.info("doneRendering ran");
             //TODO: Set initial values so that we can check for changes later during functions like 'handleLevel1Changed'? I hope we won't need to
