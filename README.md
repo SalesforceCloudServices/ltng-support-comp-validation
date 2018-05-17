@@ -52,7 +52,7 @@ In order to use the inputField approach you will need to use:
 2. Some lightning JS code
 3. Possibly the aura:doneRendering event depending on your use cases
 ## Applying and detecting styles for the various states
-__Note__: All of these examples can be seen in the demo tab called "Validation Test."
+__Note__: All of these examples can be seen in the demo tab called "Style Applications."
 ## Working with _error_ styles
 The built-in ```slds-has-error``` CSS style can be applied to, removed from and detected on an individual input field. This is the apperance you see when a field is required but not completed - typically a red border around the field. No CSS file changes are needed, but JS code is needed. You can read more about the styles [here](https://developer.salesforce.com/docs/atlas.en-us.lightning.meta/lightning/js_cb_styles.htm).
 
@@ -383,7 +383,7 @@ doneRendering : function (component, event, helper)
 ##Known Issues
 Although the disabled appearance is convincing, even showing a 'not allowed' icon on hover, users can still click on the field or type into it. A possible workaround is to check for a disabled state and ignore the input during validation or submission. Other workarounds are stil being investigated to prevent or reverse changes made to the field.
 ## Can I see just the CSS/style pieces in action?
-Check out the tab in the demo app called 'Validation Test' (installation instructions below). This provides a simple example of toggling styles for disabled/required/error states and shows you some boilerplate JS code suitable for expansion.
+Check out the tab in the demo app called "Style Applications" (installation instructions below). This provides a simple example of toggling styles for disabled/required/error states and shows you some boilerplate JS code suitable for expansion.
 ## The styles look good but how is validation going to happen?
 This is where JS magic and your imagination comes in. If you look at the second tab called 'Input Field Val.' this is a style based approach which emulates the real-time demo but uses lightning:inputField instead of lightning:input components. A complete validation routine like this is used:
 ```javascript
