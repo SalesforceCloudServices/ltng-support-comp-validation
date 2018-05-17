@@ -57,4 +57,4 @@
             helper.continueWithValidForm(component, helper);
         }
     }
-})
+});

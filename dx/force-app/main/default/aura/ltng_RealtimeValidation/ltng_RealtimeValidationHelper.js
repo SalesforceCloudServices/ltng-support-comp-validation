@@ -1,15 +1,15 @@
 ({
 	/**
 	 * Whether level1 is unlocked
-	 * @param component (Object) - Lightning framework object 
+	 * @param component (Object) - Lightning framework object
      * @param helper (Object) - Lightning framework object
      * @return (boolean) - true if unlocked or false if otherwise
 	 **/
     isLevel1Unlocked : function(component, helper) {
         console.info('isLevel1Unlocked ran');
-        let check1 = helper.doesComponentHaveValue(component, helper, 'comboBox');
+        var check1 = helper.doesComponentHaveValue(component, helper, 'comboBox');
         console.info("check1", check1);
-        let check2 = helper.doesComponentHaveValue(component, helper, 'level1'); 
+        var check2 = helper.doesComponentHaveValue(component, helper, 'level1');
         console.info("check2", check2);
         return (check1 && check2);
 	},
@@ -20,7 +20,7 @@
      * @param isLocked (boolean) - true for locked / false for not
      **/
     setLevelDisabled : function(component, helper, levelName, isLocked){
-        console.info('setLevelDisabled ran for levelName', levelName);   
+        console.info('setLevelDisabled ran for levelName', levelName);
         component.find(levelName).set("v.disabled", isLocked);
         
         //-- if locking - clear out the value
@@ -57,10 +57,10 @@
 	 **/
     doesComponentHaveValue : function(component, helper, levelName) {
         console.info('doesComponentHaveValue ran for ', levelName);
-        let levelValue = component.find(levelName).get('v.value');
+        var levelValue = component.find(levelName).get('v.value');
         console.info('  levelValue', levelValue);
-        let returnValue = !$A.util.isEmpty(levelValue);
-        console.info('  returnValue', returnValue); 
+        var returnValue = !$A.util.isEmpty(levelValue);
+        console.info('  returnValue', returnValue);
         return returnValue;
 	},
     
@@ -122,4 +122,4 @@
         });
         toastEvent.fire();
     }
-})
+});
