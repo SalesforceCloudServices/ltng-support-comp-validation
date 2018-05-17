@@ -54,8 +54,8 @@
                                         aura:id="toggleInputDisabled"
                                         name="toggleInputDisabled"
                                         label=""
-                                        options="{! v.options }"
-                                        value="{! v.value }"
+                                        options="{!v.options}"
+                                        value="{!v.value}"
                                         type="button"
                                         onchange="{!c.toggleInputDisabled}"
                                     />
