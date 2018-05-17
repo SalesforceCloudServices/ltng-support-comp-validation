@@ -2,7 +2,7 @@
 <CustomTab xmlns="http://soap.sforce.com/2006/04/metadata">
     <description>Created by Lightning App Builder</description>
     <flexiPage>ltng_ValidationTest</flexiPage>
-    <label>Validation Test</label>
-    <mobileReady>true</mobileReady>
+    <label>Style Applications</label>
+    <mobileReady>false</mobileReady>
     <motif>Custom31: Car</motif>
 </CustomTab>
