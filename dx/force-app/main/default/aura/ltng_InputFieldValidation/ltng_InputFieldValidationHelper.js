@@ -56,7 +56,6 @@
         }
         else
         {
-            console.info('DEBUG: This should be enabling the input - IS IT?');
             $A.util.removeClass(inputField, this.cssForDisabled);
         }
     },
