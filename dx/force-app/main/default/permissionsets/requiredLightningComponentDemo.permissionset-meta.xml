@@ -46,11 +46,7 @@
         <visibility>Visible</visibility>
     </tabSettings>
     <tabSettings>
-        <tab>Validation_Test</tab>
-        <visibility>Visible</visibility>
-    </tabSettings>
-    <tabSettings>
-        <tab>ltng_CompValidationBase__c</tab>
+        <tab>Style_Applications</tab>
         <visibility>Visible</visibility>
     </tabSettings>
     <tabSettings>
