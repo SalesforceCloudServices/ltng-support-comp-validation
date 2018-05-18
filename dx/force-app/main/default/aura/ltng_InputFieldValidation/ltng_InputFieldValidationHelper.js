@@ -7,45 +7,45 @@
         
     /**
 	 * Boolean for Whether level1 is unlocked
-     * @param component (Object) - Lightning framework object 
+     * @param component (Object) - Lightning framework object
      * @param helper (Object) - Lightning framework object
 	 * @return (Boolean) - true if unlocked or false if otherwise
 	 **/
     isLevel1Unlocked : function(component, helper)
     {
         console.info('isLevel1Unlocked ran');
-        let doesComboBoxHaveValue = helper.doesComponentHaveValue(component, helper, 'comboBox');
+        var doesComboBoxHaveValue = helper.doesComponentHaveValue(component, helper, 'comboBox');
         console.info("doesComboBoxHaveValue", doesComboBoxHaveValue);
-        let doesLevel1HaveValue = helper.doesComponentHaveValue(component, helper, 'level1'); 
+        var doesLevel1HaveValue = helper.doesComponentHaveValue(component, helper, 'level1');
         console.info("doesLevel1HaveValue", doesLevel1HaveValue);
         return doesComboBoxHaveValue && doesLevel1HaveValue;
     },
     
     /**
      * Locks or Unlocks a specific level
-     * @param component (Object) - Lightning framework object 
+     * @param component (Object) - Lightning framework object
      * @param helper (Object) - Lightning framework object
      * @param levelName (String) - name of the level. ex: level1
      * @param isLocked (Boolean) - true for locked / false for not
      **/
     setLevelDisabled : function(component, helper, levelName, isLocked)
     {
-        console.info('setLevelDisabled ran for levelName', levelName, isLocked);    
+        console.info('setLevelDisabled ran for levelName', levelName, isLocked);
         helper.disableInput(component, helper, component.find(levelName), isLocked);
         //If locking - clear out the value in the field
         if(isLocked)
         {
-            let test = component.find(levelName).get('v.value'); 
+            var test = component.find(levelName).get('v.value');
             console.info('  test', test);
             component.find(levelName).set('v.value', null);
         }
     },
     
     /**
-     * @param component (Object) - Lightning framework object 
+     * @param component (Object) - Lightning framework object
      * @param helper (Object) - Lightning framework object
 	 * @param inputField (Object) - The form element in lightning we want to enable/disable
-     * @param isDisabled (Bbolean) - Toggle for having field disabled or enabled 
+     * @param isDisabled (Bbolean) - Toggle for having field disabled or enabled
      **/
     disableInput : function(component, helper, inputField, isDisabled)
     {
@@ -62,7 +62,7 @@
 
     /**
      * Marks a field as required for input.
-     * @param component (Object) - Lightning framework object 
+     * @param component (Object) - Lightning framework object
      * @param helper (Object) - Lightning framework object
      * @param inputField (Object) - The form element in lightning we want to require/allow
      * @param isRequired (Boolean) - Toggle for having the field required or permitted
@@ -81,7 +81,7 @@
 
     /**
      * Unlocks a level, or sequentially locks subsequent levels.
-     * @param component (Object) - Lightning framework object 
+     * @param component (Object) - Lightning framework object
      * @param helper (Object) - Lightning framework object
 	 * @param level (Integer)
      * @param isLocked (Boolean)
@@ -103,7 +103,7 @@
     
 	/**
 	 * Whether a component has a value
-	 * @param component (Object) - Lightning framework object 
+	 * @param component (Object) - Lightning framework object
      * @param helper (Object) - Lightning framework object
 	 * @param levelName (String) - name of the level. ex: level2
 	 * @return (Boolean) - true if unlocked or false if otherwise
@@ -111,16 +111,16 @@
     doesComponentHaveValue : function(component, helper, levelName)
     {
         console.info('doesComponentHaveValue ran for ', levelName);
-        let levelValue = component.find(levelName).get('v.value');
+        var levelValue = component.find(levelName).get('v.value');
         console.info('  levelValue', levelValue);
-        let returnValue = !$A.util.isEmpty(levelValue);
-        console.info('  returnValue', returnValue); 
+        var returnValue = !$A.util.isEmpty(levelValue);
+        console.info('  returnValue', returnValue);
         return returnValue;
 	},
     
     /**
      * Determines if the form is valid
-     * @param component (Object) - Lightning framework object 
+     * @param component (Object) - Lightning framework object
      * @param helper (Object) - Lightning framework object
 	 * @return (Boolean) - true if valid / false if not
      **/
@@ -141,7 +141,7 @@
         //-- https://salesforce.stackexchange.com/questions/184525/help-me-to-undestand-this-lightning-helper-methods-reduce-showhelpmessageifin#answer-184535
         
         //Array of fields on the form to validate
-        let myFormInputs = [
+        var myFormInputs = [
             component.find('comboBox'),
             component.find('level1'),
             component.find('level2'),
@@ -153,18 +153,19 @@
         //-- please note this issue for clearing errors without clicking on them
         //-- https://success.salesforce.com/ideaView?id=0873A000000CTZOQA4
         
-        let returnValue = true;
-        let invalidFields = [];
-        for(let myFormInput of myFormInputs)
+        var returnValue = true;
+        var invalidFields = [];
+        for(var i=0; i < myFormInputs.length; i++)
         {
+            var myFormInput = myFormInputs[i];
             if(myFormInput.getLocalId() === "comboBox")
             {
                 continue;
             }
 
-            let isComponentRequired = $A.util.hasClass(myFormInput, this.cssForRequired);
-            let isEmpty = $A.util.isEmpty(myFormInput.get('v.value'));
-            let isValid = !isComponentRequired && isEmpty;
+            var isComponentRequired = $A.util.hasClass(myFormInput, this.cssForRequired);
+            var isEmpty = $A.util.isEmpty(myFormInput.get('v.value'));
+            var isValid = !isComponentRequired && isEmpty;
             
             //TODO: Implement something that mimics the showHelpMessageIfInvalid behavior from the input (beta) component
             //Something like this based on the realtime example:
@@ -192,13 +193,13 @@
     
     /**
      * Display the required fields which do not have values
-     * @param component (Object) - Lightning framework object 
+     * @param component (Object) - Lightning framework object
      * @param helper (Object) - Lightning framework object
-     * @param invalidFields (Array) - Lightning framework object  
+     * @param invalidFields (Array) - Lightning framework object
     **/
     displayIncompleteFields : function(component, helper, invalidFields)
     {
-        let toastEvent = $A.get("e.force:showToast");
+        var toastEvent = $A.get("e.force:showToast");
         toastEvent.setParams
         (
             {
@@ -210,7 +211,7 @@
                     {
                         return invalidField.get('v.fieldLabel') || invalidField.get('v.fieldName')
                     }
-                ).join(","), 
+                ).join(","),
             }
         );
         toastEvent.fire();
@@ -218,12 +219,12 @@
 
     /**
      * Really, this can be anything now we know that the form is valid.
-     * @param component (Object) - Lightning framework object 
+     * @param component (Object) - Lightning framework object
      * @param helper (Object) - Lightning framework object
 	 **/
     continueWithValidForm : function(component, helper)
     {
-        let toastEvent = $A.get("e.force:showToast");
+        var toastEvent = $A.get("e.force:showToast");
         toastEvent.setParams
         (
             {
@@ -236,7 +237,7 @@
 
      /**
      * Loads the first demo record from a custom object
-     * @param component (Object) - Lightning framework object 
+     * @param component (Object) - Lightning framework object
      * @param helper (Object) - Lightning framework object
 	 **/
     loadRecord : function(component, helper)
@@ -244,22 +245,22 @@
         console.info('loadRecord ran.');
         // create a one-time use instance of the getInitialRecord action
         // in the server-side controller
-        let action = component.get("c.getInitialRecord");
+        var action = component.get("c.getInitialRecord");
         
-        // Create a callback that is executed after 
+        // Create a callback that is executed after
         // the server-side action returns
         action.setCallback(this, function(response)
         {
             console.info('Initial record called back.');
-            const ERROR = "ERROR";
-            const SUCCESS = "SUCCESS";
-            const INCOMPLETE = "INCOMPLETE";
-            let state = response.getState();
+            var ERROR = "ERROR";
+            var SUCCESS = "SUCCESS";
+            var INCOMPLETE = "INCOMPLETE";
+            var state = response.getState();
             
             if (state === SUCCESS)
             {
-                // You would typically fire a event here to trigger 
-                // client-side notification that the server-side 
+                // You would typically fire a event here to trigger
+                // client-side notification that the server-side
                 // action is complete
                 component.set('v.recordToEdit', response.getReturnValue());
                 //-- disable the other components
@@ -271,7 +272,7 @@
             }
             else if (state === ERROR)
             {
-                let errors = response.getError();
+                var errors = response.getError();
                 if (errors)
                 {
                     if (errors[0] && errors[0].message)
@@ -288,8 +289,8 @@
 
         // optionally set storable, abortable, background flag here
 
-        // A client-side action could cause multiple events, 
-        // which could trigger other events and 
+        // A client-side action could cause multiple events,
+        // which could trigger other events and
         // other server-side action calls.
         // $A.enqueueAction adds the server-side action to the queue.
         $A.enqueueAction(action);
