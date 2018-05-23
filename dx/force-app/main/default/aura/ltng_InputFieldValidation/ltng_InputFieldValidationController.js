@@ -106,14 +106,30 @@
      * @param event (Object) - Lightning framework object
      * @param helper (Object) - Lightning framework object
      */
-    onSubmit  : function(component, event, helper) {
+    onSubmit : function(component, event, helper) {
+        //TODO: Find a workaround so the button continues to work since event.preventDefault() is killing it off
         //Stop the default submit behavior
         event.preventDefault();
-        //Get a rewference to fields and add the combobox value to the fields collection
-        var fields = event.getParam("fields");
-        fields["Status__c"] = component.find('comboBox').get('v.value');
-        //Finish submitting the form with the new field value added using its aura id
-        component.find('recordEditForm').submit(fields);
+        //Get a reference to fields and add the combobox value to the fields collection
+        var eventFields = event.getParam("fields");
+        var field = 'Status__c';
+        if (eventFields.hasOwnProperty(field)) {
+            eventFields[field] = component.find('comboBox').get('v.value');
+            // assign the modified fields back to the event parameters
+            event.setParam("fields", eventFields);
+        }
+                
+        //Validate the data...
+        var isValid = helper.isFormValid(component, helper);
+        
+        
+
+        //...and if successful submit it
+        if(isValid)
+        {
+            //Finish submitting the form (with the new field added) by using its aura id
+            component.find('recordEditForm').submit(eventFields);
+        }
     },
 
      /**
@@ -123,11 +139,10 @@
      * @param helper (Object) - Lightning framework object
      */
     onError: function(component, event, helper){
-        /*
-        var myError = JSON.parse(JSON.stringify(event.getParams())).error;
+        //TODO: Uncomment this code to troubleshoot the error in console
+        //var myError = JSON.parse(JSON.stringify(event.getParams())).error;
         //The console call below will allow you to pry into the error for more details
-        console.error('myError', myError);
-        */
+        //console.error('myError', myError);
     },
 
     /**

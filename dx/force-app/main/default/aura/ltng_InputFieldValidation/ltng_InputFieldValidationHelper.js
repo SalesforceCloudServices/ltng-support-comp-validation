@@ -16,7 +16,7 @@
         var doesComboBoxHaveValue = helper.doesComponentHaveValue(component, helper, 'comboBox');
         var doesLevel1HaveValue = helper.doesComponentHaveValue(component, helper, 'level1');
         var result = doesComboBoxHaveValue && doesLevel1HaveValue;
-        //console.info('  and returned', result);
+        //coconnsole.info('  and returned', result);
         return result;
     },
     
@@ -28,10 +28,6 @@
      **/
     disableInput : function(component, event, helper, levelName, isDisabled) {
         //console.info('disableInput', levelName, isDisabled);
-        var originalValue = component.find(levelName).get('v.value');
-        //console.info('  originalValue', originalValue);
-        var originalValue2 = event.getParams().value;
-        //console.info('  originalValue2', originalValue2);
         if(isDisabled === true) {
             //TODO: Fix the bug in here preventing the cascading field clearing from working
             component.find(levelName).set('v.value', null);
@@ -176,17 +172,15 @@
     displayIncompleteFields : function(component, helper, invalidFields) {
         //TODO: Put this into a lightning message or inline
         var toastEvent = $A.get("e.force:showToast");
-        toastEvent.setParams
-        (
+        toastEvent.setParams(
             {
                 "title": "Invalid Form",
                 "message": "The following fields are required: " +
-                invalidFields.map
-                (
+                invalidFields.map(
                     function(invalidField) {
-                        return invalidField.get('v.fieldLabel') || invalidField.get('v.fieldName')
+                        return invalidField.get('v.fieldLabel') || invalidField.get('v.fieldName');
                     }
-                ).join(","),
+                ).join(",")
             }
         );
         toastEvent.fire();

@@ -171,16 +171,6 @@
                                     />
                                 </td>
                             </tr>
-                            <!--
-                            <tr>
-                                <td colspan="3">
-                                    <lightning:button label="Set value and retrieve it" 
-                                        variant="brand"
-                                        onclick="{!c.emulateDisabledInput}"
-                                    />
-                                </td>
-                            </tr>
-                            -->
                         </table>
                         <!-- / DEMO inputField -->
                         
