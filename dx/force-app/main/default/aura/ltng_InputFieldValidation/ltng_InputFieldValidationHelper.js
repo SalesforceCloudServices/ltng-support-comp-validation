@@ -16,7 +16,7 @@
         var doesComboBoxHaveValue = helper.doesComponentHaveValue(component, helper, 'comboBox');
         var doesLevel1HaveValue = helper.doesComponentHaveValue(component, helper, 'level1');
         var result = doesComboBoxHaveValue && doesLevel1HaveValue;
-        console.info('  and returned', result);
+        //console.info('  and returned', result);
         return result;
     },
     
@@ -27,11 +27,11 @@
      * @param isDisabled (Bbolean) - Toggle for having field disabled or enabled
      **/
     disableInput : function(component, event, helper, levelName, isDisabled) {
-        console.info('disableInput', levelName, isDisabled);
+        //console.info('disableInput', levelName, isDisabled);
         var originalValue = component.find(levelName).get('v.value');
-        console.info('  originalValue', originalValue);
+        //console.info('  originalValue', originalValue);
         var originalValue2 = event.getParams().value;
-        console.info('  originalValue2', originalValue2);
+        //console.info('  originalValue2', originalValue2);
         if(isDisabled === true) {
             //TODO: Fix the bug in here preventing the cascading field clearing from working
             component.find(levelName).set('v.value', null);
@@ -64,7 +64,7 @@
      * @param isLocked (Boolean)
      **/
     lockByLevel : function(component, event, helper, level, isLocked) {
-        console.info('lockByLevel', level, isLocked);
+        //console.info('lockByLevel', level, isLocked);
         helper.disableInput(component, event, helper, "level" + level, isLocked);
         //if locking a level lock the higher levels (lower levels in the display)
         if(isLocked === true){
@@ -82,7 +82,7 @@
 	 * @return (Boolean) - true if it has a value or false otherwise
 	 **/
     doesComponentHaveValue : function(component, helper, levelName) {
-        console.info('doesComponentHaveValue', levelName);
+        //console.info('doesComponentHaveValue', levelName);
         var levelValue = component.find(levelName).get('v.value');
         //console.info('  testing', "'" + levelValue + "'");
         var returnValue = levelValue !== null && !$A.util.isEmpty(levelValue) && !$A.util.hasClass(this.cssForDisabled);
@@ -97,7 +97,7 @@
 	 * @return (Boolean) - true if valid / false if not
      **/
     isFormValid : function(component, helper) {
-        console.info('isFormValid');
+        //console.info('isFormValid');
         //NOTE: similar to the validation found in the
         //Handle Form Submission in an Action Handler section
         //https://trailhead.salesforce.com/modules/lex_dev_lc_basics/units/lex_dev_lc_basics_forms#Tdxn4tBKheading7
@@ -216,7 +216,7 @@
 	 **/
     //TODO: Gut this and use the normal load thing from the lightning:recordEditForm
     loadRecord : function(component, event, helper) {
-        console.info('loadRecord ran.');
+        //console.info('loadRecord ran.');
         // create a one-time use instance of the getInitialRecord action
         // in the server-side controller
         var action = component.get("c.getInitialRecord");
@@ -224,7 +224,7 @@
         // Create a callback that is executed after
         // the server-side action returns
         action.setCallback(this, function(response) {
-            console.info('Initial record called back.');
+            //console.info('Initial record called back.');
             var ERROR = "ERROR";
             var SUCCESS = "SUCCESS";
             var INCOMPLETE = "INCOMPLETE";
@@ -243,10 +243,10 @@
                 var errors = response.getError();
                 if (errors) {
                     if (errors[0] && errors[0].message) {
-                        console.log("Error message: " + errors[0].message);
+                        //console.log("Error message: " + errors[0].message);
                     }
                 } else {
-                    console.log("Unknown error");
+                    //console.log("Unknown error");
                 }
             }
         });

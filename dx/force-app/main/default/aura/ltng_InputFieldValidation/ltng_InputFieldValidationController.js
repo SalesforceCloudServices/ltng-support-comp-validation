@@ -50,7 +50,7 @@
         helper.lockByLevel(component, event, helper, 2, !isLevelUnlocked);
         //-- ONLY make level1 required if the combo value is finished
         var comboValue = component.find('comboBox').get('v.value');
-        var isLevelUnlocked = comboValue === 'finished';
+        isLevelUnlocked = comboValue === 'finished';
         //component.find('level1').set('v.required', isLevel1Required);
         helper.requireInput(component, helper, component.find('level1'), isLevelUnlocked);
     },
@@ -123,10 +123,11 @@
      * @param helper (Object) - Lightning framework object
      */
     onError: function(component, event, helper){
+        /*
         var myError = JSON.parse(JSON.stringify(event.getParams())).error;
-        alert('An error has occurred. You should adjust the call below to show it in the console. Details\n' + JSON.stringify(myError));
         //The console call below will allow you to pry into the error for more details
-        //console.error('myError', myError);
+        console.error('myError', myError);
+        */
     },
 
     /**

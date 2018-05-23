@@ -1,6 +1,6 @@
 ({
     init : function(component, event, helper) {
-        console.info('init ran');
+        //console.info('init ran');
     },
     
     /**
@@ -11,20 +11,20 @@
         if(component.get("v.doneRenderingIsComplete") === false) {
             //Set this first thing to prevent any potential racing or looping
             component.set("v.doneRenderingIsComplete", true);
-            console.info("doneRendering ran");
+            //console.info("doneRendering ran");
         }
     },
 
     //Use cases for lightning:input (beta) component
     toggleInputDisabled : function(component, event, helper) {
-        console.info('toggleInputDisabled ran');
+        //console.info('toggleInputDisabled');
         var myBoolean = helper.parseBoolean(event.getParam('value'));
         //input (beta) has an actual disabled property we can leverage
         component.find('input').set('v.disabled', myBoolean);
     },
 
     toggleInputRequired : function(component, event, helper) {
-        console.info('toggleInputRequired ran');
+        //console.info('toggleInputRequired ran');
         var myBoolean = helper.parseBoolean(event.getParam('value'));
         if(myBoolean === true) {
             helper.applyRequired(component, helper, 'input');
@@ -34,7 +34,7 @@
     },
 
     toggleInputError : function(component, event, helper) {
-        console.info('toggleInputError ran');
+        //console.info('toggleInputError ran');
         var myBoolean = helper.parseBoolean(event.getParam('value'));
         if(myBoolean === true) {
             helper.applyError(component, helper, 'input');
@@ -44,7 +44,7 @@
     },
     
     toggleInputFieldDisabled : function(component, event, helper) {
-        console.info('toggleInputFieldDisabled ran');
+        //console.info('toggleInputFieldDisabled ran');
         var myBoolean = helper.parseBoolean(event.getParam('value'));
         if(myBoolean === true) {
             helper.applyDisabled(component, helper, 'inputField');
@@ -54,7 +54,7 @@
     },
 
     toggleInputFieldRequired : function(component, event, helper) {
-        console.info('toggleInputFieldRequired ran');
+        //console.info('toggleInputFieldRequired ran');
         var myBoolean = helper.parseBoolean(event.getParam('value'));
         if(myBoolean === true) {
             helper.applyRequired(component, helper, 'inputField');
@@ -64,7 +64,7 @@
     },
 
     toggleInputFieldError : function(component, event, helper) {
-        console.info('toggleInputFieldError ran');
+        //console.info('toggleInputFieldError ran');
         var myBoolean = helper.parseBoolean(event.getParam('value'));
         if(myBoolean === true) {
             helper.applyError(component, helper, 'inputField');

@@ -6,11 +6,11 @@
      * @return (boolean) - true if unlocked or false if otherwise
 	 **/
     isLevel1Unlocked : function(component, helper) {
-        console.info('isLevel1Unlocked ran');
+        //console.info('isLevel1Unlocked ran');
         var check1 = helper.doesComponentHaveValue(component, helper, 'comboBox');
-        console.info("check1", check1);
+        //console.info("check1", check1);
         var check2 = helper.doesComponentHaveValue(component, helper, 'level1');
-        console.info("check2", check2);
+        //console.info("check2", check2);
         return (check1 && check2);
 	},
     
@@ -20,7 +20,7 @@
      * @param isLocked (boolean) - true for locked / false for not
      **/
     setLevelDisabled : function(component, helper, levelName, isLocked){
-        console.info('setLevelDisabled ran for levelName', levelName);
+        //console.info('setLevelDisabled ran for levelName', levelName);
         component.find(levelName).set("v.disabled", isLocked);
         
         //-- if locking - clear out the value
@@ -37,7 +37,7 @@
      * @param isLocked (boolean)
      **/
     lockByLevel : function(component, helper, levelNum, isLocked){
-        console.info('lockByLevel ran');
+        //console.info('lockByLevel ran');
         helper.setLevelDisabled(component, helper, "level" + levelNum, isLocked);
         
         //-- if locking a lower level, lock the upper levels too
@@ -56,11 +56,11 @@
 	 * @return (boolean) - true if unlocked or false if otherwise
 	 **/
     doesComponentHaveValue : function(component, helper, levelName) {
-        console.info('doesComponentHaveValue ran for ', levelName);
+        //console.info('doesComponentHaveValue ran for ', levelName);
         var levelValue = component.find(levelName).get('v.value');
-        console.info('  levelValue', levelValue);
+        //console.info('  levelValue', levelValue);
         var returnValue = !$A.util.isEmpty(levelValue);
-        console.info('  returnValue', returnValue);
+        //console.info('  returnValue', returnValue);
         return returnValue;
 	},
     
@@ -71,7 +71,7 @@
      * @return (boolean) - true if valid / false if not
      **/
     isFormValid : function(component, helper){
-        console.info('isFormValid ran');
+        //console.info('isFormValid ran');
         //-- NOTE: similar to the validation found in the
         //-- Handle Form Submission in an Action Handler section
         //-- https://trailhead.salesforce.com/modules/lex_dev_lc_basics/units/lex_dev_lc_basics_forms#Tdxn4tBKheading7
@@ -114,7 +114,7 @@
      * Really, this can be anything now we know the form is valid.
      **/
     continueWithValidForm : function(component, helper){
-        console.info('continueWithValidForm ran');
+        //console.info('continueWithValidForm ran');
         var toastEvent = $A.get("e.force:showToast");
         toastEvent.setParams({
             "title": "Valid Form",

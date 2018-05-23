@@ -21,7 +21,7 @@
      * @param auraId (String) - The aura:id of the component to change like 'input' or 'inputField'
 	 * */
 	applyDisabled  : function(component, helper, auraId) {
-        console.info('applyDisabled ran', auraId);
+        //console.info('applyDisabled ran', auraId);
         $A.util.addClass(component.find(auraId), this.cssForDisabled);
 	},
 
@@ -32,7 +32,7 @@
      * @param auraId (String) - The aura:id of the component to change like 'input' or 'inputField'
 	 * */
 	removeDisabled : function(component, helper, auraId) {
-        console.info('removeDisabled ran', auraId);
+        //console.info('removeDisabled ran', auraId);
         $A.util.removeClass(component.find(auraId), this.cssForDisabled);
 	},
 
@@ -43,7 +43,7 @@
      * @param auraId (String) - The aura:id of the component to change like 'input' or 'inputField'
 	 * */
 	applyRequired : function(component, helper, auraId) {
-        console.info('applyRequired ran', auraId);
+        //console.info('applyRequired ran', auraId);
         $A.util.addClass(component.find(auraId), this.cssForRequired);
 	},
 
@@ -54,7 +54,7 @@
      * @param auraId (String) - The aura:id of the component to change like 'input' or 'inputField'
 	 * */
 	removeRequired : function(component, helper, auraId) {
-	    console.info('removeRequired ran', auraId);
+	    //console.info('removeRequired ran', auraId);
         $A.util.removeClass(component.find(auraId), this.cssForRequired);
 	},
 
@@ -65,7 +65,7 @@
      * @param auraId (String) - The aura:id of the component to change like 'input' or 'inputField'
 	 * */
 	applyError  : function(component, helper, auraId) {
-        console.info('applyError ran', auraId);
+        //console.info('applyError ran', auraId);
         $A.util.addClass(component.find(auraId), this.cssForError);
 	},
 
@@ -76,7 +76,7 @@
      * @param auraId (String) - The aura:id of the component to change like 'input' or 'inputField'
 	 * */
 	removeError : function(component, helper, auraId) {
-        console.info('removeError ran', auraId);
+        //console.info('removeError ran', auraId);
         $A.util.removeClass(component.find(auraId), this.cssForError);
 	},
 
