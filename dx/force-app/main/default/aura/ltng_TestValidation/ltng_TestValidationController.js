@@ -12,7 +12,6 @@
             //Set this first thing to prevent any potential racing or looping
             component.set("v.doneRenderingIsComplete", true);
             console.info("doneRendering ran");
-            //TODO: Can we add a DOM level event handler like onclick/onfocus/onblur to prevent editing?
         }
     },
 

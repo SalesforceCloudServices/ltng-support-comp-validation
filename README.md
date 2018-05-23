@@ -368,17 +368,21 @@ Here is a basic example of how to apply the ```doneRendering``` to aura markup:
 ___Note___: The check on ```v.doneRenderingIsComplete``` is necessary to prevent an infinite loop. [See here](https://developer.salesforce.com/docs/atlas.en-us.lightning.meta/lightning/ref_aura_doneRendering.htm) for more details.
 
 ```javascript
-//Needed to emulate an initial load state of disabled
-doneRendering : function (component, event, helper)
-{
-	if(component.get("v.doneRenderingIsComplete") === false)
-	{
+/**
+ * This is needed to emulate styles on an initial load state such as a disabled. Init happens too soon to apply style because rendering is not yet complete and
+ * the DOM is not accessible.
+ * @param component (Object) - Lightning framework object
+ * @param event (Object) - Lightning framework object
+ * @param helper (Object) - Lightning framework object
+ */
+doneRendering : function (component, event, helper) {
+	if(component.get("v.doneRenderingIsComplete") === false){
 		//Set this first thing to prevent any potential racing or looping
 		component.set("v.doneRenderingIsComplete", true);
 		console.info("doneRendering ran");
-		//TODO: Do something like this: $A.util.addClass(component.find('level1'), 'custom-disabled');
+		//Now you can Do something like this: $A.util.addClass(component.find('level1'), 'custom-disabled');
 	}
-},
+}
 ```
 ##Known Issues
 Although the disabled appearance is convincing, even showing a 'not allowed' icon on hover, users can still click on the field or type into it. A possible workaround is to check for a disabled state and ignore the input during validation or submission. Other workarounds are stil being investigated to prevent or reverse changes made to the field.
@@ -389,16 +393,15 @@ This is where JS magic and your imagination comes in. If you look at the second 
 ```javascript
 /**
  * Determines if the form is valid
- * @param component (Object) - Lightning framework object 
+ * @param component (Object) - Lightning framework object
  * @param helper (Object) - Lightning framework object
  * @return (Boolean) - true if valid / false if not
  **/
-isFormValid : function(component, helper)
-{
-	console.info('isFormValid ran');
-		
+isFormValid : function(component, helper) {
+	console.info('isFormValid');
+	
 	//Array of fields on the form to validate
-	let myFormInputs = [
+	var myFormInputs = [
 		component.find('comboBox'),
 		component.find('level1'),
 		component.find('level2'),
@@ -407,37 +410,41 @@ isFormValid : function(component, helper)
 		component.find('level5')
 	];
 	
-	let returnValue = true;
-	let invalidFields = [];
-	for(let myFormInput of myFormInputs)
-	{
-		if(myFormInput.getLocalId() === "comboBox")
-		{
+	//Overall validation status of the form
+	var returnValue = true;
+	//List for tracking the invalid fields as we loop through
+	var invalidFields = [];
+	for(var i=0; i < myFormInputs.length; i++) {
+		var myFormInput = myFormInputs[i];
+		
+		//The comboBox always has a value even if it's just "New" so skip that one in our loop
+		if(myFormInput.getLocalId() === "comboBox") {
 			continue;
 		}
 
-		let isComponentRequired = $A.util.hasClass(myFormInput, this.cssForRequired);
-		let isEmpty = $A.util.isEmpty(myFormInput.get('v.value'));
-		let isValid = !isComponentRequired && isEmpty;
+		//Is the component in question required (by checking the CSS style)?
+		var isComponentRequired = $A.util.hasClass(myFormInput, this.cssForRequired);
+		//Is the component in question empty?
+		var isEmpty = $A.util.isEmpty(myFormInput.get('v.value'));
+		//If the component is not required -OR- the component is both required and populated (not empty) it is valid
+		var isValid = !isComponentRequired || (isComponentRequired && !isEmpty);
 		
-		//TODO: Implement something that mimics the showHelpMessageIfInvalid behavior from the input (beta) component
-		//Something like this based on the realtime example:
-		//<div class="slds-form-element__help" role="alert" id="829:0-message" data-aura-rendered-by="998:0">Complete this field</div>
-		//myFormInput.showHelpMessageIfInvalid();
 		//For now, just collect the invalid fields and then show some toast with a summary of the misses
-		if(!isValid)
-		{
+		if(!isValid) {
 			//If anything is bad the whole function return is bad
 			returnValue = false;
+			//Apply the visual styles indicating which fields are invalid...
 			$A.util.addClass(myFormInput, this.cssForError);
+			//...and track them in the array
 			invalidFields.push(myFormInput);
-			//invalidFieldNames.push(myFormInput.getLocald());
+		} else {
+			//Remove the visual styles when the component is valid
+			$A.util.removeClass(myFormInput, this.cssForError);
 		}
 	}
 	
-	//Show our misses with toast
-	if(!returnValue)
-	{
+	//Show our misses when the form is invalid
+	if(!returnValue) {
 		helper.displayIncompleteFields(component, helper, invalidFields);
 	}
 

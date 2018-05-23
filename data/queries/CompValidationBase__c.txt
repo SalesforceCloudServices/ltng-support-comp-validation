@@ -1,1 +1,1 @@
-SELECT ID, Name FROM ltng_CompValidationBase__c 
+SELECT ID, Name, Level1__c,Level2__c, Level3__c, Level4__c, Level5__c, Status__c FROM ltng_CompValidationBase__c 

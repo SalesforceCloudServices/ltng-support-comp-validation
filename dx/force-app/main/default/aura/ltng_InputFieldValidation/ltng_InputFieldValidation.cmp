@@ -1,54 +1,47 @@
 <!--
 /**
- * Demo for working with multiple stages of required picklists.
+ * Lightning demo showing:
+ * 1. Lightning inputField validation in a Lightning recordEditForm
+ * 2. Conditional inputField validation based on picklists requiring data or allowing its absence
+ * 3. Locking and unlocking levels based on form element changes
+ * 4. Enrichment of save data with components that do not have a fieldName
  * @component ltng_InputFieldValidation
  **/
 -->
-<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" access="global">
-
-    <!-- attributes -->
-    <!--
-    <aura:attribute name="level1" type="String" default="" />
-    <aura:attribute name="level2" type="String" default="" />
-    <aura:attribute name="level3" type="String" default="" />
-    <aura:attribute name="level4" type="String" default="" />
-    <aura:attribute name="level5" type="String" default="" />
-    -->
-    <aura:attribute name="recordToEdit" type="String" />
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,force:hasRecordId,lightning:actionOverride" >
+    <!-- attributes --> 
     <aura:attribute name="comboOptions" type="List" default="[]" />
     <aura:attribute name="doneRenderingIsComplete" type="Boolean" default="false" />
+    <aura:attribute name="recordId" type="String" />
     <!-- handlers -->
     <aura:handler name="init" value="{!this}" action="{!c.init}" />
-    <!-- The aura:doneRendreing event is needed to set the state of individual DOM elements on the
-        initial load when they are not available in the init phase -->
+    <!-- The aura:doneRendering event is needed to set the state of individual DOM elements on the initial load since CSS cannot be applied in the init phase -->
     <aura:handler event="aura:doneRendering" action="{!c.doneRendering}"/>
     <!-- events -->
-    <!-- elements -->
-
+    
     <!-- Page Form -->
     <lightning:layout >
         <lightning:layoutItem padding="around-small" size="6">
-            <!-- CREATE NEW EXPENSE -->
+            <!-- CREATE NEW RECORD -->
             <div aria-labelledby="newexpenseform">
 
                 <!-- BOXED AREA -->
                 <fieldset class="slds-box slds-theme--default slds-container--small">
        
-                     <!-- CREATE NEW EXPENSE FORM -->
-                    <lightning:recordEditForm aura:id="recordViewForm" 
-                        recordId="{!v.recordToEdit}"
+                    <!-- CREATE NEW RECORD FORM -->
+                    <lightning:recordEditForm
+                        aura:id="recordEditForm"
+                        recordId="{!v.recordId}"
                         objectApiName="ltng_CompValidationBase__c"
-                        class="slds-form--stacked"
+                        onsuccess="{!c.onSuccess}"
+                        onerror="{!c.onError}"
+                        onsubmit="{!c.onSubmit}"
                     >
-                    <!--
-                    <form>
-                    -->
+                    
                         <lightning:messages />
                         
-                        <!-- Display this alert when the form is not valid -->
-                        <!--<div class="slds-form-element__help" role="alert" aura:id="validationMessage">Please complete the required fields</div>-->
-                        
-                        <lightning:combobox aura:id="comboBox"
+                        <lightning:combobox
+                            aura:id="comboBox"
                             name="status" label="Status"
                             placeholder="Choose Status"
                             value="new"
@@ -56,39 +49,50 @@
                             required="true"
                             onchange="{!c.handleComboBoxChanged}"
                             />
-                        <lightning:inputField aura:id="level1"
+                        <lightning:inputField
+                            aura:id="level1"
                             fieldName="Level1__c"
                             onchange="{!c.handleLevel1Changed}"
                         /> 
-                        <lightning:inputField aura:id="level2"
+                        <lightning:inputField
+                            aura:id="level2"
                             fieldName="Level2__c"
                             onchange="{!c.handleLevel2Changed}"
                         />
-                        <lightning:inputField aura:id="level3"
+                        <lightning:inputField
+                            aura:id="level3"
                             fieldName="Level3__c"
                             onchange="{!c.handleLevel3Changed}"
                         />
-                        <lightning:inputField aura:id="level4"
+                        <lightning:inputField
+                            aura:id="level4"
                             fieldName="Level4__c"
                             onchange="{!c.handleLevel4Changed}"
                         />
-                        <lightning:inputField aura:id="level5"
+                        <lightning:inputField
+                            aura:id="level5"
                             fieldName="Level5__c"
                         />
+                   
                         <lightning:button label="Validate Form" 
                             class="slds-m-top--medium"
                             variant="brand"
                             onclick="{!c.handleValidateFormClicked}"
                         />
-                    <!--</form>-->
+                        
+                        <!--Use the type="submit" methodology so that we ca handle the onsubmit event to popuylate anything else like comboBox values-->
+                        <lightning:button aura:id="submit" type="submit" label="Save Record" class="slds-m-top--medium" />
+
                     </lightning:recordEditForm>
-            
+                    <!-- /CREATE NEW RECORD FORM -->
+
                 </fieldset>
             
             <!-- / BOXED AREA -->
             </div>
-            <!-- / CREATE NEW EXPENSE -->
+            <!-- / CREATE NEW RECORD -->
         </lightning:layoutItem>
     </lightning:layout>
+    <!-- /Page Form -->
 	
 </aura:component>
