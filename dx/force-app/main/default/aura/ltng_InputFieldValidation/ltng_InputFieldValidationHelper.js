@@ -27,10 +27,10 @@
      * @param isDisabled (Bbolean) - Toggle for having field disabled or enabled
      **/
     disableInput : function(component, event, helper, levelName, isDisabled) {
-        //console.info('disableInput', levelName, isDisabled);
+        console.info('disableInput', levelName, isDisabled);
+        //TODO: Fix the bug in here preventing the cascading field clearing from working (when clearing 1 additional levels should clear)
         if(isDisabled === true) {
-            //TODO: Fix the bug in here preventing the cascading field clearing from working
-            component.find(levelName).set('v.value', null);
+            component.find(levelName).set('v.value', '');
             $A.util.addClass(component.find(levelName), this.cssForDisabled);
         } else {
             $A.util.removeClass(component.find(levelName), this.cssForDisabled);
@@ -49,6 +49,21 @@
             $A.util.addClass(inputField, this.cssForRequired);
         } else {
             $A.util.removeClass(inputField, this.cssForRequired);
+        }
+    },
+
+    /**
+     * Marks a field as being in error by applying a CSS style change.
+     * @param component (Object) - Lightning framework object
+     * @param helper (Object) - Lightning framework object
+     * @param inputField (Object) - The form element in lightning we want to require/allow
+     * @param isError (Boolean) - Toggle for having the field shown as an error or not
+     **/
+    errorInput : function(component, helper, inputField, isError) {
+        if(isError === true) {
+            $A.util.addClass(inputField, this.cssForError);
+        } else {
+            $A.util.removeClass(inputField, this.cssForError);
         }
     },
 
@@ -137,29 +152,29 @@
             //If the component is not required -OR- the component is both required and populated (not empty) it is valid
             var isValid = !isComponentRequired || (isComponentRequired && !isEmpty);
             
-            //TODO: Implement something that mimics the showHelpMessageIfInvalid behavior from the input (beta) component
-            //Something like this based on the realtime example:
-            //<div class="slds-form-element__help" role="alert" id="829:0-message" data-aura-rendered-by="998:0">Complete this field</div>
-            //myFormInput.showHelpMessageIfInvalid();
-            //For now, just collect the invalid fields and then show some toast with a summary of the misses
+            //Collect any invalid fields
             if(!isValid) {
                 //If anything is bad the whole function return is bad
                 returnValue = false;
                 //Apply the visual styles indicating which fields are invalid...
-                $A.util.addClass(myFormInput, this.cssForError);
+                helper.errorInput(component, helper, myFormInput, true);
                 //...and track them in the array
                 invalidFields.push(myFormInput);
             } else {
                 //Remove the visual styles when the component is valid
-                $A.util.removeClass(myFormInput, this.cssForError);
+                helper.errorInput(component, helper, myFormInput, false);
             }
         }
         
-        //Show our misses when the form is invalid
-        if(!returnValue) {
-            helper.displayIncompleteFields(component, helper, invalidFields);
-        }
-
+        //Map a collection for error display at the component level to us by the fields
+        //Do this last at the end of the routine so it can get cleared if validation passes
+        var myIncompleteFields = invalidFields.map(
+            function(invalidField) {
+                return invalidField.getLocalId();
+            }
+        );
+        component.set("v.requiredFields",  myIncompleteFields);
+        helper.displayIncompleteFields(component, helper, invalidFields);
         return returnValue;
     },
     
@@ -170,20 +185,13 @@
      * @param invalidFields (Array) - Lightning framework object
     **/
     displayIncompleteFields : function(component, helper, invalidFields) {
-        //TODO: Put this into a lightning message or inline
-        var toastEvent = $A.get("e.force:showToast");
-        toastEvent.setParams(
-            {
-                "title": "Invalid Form",
-                "message": "The following fields are required: " +
-                invalidFields.map(
-                    function(invalidField) {
-                        return invalidField.get('v.fieldLabel') || invalidField.get('v.fieldName');
-                    }
-                ).join(",")
+        for(var i=0; i < invalidFields.length; i++){
+            //Update inline messaging if the component is there
+            var validationMsg = component.find(invalidFields[i].getLocalId() + 'Required');
+            if(validationMsg !== null){
+                validationMsg.updateDisplay();
             }
-        );
-        toastEvent.fire();
+        }
     },
 
     /**
@@ -200,57 +208,5 @@
             }
         );
         toastEvent.fire();
-    },
-
-     /**
-     * Loads the first demo record from a custom object
-     * @param component (Object) - Lightning framework object
-     * @param event (Object) - Lightning framework object
-     * @param helper (Object) - Lightning framework object
-	 **/
-    //TODO: Gut this and use the normal load thing from the lightning:recordEditForm
-    loadRecord : function(component, event, helper) {
-        //console.info('loadRecord ran.');
-        // create a one-time use instance of the getInitialRecord action
-        // in the server-side controller
-        var action = component.get("c.getInitialRecord");
-        
-        // Create a callback that is executed after
-        // the server-side action returns
-        action.setCallback(this, function(response) {
-            //console.info('Initial record called back.');
-            var ERROR = "ERROR";
-            var SUCCESS = "SUCCESS";
-            var INCOMPLETE = "INCOMPLETE";
-            var state = response.getState();
-            
-            if (state === SUCCESS) {
-                // You would typically fire a event here to trigger
-                // client-side notification that the server-side
-                // action is complete
-                component.set('v.recordToEdit', response.getReturnValue());
-                //-- disable the other components
-                helper.lockByLevel(component, event, helper, 2, true);
-            } else if (state === INCOMPLETE) {
-                // do something
-            } else if (state === ERROR) {
-                var errors = response.getError();
-                if (errors) {
-                    if (errors[0] && errors[0].message) {
-                        //console.log("Error message: " + errors[0].message);
-                    }
-                } else {
-                    //console.log("Unknown error");
-                }
-            }
-        });
-
-        // optionally set storable, abortable, background flag here
-
-        // A client-side action could cause multiple events,
-        // which could trigger other events and
-        // other server-side action calls.
-        // $A.enqueueAction adds the server-side action to the queue.
-        $A.enqueueAction(action);
     }
 });

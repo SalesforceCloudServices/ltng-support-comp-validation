@@ -8,11 +8,13 @@
  * @component ltng_InputFieldValidation
  **/
 -->
-<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,force:hasRecordId,lightning:actionOverride" >
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,force:hasRecordId,lightning:actionOverride" access="global">
     <!-- attributes --> 
     <aura:attribute name="comboOptions" type="List" default="[]" />
     <aura:attribute name="doneRenderingIsComplete" type="Boolean" default="false" />
     <aura:attribute name="recordId" type="String" />
+    <!-- This is for holding the invalid fields so we can emulate the behavior of an alert below the missing field-->
+    <aura:attribute name="requiredFields" type="List" default="[]" />
     <!-- handlers -->
     <aura:handler name="init" value="{!this}" action="{!c.init}" />
     <!-- The aura:doneRendering event is needed to set the state of individual DOM elements on the initial load since CSS cannot be applied in the init phase -->
@@ -33,6 +35,7 @@
                         aura:id="recordEditForm"
                         recordId="{!v.recordId}"
                         objectApiName="ltng_CompValidationBase__c"
+                        class="slds-form--stacked"
                         onsuccess="{!c.onSuccess}"
                         onerror="{!c.onError}"
                         onsubmit="{!c.onSubmit}"
@@ -49,30 +52,60 @@
                             required="true"
                             onchange="{!c.handleComboBoxChanged}"
                             />
+                        
                         <lightning:inputField
                             aura:id="level1"
                             fieldName="Level1__c"
                             onchange="{!c.handleLevel1Changed}"
-                        /> 
+                        />
+                        <!--
+                        This is one way validation can be handled inline by the fields...
+                        Since there is no contains functionality exposed use another component
+                        to check for each fields aura:id being present in the collection
+
+                        TODO: Check out the deep linking aspect:
+                        <aura:if IsTrue='{!v.requiredFieldsObj.Level1__c === true}' >
+                        </aura:if>
+                        -->
+                        <c:auraIfContains items="{!v.requiredFields}" element="level1" aura:id="level1Required"> 
+                            <!-- Correct style recipe for the font: slds-required slds-form-element__help -->
+                            <div class="slds-required slds-form-element__help">Complete this field</div>
+                        </c:auraIfContains>
+                        
                         <lightning:inputField
                             aura:id="level2"
                             fieldName="Level2__c"
                             onchange="{!c.handleLevel2Changed}"
                         />
+                        <c:auraIfContains items="{!v.requiredFields}" element="level2" aura:id="level2Required"> 
+                            <div class="slds-has-error">Complete this field</div>
+                        </c:auraIfContains>
+
                         <lightning:inputField
                             aura:id="level3"
                             fieldName="Level3__c"
                             onchange="{!c.handleLevel3Changed}"
                         />
+                        <c:auraIfContains items="{!v.requiredFields}" element="level3" aura:id="level3Required"> 
+                            <div class="slds-has-error">Complete this field</div>
+                        </c:auraIfContains>
+
                         <lightning:inputField
                             aura:id="level4"
                             fieldName="Level4__c"
                             onchange="{!c.handleLevel4Changed}"
                         />
+                        <c:auraIfContains items="{!v.requiredFields}" element="level4" aura:id="level4Required"> 
+                            <div class="slds-has-error">Complete this field</div>
+                        </c:auraIfContains>
+
                         <lightning:inputField
                             aura:id="level5"
                             fieldName="Level5__c"
                         />
+                        <c:auraIfContains items="{!v.requiredFields}" element="level5" aura:id="level5Required"> 
+                            <div class="slds-has-error">Complete this field</div>
+                        </c:auraIfContains>
                    
                         <lightning:button label="Validate Form" 
                             class="slds-m-top--medium"
@@ -80,8 +113,9 @@
                             onclick="{!c.handleValidateFormClicked}"
                         />
                         
-                        <!--Use the type="submit" methodology so that we ca handle the onsubmit event to popuylate anything else like comboBox values-->
-                        <lightning:button aura:id="submit" type="submit" label="Save Record" class="slds-m-top--medium" />
+                        <!--Use the type="submit" methodology so that we ca handle the onsubmit event to populate anything else like comboBox values-->
+                        <lightning:button aura:id="submit" type="submit" label="Save Record" class="{slds-m-top--medium}" />
+                        <!--<lightning:button aura:id="submit" onclick="{!c.onValidate}" label="Save Record" class="slds-m-top||medium" />-->
 
                     </lightning:recordEditForm>
                     <!-- /CREATE NEW RECORD FORM -->

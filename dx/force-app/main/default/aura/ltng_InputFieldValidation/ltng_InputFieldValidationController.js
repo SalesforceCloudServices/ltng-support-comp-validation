@@ -1,6 +1,6 @@
 ({
     /**
-     * The basic init function to set up the form.
+     * The basic init function to set up the form and some drop down values in the combobox.
      * @param component (Object) - Lightning framework object
      * @param event (Object) - Lightning framework object
      * @param helper (Object) - Lightning framework object
@@ -51,7 +51,7 @@
         //-- ONLY make level1 required if the combo value is finished
         var comboValue = component.find('comboBox').get('v.value');
         isLevelUnlocked = comboValue === 'finished';
-        //component.find('level1').set('v.required', isLevel1Required);
+        //Require input for level 1 inputField when the comboBox is set to finish
         helper.requireInput(component, helper, component.find('level1'), isLevelUnlocked);
     },
 
@@ -64,21 +64,30 @@
     handleLevel1Changed : function(component, event, helper) {
         //console.info('handleLevel1Changed');
         var isLevelUnlocked = !$A.util.isEmpty(event.getParams().value);
+        //This is the only required field (when finished is selected in the picklist) so we do a couple of things here for 'real-time' appearance
+        //1. Flip the red border using the errorInputMethod based on a value being provided
+        //2. Clear the error message based on a value being provided
+        //This pattern could be repeated on the additional levels
+        var hasValue = helper.doesComponentHaveValue(component, helper, 'level1');
+        helper.errorInput(component, helper, component.find('level1'), !hasValue);
+        if(hasValue === true){
+            component.find('level1Required').clearDisplay();
+        }
+        else{
+            component.find('level1Required').updateDisplay();
+        }
         helper.lockByLevel(component, event, helper, 2, !isLevelUnlocked);
     },
-
     handleLevel2Changed : function(component, event, helper) {
         //console.info('handleLevel2Changed');
         var isLevelUnlocked = !$A.util.isEmpty(event.getParams().value);
         helper.lockByLevel(component, event, helper, 3, !isLevelUnlocked);
     },
-
     handleLevel3Changed : function(component, event, helper) {
         //console.info('handleLevel3Changed');
         var isLevelUnlocked = !$A.util.isEmpty(event.getParams().value);
         helper.lockByLevel(component, event, helper, 4, !isLevelUnlocked);
     },
-
     handleLevel4Changed : function(component, event, helper) {
         //console.info('handleLevel4Changed');
         var isLevelUnlocked = !$A.util.isEmpty(event.getParams().value);
@@ -107,26 +116,23 @@
      * @param helper (Object) - Lightning framework object
      */
     onSubmit : function(component, event, helper) {
-        //TODO: Find a workaround so the button continues to work since event.preventDefault() is killing it off
+        //TODO: Find a workaround so the button continues to work since event.preventDefault() is killing it off completely such as when validation fails
         //Stop the default submit behavior
         event.preventDefault();
-        //Get a reference to fields and add the combobox value to the fields collection
+        //Get a reference to fields and add the combobox value to the fields collection if not there
         var eventFields = event.getParam("fields");
         var field = 'Status__c';
-        if (eventFields.hasOwnProperty(field)) {
+        if (!eventFields.hasOwnProperty(field)) {
             eventFields[field] = component.find('comboBox').get('v.value');
-            // assign the modified fields back to the event parameters
+            // assign the modified fields back to the event parameter
             event.setParam("fields", eventFields);
         }
                 
         //Validate the data...
         var isValid = helper.isFormValid(component, helper);
         
-        
-
         //...and if successful submit it
-        if(isValid)
-        {
+        if(isValid) {
             //Finish submitting the form (with the new field added) by using its aura id
             component.find('recordEditForm').submit(eventFields);
         }
@@ -139,10 +145,9 @@
      * @param helper (Object) - Lightning framework object
      */
     onError: function(component, event, helper){
-        //TODO: Uncomment this code to troubleshoot the error in console
-        //var myError = JSON.parse(JSON.stringify(event.getParams())).error;
+        var myError = JSON.parse(JSON.stringify(event.getParams())).error;
         //The console call below will allow you to pry into the error for more details
-        //console.error('myError', myError);
+        console.error('myError', myError);
     },
 
     /**
@@ -156,7 +161,7 @@
         var resultToast = $A.get("e.force:showToast");
         resultToast.setParams({
             "title": "Success!",
-            "message": "Record Saved Successfully. You can do other things like navigate to a home screen from here."
+            "message": "Record Saved Successfully. You can do things like navigate to home from here."
         });
         resultToast.fire();
     }

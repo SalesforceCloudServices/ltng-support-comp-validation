@@ -1,0 +1,16 @@
+<!-- A component used to emulate inline validation around lightning inputFields since collection functions
+are not native to the framework in aura:if expressions yet -->
+<aura:component >
+    <aura:handler name="init" value="{!this}" action="{!c.doValidation}" />
+    <aura:attribute name="items" type="List" />
+    <aura:attribute name="element" type="String" />
+    <aura:attribute name="condition" type="Boolean" />
+    <!-- This is exposed to inline validations can be used -->
+    <aura:method name="updateDisplay" action="{!c.doValidation}" access="PUBLIC"></aura:method>
+    <!-- This method is exposed so the the display can be cleared-->
+    <aura:method name="clearDisplay" action="{!c.clearDisplay}" access="PUBLIC"></aura:method>
+    <!-- Display bod only if our condition has been met -->
+    <aura:if isTrue="{!v.condition}">
+        {!v.body}
+    </aura:if>
+</aura:component>
