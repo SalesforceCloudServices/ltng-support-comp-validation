@@ -145,9 +145,9 @@
      * @param helper (Object) - Lightning framework object
      */
     onError: function(component, event, helper){
-        var myError = JSON.parse(JSON.stringify(event.getParams())).error;
+        //var myError = JSON.parse(JSON.stringify(event.getParams())).error;
         //The console call below will allow you to pry into the error for more details
-        console.error('myError', myError);
+        //console.error('myError', myError);
     },
 
     /**

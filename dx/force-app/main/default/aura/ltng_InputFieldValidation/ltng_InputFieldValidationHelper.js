@@ -27,7 +27,7 @@
      * @param isDisabled (Bbolean) - Toggle for having field disabled or enabled
      **/
     disableInput : function(component, event, helper, levelName, isDisabled) {
-        console.info('disableInput', levelName, isDisabled);
+        //console.info('disableInput', levelName, isDisabled);
         //TODO: Fix the bug in here preventing the cascading field clearing from working (when clearing 1 additional levels should clear)
         if(isDisabled === true) {
             component.find(levelName).set('v.value', '');
