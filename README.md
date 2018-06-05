@@ -361,9 +361,9 @@ removeDisabled : function(component, helper, auraId)
 }
 ```  
 
-##Caveats
+## Caveats
 
-###Setting an initial load state
+### Setting an initial load state
 
 To successfully apply styles on an initial load using the util class like this: ```$A.util.addClass(component.find('level1'), '.slds-required');``` we need to apply them once the components have been rendered in the DOM. This does not work during the init phase. doneRendering can facilitate behaviors like disabling a field on an initial load state.
 
@@ -376,7 +376,7 @@ Here is a basic example of how to apply the ```doneRendering``` to aura markup:
 	initial load when they are not available in the init phase -->  
 <aura:handler event="aura:doneRendering" action="{!c.doneRendering}"/>  
 ```
-####Controller JS  
+#### Controller JS  
 ___Note___: The check on ```v.doneRenderingIsComplete``` is necessary to prevent an infinite loop. [See here](https://developer.salesforce.com/docs/atlas.en-us.lightning.meta/lightning/ref_aura_doneRendering.htm) for more details.
 
 ```javascript
@@ -396,7 +396,7 @@ doneRendering : function (component, event, helper) {
 	}
 }
 ```
-##Known Issues
+## Known Issues
 Although the disabled appearance is convincing, even showing a 'not allowed' icon on hover, users can still click on the field or type into it. A possible workaround is to check for a disabled state and ignore the input during validation or submission. Other workarounds are stil being investigated to prevent or reverse changes made to the field.
 ## Can I see just the CSS/style pieces in action?
 Check out the tab in the demo app called "Style Applications" (installation instructions below). This provides a simple example of toggling styles for disabled/required/error states and shows you some boilerplate JS code suitable for expansion.
