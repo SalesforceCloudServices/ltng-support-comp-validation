@@ -182,7 +182,7 @@ The lightning:inputField component does not have a ```v.required``` property. To
 	float: left;  
 }  
 ```
-###JavaScript code
+### JavaScript code
 This code using ```addClass``` applies the style:
 ```javascript
 $A.util.addClass(component.find('auraIdForTheComponent'), 'custom-required');
@@ -393,9 +393,11 @@ doneRendering : function (component, event, helper) {
 }
 ```
 ## Known Issues
-Although the disabled appearance is convincing (even showing a 'not allowed' icon on hover) users can still click on the field or type into it. A possible workaround is to check for a disabled state and ignore the input during validation or submission. Other workarounds are stil being investigated to prevent or reverse changes made to the field.
+Although the disabled appearance is convincing (even showing a 'not allowed' icon on hover) users can still click on the field or type into it. A possible workaround is to check for a disabled state and ignore the input during validation or submission. Other workarounds are still being investigated to prevent or reverse changes made to the field.
+
 ## Can I see just the CSS/Style pieces in action?
 Check out the tab in the demo app called "Style Applications" (installation instructions below). This provides a simple example of toggling styles for disabled/required/error states and shows you some boilerplate JavaScript code suitable for expansion.
+
 ## The styles look good but how is validation going to happen?
 This is where JavaScript magic and your imagination comes in. If you look at the second tab called 'Input Field Val.' this is a style based approach which emulates the real-time demo but uses lightning:inputField instead of lightning:input components. A complete validation routine like this is used:
 ```javascript
@@ -502,10 +504,6 @@ However, the Salesforce CLI can be used with any org and does not require Salesf
 
 	sfdx force:user:permset:assign -n requiredLightningComponentDemo -u [[orgAlias]]
 	
-...
-
-Thats it, you can now open the org, and find the 'Comp. Validation Demo' app in the 'all tabs' search.
+**3.** That's it, you can now open the org, and find the 'Comp. Validation Demo' app in the 'all tabs' search.
 
 	sfdx force:org:open -u [[orgAlias]]
-
-
