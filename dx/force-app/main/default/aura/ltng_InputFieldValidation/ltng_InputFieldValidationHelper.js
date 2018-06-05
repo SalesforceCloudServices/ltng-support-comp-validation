@@ -204,7 +204,7 @@
         toastEvent.setParams(
             {
                 "title": "Valid Form",
-                "message": "This can be a placeholder for any more actions or you can click Save Record."
+                "message": "This can be a placeholder for any more actions." //or you can click Save Record."
             }
         );
         toastEvent.fire();

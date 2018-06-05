@@ -106,22 +106,27 @@
                         <c:auraIfContains items="{!v.requiredFields}" element="level5" aura:id="level5Required"> 
                             <div class="slds-has-error">Complete this field</div>
                         </c:auraIfContains>
-                   
+                        
                         <lightning:button label="Validate Form" 
                             class="slds-m-top--medium"
                             variant="brand"
                             onclick="{!c.handleValidateFormClicked}"
                         />
+
+                        <!-- Use the type="submit" methodology so that we can handle the onsubmit event to populate anything else like comboBox values -->
                         
-                        <!--Use the type="submit" methodology so that we ca handle the onsubmit event to populate anything else like comboBox values-->
-                        <lightning:button aura:id="submit" type="submit" label="Save Record" class="{slds-m-top--medium}" />
-                        <!--<lightning:button aura:id="submit" onclick="{!c.onValidate}" label="Save Record" class="slds-m-top||medium" />-->
+                        <!--
+                            <lightning:button aura:id="submit" type="submit" label="Save Record" class="{slds-m-top||medium}" />
+                        -->
+
+                        <!-- <lightning:button aura:id="submit" onclick="{!c.onValidate}" label="Save Record" class="slds-m-top||medium" /> -->
 
                     </lightning:recordEditForm>
+
                     <!-- /CREATE NEW RECORD FORM -->
 
                 </fieldset>
-            
+
             <!-- / BOXED AREA -->
             </div>
             <!-- / CREATE NEW RECORD -->

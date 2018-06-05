@@ -45,7 +45,19 @@ $A.util.addClass(component.find('level1'), 'slds-required');
 # Using inputField and CSS for validation (when push comes to shove)
 
 ## Demo
-Animations coming soon
+
+### Basic demonstration
+
+This is a basic demo of locking and unlocking fields based on input.
+
+![Gif Demo](doc/images/demoInputField.gif)
+
+### Demonstration with required field based on selection in ComboBox
+
+In this validation we also want to make fields required based on other input, i.e. the comboBox having value 'Finished'.
+
+![Gif Demo](doc/images/demoInputFieldRequired.gif)
+
 ## Approach
 In order to use the inputField approach you will need to use:
 1. A few custom CSS classes
