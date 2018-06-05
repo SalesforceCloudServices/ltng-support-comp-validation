@@ -377,8 +377,8 @@ ___Note___: The check on ```v.doneRenderingIsComplete``` is necessary to prevent
 
 ```javascript
 /**
- * This is needed to emulate styles on an initial load state such as a disabled. Init happens too soon to apply style because rendering is not yet complete and
- * the DOM is not accessible.
+ * This is needed to emulate styles on an initial load state such as a disabled. Init happens too soon to
+ * apply style because rendering is not yet complete and the DOM is not accessible.
  * @param component (Object) - Lightning framework object
  * @param event (Object) - Lightning framework object
  * @param helper (Object) - Lightning framework object
