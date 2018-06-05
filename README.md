@@ -1,6 +1,6 @@
-# Quick Demo of using realtime validation
+# Quick Demo of using real-time validation
 
-**Please note: sample code (metadata api and dx formats) are available in the [mdapi](./mdapi) and [dx](./dx) folders above**
+**Please note: sample code (metadata API and dx formats) are available in the [mdapi](./mdapi) and [dx](./dx) folders above**
 
 ## Demo
 
@@ -15,7 +15,7 @@ Please see
 * [Input Data Using Forms - Trailhead Module](https://trailhead.salesforce.com/modules/lex_dev_lc_basics/units/lex_dev_lc_basics_forms)
 * [Performing Validation - Trailhead Module](https://trailhead.salesforce.com/modules/lex_dev_lc_basics/units/lex_dev_lc_basics_forms#Tdxn4tBKheading7)
 * [lightning:inputField - Lightning Components Developer Guide](https://developer.salesforce.com/docs/atlas.en-us.lightning.meta/lightning/aura_compref_lightning_inputField.htm?search_text=lightning:inputField)
-* [Adding css classes](https://developer.salesforce.com/docs/atlas.en-us.lightning.meta/lightning/js_cb_styles.htm)
+* [Adding CSS classes](https://developer.salesforce.com/docs/atlas.en-us.lightning.meta/lightning/js_cb_styles.htm)
 
 ## TLDR How
 
@@ -42,7 +42,7 @@ If push comes to shove, you can always add in Lightning Design System classes, t
 $A.util.addClass(component.find('level1'), 'slds-required');
 ```
 ---
-# Using inputField and CSS for validation (when push comes to shove)
+# Using inputField  with CSS and JavaScript for validation (when push comes to shove)
 
 ## Demo
 
@@ -52,7 +52,7 @@ This is a basic demo of locking and unlocking fields based on input.
 
 ![Gif Demo](doc/images/demoInputField.gif)
 
-### Demonstration with required field based on selection in ComboBox
+### Demonstration with required field based on selection in comboBox
 
 In this validation we also want to make fields required based on other input, i.e. the comboBox having value 'Finished'.
 
@@ -61,12 +61,12 @@ In this validation we also want to make fields required based on other input, i.
 ## Approach
 In order to use the inputField approach you will need to use:
 1. A few custom CSS classes
-2. Some lightning JS code
+2. Some lightning JavaScript code
 3. Possibly the aura:doneRendering event depending on your use cases
 ## Applying and detecting styles for the various states
 __Note__: All of these examples can be seen in the demo tab called "Style Applications."
 ## Working with _error_ styles
-The built-in ```slds-has-error``` CSS style can be applied to, removed from and detected on an individual input field. This is the apperance you see when a field is required but not completed - typically a red border around the field. No CSS file changes are needed, but JS code is needed. You can read more about the styles [here](https://developer.salesforce.com/docs/atlas.en-us.lightning.meta/lightning/js_cb_styles.htm).
+The built-in ```slds-has-error``` CSS style can be applied to, removed from and detected on an individual input field. This is the appearance you see when a field is required but not completed - typically a red border around the field. No CSS file changes are needed, but JavaScript code is needed. You can read more about the styles [here](https://developer.salesforce.com/docs/atlas.en-us.lightning.meta/lightning/js_cb_styles.htm).
 
 This code using ```addClass``` applies the style:
 ```javascript
@@ -79,8 +79,7 @@ $A.util.removeClass(component.find('auraIdForTheComponent'), 'slds-has-error');
 Detecting whether the inputField is in an error state can be done with the ```hasClass``` method. This is useful for validation routines such as when checking that a required field
 has been completed.
 ```javascript
-if($A.util.hasClass(component.find('auraIdForTheComponent'), 'slds-has-error'))
-{
+if($A.util.hasClass(component.find('auraIdForTheComponent'), 'slds-has-error')){
 	//do something
 }
 ```
@@ -100,61 +99,70 @@ Here is a single controller function example called ```toggleInputFieldError``` 
 	aura:id="inputField" fieldName="Level1__c" value="{!v.lightningInputFieldValue}"
 />
 ```
-### Controller JS
+### Controller JavaScript
 ```javascript
-toggleInputFieldError : function(component, event, helper)
-{
-	console.info('toggleInputFieldError ran');
-	let myBoolean = helper.parseBoolean(event.getParam('value'));
-	if(myBoolean === true)
-	{
+toggleInputFieldError : function(component, event, helper) {
+	//console.info('toggleInputFieldError ran');
+	var myBoolean = helper.parseBoolean(event.getParam('value'));
+	if(myBoolean === true) {
 		helper.applyError(component, helper, 'inputField');
-	}
-	else
-	{
+	} else {
 		helper.removeError(component, helper, 'inputField')
 	}
 }
 ```
-### Helper JS
+### Helper JavaScript
 ```javascript
 cssForError : 'slds-has-error',
 
 /**
  * Get a boolean from a string doing a case-insensitive comparison
  * @param inputValue (String) - The string to parse into an actual boolean to avoid JS 'truthiness'
- * */ 
-parseBoolean : function(inputValue)
-{
+ * @return (Boolean) - true if the string is actually parsed to a boolean value of true otherwise false.
+ * */
+parseBoolean : function(inputValue) {
 	return inputValue.toUpperCase() === 'TRUE';
 },
 
 /**
  * Apply error styles to an inputField
- * @param component (Object) - Lightning framework object 
+ * @param component (Object) - Lightning framework object
  * @param helper (Object) - Lightning framework object
  * @param auraId (String) - The aura:id of the component to change like 'input' or 'inputField'
  * */
-applyError  : function(component, helper, auraId)
-{
-	console.info('applyError ran', auraId);
+applyError  : function(component, helper, auraId) {
+	//console.info('applyError ran', auraId);
 	$A.util.addClass(component.find(auraId), this.cssForError);
 },
 
 /**
  * Remove error styles from an inputField
- * @param component (Object) - Lightning framework object 
+ * @param component (Object) - Lightning framework object
  * @param helper (Object) - Lightning framework object
  * @param auraId (String) - The aura:id of the component to change like 'input' or 'inputField'
  * */
-removeError : function(component, helper, auraId)
-{
-	console.info('removeError ran', auraId);
+removeError : function(component, helper, auraId) {
+	//console.info('removeError ran', auraId);
 	$A.util.removeClass(component.find(auraId), this.cssForError);
 }
 ```
+
+### Supplying Inline Validation Messages
+At time of this writing, aura expressions do not support checking collections for elements. However, the behavior of inline error messages can be emulated using the component contained in the source called ```auraIfContains``` which uses the native SLDS styles ```slds-required``` and ```slds-form-element__help```. Here is an example.
+```html
+<!--
+This is one way validation can be handled inline by the fields...
+Since there is no contains functionality exposed use another component
+to check for each fields aura:id being present in the collection
+-->
+<c:auraIfContains items="{!v.requiredFields}" element="level1" aura:id="level1Required"> 
+	<!-- Correct style recipe for the font: slds-required slds-form-element__help -->
+	<div class="slds-required slds-form-element__help">Complete this field</div>
+</c:auraIfContains>
+```
+
 ## Applying and detecting _required_ styles
-The lightning:inputField component does not have a ```v.required``` property. To apply a 'required' appearance to the element add a custom class to your CSS file. This is the appearance you see when a field is required but has not yet failed a validation - typically a red asterisk near the specific form input element. JS code is also needed to apply the custom style. You can read more about the styles [here](https://developer.salesforce.com/docs/atlas.en-us.lightning.meta/lightning/js_cb_styles.htm).
+The lightning:inputField component does not have a ```v.required``` property. To apply a 'required' appearance to the element add a custom class to your CSS file. This is the appearance you see when a field is required but has not yet failed a validation - typically a red asterisk near the specific form input element. JavaScript code is also needed to apply the custom style. You can read more about the styles [here](https://developer.salesforce.com/docs/atlas.en-us.lightning.meta/lightning/js_cb_styles.htm).
 
 ### CSS
 ```css
@@ -174,7 +182,7 @@ The lightning:inputField component does not have a ```v.required``` property. To
 	float: left;  
 }  
 ```
-### JS code
+###JavaScript code
 This code using ```addClass``` applies the style:
 ```javascript
 $A.util.addClass(component.find('auraIdForTheComponent'), 'custom-required');
@@ -186,8 +194,7 @@ $A.util.removeClass(component.find('auraIdForTheComponent'), 'custom-required');
 Detecting whether the inputField is in a required state can be done with the ```hasClass``` method. This is useful for validation routines. If a field is required and incomplete
 a custom validation routine can provide user guidance.
 ```javascript
-if($A.util.hasClass(component.find('auraIdForTheComponent'), 'custom-required'))
-{
+if($A.util.hasClass(component.find('auraIdForTheComponent'), 'custom-required')){
 	//do something
 }
 ```
@@ -207,44 +214,39 @@ Here is a single controller function example called ```toggleInputFieldRequired`
 	aura:id="inputField" fieldName="Level1__c" value="{!v.lightningInputFieldValue}"
 />
 ```
-### Controller JS
+### Controller JavaScript
 ```javascript
-toggleInputFieldRequired : function(component, event, helper)
-{
-	console.info('toggleInputFieldRequired ran');
-	let myBoolean = helper.parseBoolean(event.getParam('value'));
-	if(myBoolean === true)
-	{
-		helper.applyRequired(component, helper, 'inputField');
-	}
-	else
-	{
-		helper.removeRequired(component, helper, 'inputField')
+toggleInputFieldError : function(component, event, helper) {
+	//console.info('toggleInputFieldError ran');
+	var myBoolean = helper.parseBoolean(event.getParam('value'));
+	if(myBoolean === true) {
+		helper.applyError(component, helper, 'inputField');
+	} else {
+		helper.removeError(component, helper, 'inputField')
 	}
 }
 ```
-### Helper JS
+### Helper JavaScript
 ```javascript
 cssForRequired : 'custom-required',
 
 /**
  * Get a boolean from a string doing a case-insensitive comparison
  * @param inputValue (String) - The string to parse into an actual boolean to avoid JS 'truthiness'
- * */ 
-parseBoolean : function(inputValue)
-{
+ * @return (Boolean) - true if the string is actually parsed to a boolean value of true otherwise false.
+ * */
+parseBoolean : function(inputValue) {
 	return inputValue.toUpperCase() === 'TRUE';
 },
 
 /**
  * Apply required styles to an inputField
- * @param component (Object) - Lightning framework object 
+ * @param component (Object) - Lightning framework object
  * @param helper (Object) - Lightning framework object
  * @param auraId (String) - The aura:id of the component to change like 'input' or 'inputField'
  * */
-applyRequired : function(component, helper, auraId)
-{
-	console.info('applyRequired ran', auraId);
+applyRequired : function(component, helper, auraId) {
+	//console.info('applyRequired ran', auraId);
 	$A.util.addClass(component.find(auraId), this.cssForRequired);
 },
 
@@ -275,7 +277,7 @@ ___Many lightning components are not a single HTML element in the final markup._
 	cursor: not-allowed;  
 } 
 ```
-### JS code
+### JavaScript code
 This code using ```addClass``` applies the style:
 ```javascript
 $A.util.addClass(component.find('auraIdForTheComponent'), 'custom-disabled');
@@ -286,8 +288,7 @@ $A.util.removeClass(component.find('auraIdForTheComponent'), 'custom-disabled');
 ```
 Detecting whether the inputField is in a required state can be done with the ```hasClass``` method. This is useful for validation routines.
 ```javascript
-if($A.util.hasClass(component.find('auraIdForTheComponent'), 'custom-disabled'))
-{
+if($A.util.hasClass(component.find('auraIdForTheComponent'), 'custom-disabled')){
 	//do something
 }
 ```
@@ -307,43 +308,38 @@ Here is a single controller function example called ```toggleInputFieldDisabled`
 	aura:id="inputField" fieldName="Level1__c" value="{!v.lightningInputFieldValue}"
 />
 ```
-### Controller JS
+### Controller JavaScript
 ```javascript
-toggleInputFieldDisabled : function(component, event, helper)
-{
-	console.info('toggleInputFieldDisabled ran');
-	let myBoolean = helper.parseBoolean(event.getParam('value'));
-	if(myBoolean === true)
-	{
+toggleInputFieldDisabled : function(component, event, helper) {
+	//console.info('toggleInputFieldDisabled ran');
+	var myBoolean = helper.parseBoolean(event.getParam('value'));
+	if(myBoolean === true) {
 		helper.applyDisabled(component, helper, 'inputField');
-	}
-	else
-	{
+	} else {
 		helper.removeDisabled(component, helper, 'inputField')
 	}
-}
+},
 ```
-### Helper JS
+### Helper JavaScript
 ```javascript
 cssForDisabled : 'custom-disabled',
 
 /**
  * Get a boolean from a string doing a case-insensitive comparison
  * @param inputValue (String) - The string to parse into an actual boolean to avoid JS 'truthiness'
- * */ 
-parseBoolean : function(inputValue)
-{
-	return inputValue.toUpperCase() === 'TRUE';
+ * @return (Boolean) - true if the string is actually parsed to a boolean value of true otherwise false.
+ * */
+parseBoolean : function(inputValue) {
+		return inputValue.toUpperCase() === 'TRUE';
 },
 
 /**
  * Apply disabled styles to an inputField
- * @param component (Object) - Lightning framework object 
+ * @param component (Object) - Lightning framework object
  * @param helper (Object) - Lightning framework object
  * @param auraId (String) - The aura:id of the component to change like 'input' or 'inputField'
  * */
-applyDisabled : function(component, helper, auraId)
-{
+applyDisabled  : function(component, helper, auraId) {
 	console.info('applyDisabled ran', auraId);
 	$A.util.addClass(component.find(auraId), this.cssForDisabled);
 },
@@ -376,7 +372,7 @@ Here is a basic example of how to apply the ```doneRendering``` to aura markup:
 	initial load when they are not available in the init phase -->  
 <aura:handler event="aura:doneRendering" action="{!c.doneRendering}"/>  
 ```
-#### Controller JS  
+#### Controller JavaScript  
 ___Note___: The check on ```v.doneRenderingIsComplete``` is necessary to prevent an infinite loop. [See here](https://developer.salesforce.com/docs/atlas.en-us.lightning.meta/lightning/ref_aura_doneRendering.htm) for more details.
 
 ```javascript
@@ -397,11 +393,11 @@ doneRendering : function (component, event, helper) {
 }
 ```
 ## Known Issues
-Although the disabled appearance is convincing, even showing a 'not allowed' icon on hover, users can still click on the field or type into it. A possible workaround is to check for a disabled state and ignore the input during validation or submission. Other workarounds are stil being investigated to prevent or reverse changes made to the field.
-## Can I see just the CSS/style pieces in action?
-Check out the tab in the demo app called "Style Applications" (installation instructions below). This provides a simple example of toggling styles for disabled/required/error states and shows you some boilerplate JS code suitable for expansion.
+Although the disabled appearance is convincing (even showing a 'not allowed' icon on hover) users can still click on the field or type into it. A possible workaround is to check for a disabled state and ignore the input during validation or submission. Other workarounds are stil being investigated to prevent or reverse changes made to the field.
+## Can I see just the CSS/Style pieces in action?
+Check out the tab in the demo app called "Style Applications" (installation instructions below). This provides a simple example of toggling styles for disabled/required/error states and shows you some boilerplate JavaScript code suitable for expansion.
 ## The styles look good but how is validation going to happen?
-This is where JS magic and your imagination comes in. If you look at the second tab called 'Input Field Val.' this is a style based approach which emulates the real-time demo but uses lightning:inputField instead of lightning:input components. A complete validation routine like this is used:
+This is where JavaScript magic and your imagination comes in. If you look at the second tab called 'Input Field Val.' this is a style based approach which emulates the real-time demo but uses lightning:inputField instead of lightning:input components. A complete validation routine like this is used:
 ```javascript
 /**
  * Determines if the form is valid
@@ -410,8 +406,6 @@ This is where JS magic and your imagination comes in. If you look at the second 
  * @return (Boolean) - true if valid / false if not
  **/
 isFormValid : function(component, helper) {
-	console.info('isFormValid');
-	
 	//Array of fields on the form to validate
 	var myFormInputs = [
 		component.find('comboBox'),
@@ -421,6 +415,9 @@ isFormValid : function(component, helper) {
 		component.find('level4'),
 		component.find('level5')
 	];
+	
+	//Please note this issue for clearing errors without clicking on them
+	//https://success.salesforce.com/ideaView?id=0873A000000CTZOQA4
 	
 	//Overall validation status of the form
 	var returnValue = true;
@@ -441,26 +438,46 @@ isFormValid : function(component, helper) {
 		//If the component is not required -OR- the component is both required and populated (not empty) it is valid
 		var isValid = !isComponentRequired || (isComponentRequired && !isEmpty);
 		
-		//For now, just collect the invalid fields and then show some toast with a summary of the misses
+		//Collect any invalid fields
 		if(!isValid) {
 			//If anything is bad the whole function return is bad
 			returnValue = false;
 			//Apply the visual styles indicating which fields are invalid...
-			$A.util.addClass(myFormInput, this.cssForError);
+			helper.errorInput(component, helper, myFormInput, true);
 			//...and track them in the array
 			invalidFields.push(myFormInput);
 		} else {
 			//Remove the visual styles when the component is valid
-			$A.util.removeClass(myFormInput, this.cssForError);
+			helper.errorInput(component, helper, myFormInput, false);
 		}
 	}
 	
-	//Show our misses when the form is invalid
-	if(!returnValue) {
-		helper.displayIncompleteFields(component, helper, invalidFields);
-	}
-
+	//Map a collection for error display at the component level to us by the fields
+	//Do this last at the end of the routine so it can get cleared if validation passes
+	var myIncompleteFields = invalidFields.map(
+		function(invalidField) {
+			return invalidField.getLocalId();
+		}
+	);
+	component.set("v.requiredFields",  myIncompleteFields);
+	helper.displayIncompleteFields(component, helper, invalidFields);
 	return returnValue;
+},
+
+/**
+ * Display the required fields which do not have values.
+ * @param component (Object) - Lightning framework object
+ * @param helper (Object) - Lightning framework object
+ * @param invalidFields (Array) - Lightning framework object
+**/
+displayIncompleteFields : function(component, helper, invalidFields) {
+	for(var i=0; i < invalidFields.length; i++){
+		//Update inline messaging if the component is there
+		var validationMsg = component.find(invalidFields[i].getLocalId() + 'Required');
+		if(validationMsg !== null){
+			validationMsg.updateDisplay();
+		}
+	}
 }
 ```
 ---
